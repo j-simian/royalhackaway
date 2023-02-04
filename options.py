@@ -19,15 +19,15 @@ HITTHRESHOLD = 0.4
 
 attacks = {
     "light1": {
-        "dimensions": (200, 200),
-        "offset": (0, -100),
+        "dimensions": (100, 200),
+        "offset": (0, -200),
         "damage": 4,
         "knockback": (0, -1),
         "duration": 100,
         "stun": 200
     },
     "light2": {
-        "dimensions": (200, 100),
+        "dimensions": (100, 100),
         "offset": (0, -100),
         "damage": 4,
         "knockback": (-3, -1),
@@ -35,7 +35,7 @@ attacks = {
         "stun": 200
     },
     "light3": {
-        "dimensions": (200, 100),
+        "dimensions": (100, 100),
         "offset": (0, -100),
         "damage": 4,
         "knockback": (2, -2),
@@ -43,7 +43,7 @@ attacks = {
         "stun": 500
     },
     "heavy": {
-        "dimensions": (200, 200),
+        "dimensions": (150, 150),
         "offset": (50, 0),
         "damage": 10,
         "knockback": (20, 0),
