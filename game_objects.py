@@ -59,6 +59,8 @@ class Entity:
         self.state = state
     def render(self, screen):
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.x, self.y, 100, 100))
+    def tick(self, delta):
+        raise NotImplementedError
 
 
 class EntityMovable(Entity):
@@ -69,7 +71,6 @@ class EntityMovable(Entity):
         self.dash = 0
         self.gravity = True
     def tick(self, delta):
-        super().tick(delta)
         #if self.gravity:
         #    self.vely += GRAVITY*delta
         self.vely = clamp(-MAXVELY, self.vely, MAXVELY)
@@ -168,7 +169,7 @@ class Hitbox(Entity):
 
     def tick(self,delta): #collision in here
         super().tick(delta)
-        self.x, self.y = self.parent.x, self.parent.y #NOTE: also consider direction player is facing
+        self.x, self.y = self.parent.x, self.parent.y
         self.duration -= delta
         if self.duration <= 0:
             pass #remove this object
