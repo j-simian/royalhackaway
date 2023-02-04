@@ -1,6 +1,6 @@
 import pygame
 
-GRAVITY = 0.0001
+GRAVITY = 0.0003
 MAXVELY = 20
 MAXVELX = 0.2
 FRICTION = 1.1
@@ -91,7 +91,7 @@ class Player(EntityMovable):
         super().tick(delta)
         if self.moving !=0:
             self.accel(PLAYERACCEL*self.moving, 0)
-        if self.jumping != 0:
+        if self.jumping != 0 and self.touchingFloor:
             self.y = GROUNDHEIGHT - 1; self.vely = JUMPVEL*self.jumping; self.jumping = 0; self.gravity = True
         if self.gravity:
             self.accel(0, GRAVITY*delta)
