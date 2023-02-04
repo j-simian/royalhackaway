@@ -32,12 +32,12 @@ class Timer():
             return ("miss",whichNote)
 
     def getFullFrame(self):
-        q = (60/self.bpm)
+        q = (60/self.bpm)*2
         return round(self.getTimer() / q)
 
-    def getHalfFrame(self):
+    def getQuarterFrame(self):
         q = (60/self.bpm)/2
-        return round(self.getTimer() / q) / 2
+        return round(self.getTimer() / q) / 4
 
-    def isHalfFrame(self):
+    def isQuarterFrame(self):
         return not self.getHalfFrame() % 1.0 == 0.0

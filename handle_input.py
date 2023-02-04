@@ -15,15 +15,14 @@ def initEntities(state):
 
 
 def dashAvailable(accuracy, player, frame):
-    return accuracy == 'perfect' and (player.lastdash+1/2<frame or player.lastdashdir!=player.moving)
+    return accuracy == 'perfect' and (player.lastdash+1/4<frame or player.lastdashdir!=player.moving)
 
 
 def handlePress(event, timer, player, control, state, enemy, entities):
     (accuracy,whichNote)=timer.onRhythm(False)
-    frame = timer.getHalfFrame()
+    frame = timer.getQuarterFrame()
     available = dashAvailable(accuracy, player, frame)
     if available and event.key in [control['left'], control['right']]:
-        print("wow!")
         player.lastdash = frame
         player.lastdashdir = player.moving
         player.dash+=MAXVELX*DASHRATIO
