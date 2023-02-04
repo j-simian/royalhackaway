@@ -37,3 +37,6 @@ class Hitbox(Entity):
         if self.duration <= 0 and self.dead == False:
             self.state.hitboxes-=1
             self.dead = True
+    
+    def render(self, screen):
+        pass
