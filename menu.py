@@ -27,24 +27,44 @@ class Menu():
         self.nyatheme = pygame_menu.themes.THEME_SOLARIZED.copy()
 
         self.menubg = pygame_menu.baseimage.BaseImage(
-            image_path="assets/catbg.jpg",
+            image_path="assets/imgs/menubg.png",
             drawing_mode=pygame_menu.baseimage.IMAGE_MODE_REPEAT_XY
         )
         self.nyatheme.background_color = self.menubg
         self.nyatheme.title_background_color=(240, 0, 110)
         self.nyatheme.widget_selection_effect=pygame_menu.widgets.RightArrowSelection()
-        self.nyatheme.widget_font=pygame_menu.font.FONT_MUNRO
-        self.nyatheme.title_font=pygame_menu.font.FONT_MUNRO
+        self.nyatheme.widget_font=pygame_menu.font.FONT_NEVIS
+        self.nyatheme.title_font=pygame_menu.font.FONT_8BIT
         self.nyatheme.title_font_color=(255,255,255)
+        self.nyatheme.widget_font_color=(179,0,83)
+        self.nyatheme.widget_font_size=50
+        self.nyatheme.title_font_size=70
+        self.nyatheme.title_bar_style=pygame_menu.widgets.MENUBAR_STYLE_TITLE_ONLY_DIAGONAL
+        self.nyatheme.widget_selection_color=(255,92,127)
+
+
+
+        self.controlsmenu = pygame_menu.Menu('Controls', self.state.WIDTH, self.state.HEIGHT,
+                    theme=self.nyatheme, mouse_motion_selection=True)
+        self.controlsmenu.add.label("P1 Controls")
+        self.controlsmenu.add.selector('', [["wasd",0], ["ijkl",1]], onchange=(lambda _, y: self.set_controls(0, y)))
+        self.controlsmenu.add.label("P2 Controls")
+        self.controlsmenu.add.selector('', [["ijkl",1], ["wasd",0]], onchange=(lambda _, y: self.set_controls(1, y)))
+        self.controlsmenu.add.button('Return', pygame_menu.events.BACK)
+
 
         self.menu = pygame_menu.Menu('Nya Nya Revolution', self.state.WIDTH, self.state.HEIGHT,
-                       theme=self.nyatheme, mouse_motion_selection=True, columns = 2, rows = 3)
+                    theme=self.nyatheme, mouse_motion_selection=True)
 
-        self.menu.add.text_input('Player 1 Name: ', default='Caterine', onchange = self.setp1name )
-        self.menu.add.selector('Player 1 Controls: ', [["wasd",0], ["ijkl",1]], onchange=(lambda _, y: self.set_controls(0, y)))
-        self.menu.add.button('Play', self.start_the_game)
-        self.menu.add.text_input('Player 2 Name: ', default='Nyatalie', onchange = self.setp2name)
-        self.menu.add.selector('Player 2 Controls: ', [["ijkl",1], ["wasd",0]], onchange=(lambda _, y: self.set_controls(1, y)))
-        self.menu.add.button('Quit', pygame_menu.events.EXIT)
+        self.menu.add.text_input('Enter P1: ', default='Caterine')
+        self.menu.add.label("VS")
+        self.menu.add.text_input('Enter P2: ', default='Nyatalie')
+
+
+        self.playbuttonimage = pygame_menu.BaseImage(image_path="assets/imgs/playbtn.png",) #play button
+        self.menu.add.banner(self.playbuttonimage, self.start_the_game)
+        self.menu.add.button('Controls', self.controlsmenu)
+# quit: pygame_menu.events.EXIT
+
 
         self.menu.mainloop(screen)

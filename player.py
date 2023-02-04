@@ -20,6 +20,7 @@ class Player(EntityMovable):
         self.stun = 0 #time in stun
         self.lasthitframe = -1
         self.combo = 0
+        self.mult = 1
         self.canAttack = True
         self.healthbar = pygame.transform.scale(pygame.image.load("./assets/imgs/healthbar.png").convert_alpha(), (300, 100))
 
