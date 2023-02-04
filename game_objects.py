@@ -8,12 +8,9 @@ def initEntities(state):
     entities = {}
     p1 = Player(0, state)
     p2 = Player(1, state)
-    p1.x = 200
-    p2.x = 600
-    p1.y = GROUNDHEIGHT
-    p2.y = GROUNDHEIGHT
-    entities["p1"] = p1
-    entities["p2"] = p2
+    p1.x, p2.x = 200, 600
+    p1.y, p2.y = GROUNDHEIGHT, GROUNDHEIGHT
+    entities["p1"], entities["p2"] = p1, p2
     return entities
 
 
@@ -70,7 +67,7 @@ class Entity:
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.x, self.y, 100, 100))
 
     def tick(self, delta):
-        pass
+        raise NotImplementedError
 
 class EntityMovable(Entity):
     def __init__(self, state):
