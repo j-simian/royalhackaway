@@ -2,16 +2,18 @@ import pygame
 from utils import *
 from funs import *
 
-GRAVITY = 0.003
+GRAVITY = 0.005
 MAXVELY = 20
-MAXVELX = 0.3
+MAXVELX = 0.7
 DASHRATIO = 2.5
 FRICTION = 1.05
 AIRFRICTION = 1.01
 PLAYERACCEL = 2
 AIRACCEL = 0.02
-JUMPVEL = -1.2
-GROUNDHEIGHT = 500
+JUMPVEL = -3
+GROUNDHEIGHT = 550
+CATHEIGHT = 300
+CATWIDTH = 200
 
 
 entities = {}
@@ -99,7 +101,7 @@ class Player(EntityMovable):
         self.moving = 0 #nonzero if needs to move
         self.jumping = 0 #positive if we need to jump
 
-        self.sprite = {"p1idle": pygame.image.load("./assets/imgs/cat1.png").convert(), "p2idle": pygame.image.load("./assets/imgs/cat2.png").convert()}
+        self.sprite = {"p1idle": pygame.image.load("./assets/imgs/cat1.png").convert_alpha(), "p2idle": pygame.image.load("./assets/imgs/cat2.png").convert_alpha()}
 
     def tick(self, delta):
         super().tick(delta)
@@ -124,7 +126,8 @@ class Player(EntityMovable):
             self.velx /= AIRFRICTION #applies the right friction by reducing speed by dividing
 
     def render(self, screen):
-        pygame.draw.rect(screen, (255, 0, 255) if self.id == 1 else (0, 255, 255), pygame.Rect(self.x, self.y, 40, 100))
+        screen.blit(self.sprite["p1idle"], (self.x - CATWIDTH, self.y - CATHEIGHT))
+        #pygame.draw.rect(screen, (255, 0, 255) if self.id == 1 else (0, 255, 255), pygame.Rect(self.x, self.y, 40, 100))
         self.renderHealth(screen)
 
     def renderHealth(self, screen):
