@@ -2,10 +2,11 @@ import pygame
 
 GRAVITY = 0.001
 MAXVELY = 20
-MAXVELX = 0.2
+MAXVELX = 0.5
 FRICTION = 1.05
 AIRFRICTION = 1.0001
 PLAYERACCEL = 2
+AIRACCEL = 0.02
 JUMPVEL = -0.5
 GROUNDHEIGHT = 500
 
@@ -95,7 +96,10 @@ class Player(EntityMovable):
     def tick(self, delta):
         super().tick(delta)
         if self.moving !=0:
-            self.accel(PLAYERACCEL*self.moving, 0)
+            if self.touchingFloor:
+                self.accel(PLAYERACCEL*self.moving, 0)
+            else:
+                self.accel(AIRACCEL*self.moving, 0)
         if self.jumping != 0 and self.touchingFloor: #jumps iff on floor; jumping == scale of how high to jump
             self.y = GROUNDHEIGHT - 1; self.vely = JUMPVEL*self.jumping; self.jumping = 0; self.gravity = True
             #makes you go off the ground and accelerates up to jump; makes jumping state 0 so we don't continue jumping
