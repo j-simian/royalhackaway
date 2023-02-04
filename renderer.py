@@ -18,7 +18,7 @@ class Renderer:
         self.screen.fill((255, 255, 255))
 
     def renderFrame(self, timer):
-        (accuracy,whichNote)=timer.onRhythm(getTimer(), 110)
+        (accuracy,whichNote)=timer.onRhythm()
         if (accuracy=="perfect" and whichNote==0 and FLASH):
             self.screen.blit(self.bgbeat, (-16, -9))
         else:

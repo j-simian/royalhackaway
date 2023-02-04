@@ -29,7 +29,7 @@ while running:
     for event in pygame.event.get():
             
         if state.screen == 1:
-            handleMove(entities["p1"], player1controls, event)
-            handleMove(entities["p2"], player2controls, event)
+            handleMove(entities["p1"], player1controls, event, timer)
+            handleMove(entities["p2"], player2controls, event, timer)
         if event.type == pygame.QUIT:
             running = False

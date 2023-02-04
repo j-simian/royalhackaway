@@ -26,9 +26,9 @@ def initEntities(state):
     entities["p2"] = p2
 
 
-def handleMove(player, control, event):
+def handleMove(player, control, event, timer):
     if event.type == pygame.KEYDOWN:
-        (accuracy,whichNote)=onRhythm(pygame.mixer.music.get_pos()/1000, 0, 110)
+        (accuracy,whichNote)=timer.onRhythm()
         if event.key == control['left']:
             player.moving = -1
             if accuracy == 'perfect' and whichNote == 0:
