@@ -37,6 +37,10 @@ def handlePress(event, timer, player, control, state, enemy, entities):
         player.jumping = 0.6
     if event.key == control['attack']:
         if player.canAttack == True:
+            if timer.isHalfFrame():
+                player.attackType = "heavy"
+            else:
+                player.attackType = "light"
             player.charging = CHARGETIME
             player.canAttack = False
 def handleRelease(event, player, control):
@@ -173,7 +177,7 @@ class Player(EntityMovable):
             self.charging -= delta
             if self.charging <= 0:
                 self.charging = 0
-                entities['hitbox' + str(self.state.hitboxes)] = Hitbox(self.state.hitboxes, light_attack, self.state, self, entities["p"+str(int(2-self.id))])
+                entities['hitbox' + str(self.state.hitboxes)] = Hitbox(self.state.hitboxes, attacks[self.attackType], self.state, self, entities["p"+str(int(2-self.id))])
                 self.state.hitboxes+=1
                 self.attacking = COOLDOWNTIME
 
