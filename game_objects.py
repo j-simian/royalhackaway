@@ -113,3 +113,10 @@ class Player(EntityMovable):
 
     def render(self, screen):
         pygame.draw.rect(screen, (255, 0, 255) if self.id == 1 else (0, 255, 255), pygame.Rect(self.x, self.y, 40, 100))
+        self.renderHealth(screen)
+
+    def renderHealth(self, screen):
+        health_bar = pygame.Rect(0, 0, 640, 50) if self.id == 0 else pygame.Rect(640, 0, 640, 50)
+        pygame.draw.rect(screen, (127, 0, 0), health_bar)
+        pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(0 if self.id == 0 else 1280-640.0*self.health/100.0, 0, 640.0*self.health/100.0, 50))
+
