@@ -39,6 +39,7 @@ def handlePress(event, timer, player, control, state, enemy, entities):
         if player.canAttack == True:
             player.charging = CHARGETIME
             player.canAttack = False
+
 def handleRelease(event, player, control):
     if event.key == control['left'] and player.moving == -1:
         player.moving = 0
@@ -102,6 +103,7 @@ class Player(EntityMovable):
         self.jumping = 0 #positive if we need to jump
         self.charging = 0 #time until attack comes out
         self.attacking = 0 #time left in attack animation
+        self.stun = 0 #time in stun
         self.canAttack = True
         self.healthbar = pygame.transform.scale(pygame.image.load("./assets/imgs/healthbar.png").convert_alpha(), (300, 100))
 
@@ -131,6 +133,7 @@ class Player(EntityMovable):
         super().tick(delta)
 
         self.tickAttack(delta, entities)
+        self.stun -= delta
         # movement
         if self.moving !=0:
             if self.touchingFloor:
@@ -190,6 +193,7 @@ class Hitbox(Entity):
         self.damage = hitbox_options["damage"]
         self.kbx, self.kby = hitbox_options["knockback"]
         self.duration = hitbox_options["duration"]
+        self.stun = hitbox_options["stun"]
         self.parent = parent
         self.dead = False
         self.enemy = enemy
@@ -203,6 +207,9 @@ class Hitbox(Entity):
             if self.parent.facing == "l":
                 self.kbx = 0-self.kbx
             self.enemy.health -= self.damage
+            self.enemy.stun = self.stun
+            self.enemy.velx = 0
+            self.enemy.vely = 0
             self.enemy.accel(self.kbx, self.kby)
             self.state.hitboxes-=1
             self.dead = True
