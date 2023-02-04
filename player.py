@@ -1,4 +1,4 @@
-import pygame 
+import pygame
 from options import *
 from utils import *
 from abstract import *
@@ -53,10 +53,12 @@ class Player(EntityMovable):
         self.stun -= delta
         # movement
         if self.moving !=0:
-            if self.touchingFloor:
+            if self.touchingFloor and self.attacking == 0 and self.charging == 0:
                 self.accel(PLAYERACCEL*self.moving, 0)
-            else:
+            elif not self.touchingFloor and self.attacking == 0 and self.charging == 0:
                 self.accel(AIRACCEL*self.moving, 0)
+            else:
+                pass
         if self.jumping != 0 and self.touchingFloor: #jumps iff on floor; jumping == scale of how high to jump
             self.y = GROUNDHEIGHT - 1; self.vely = JUMPVEL*self.jumping; self.mystate = "air"
             #makes you go off the ground and accelerates up to jump; makes jumping state 0 so we don't continue jumping
@@ -80,7 +82,6 @@ class Player(EntityMovable):
         if self.attacking>0:
             self.attacking-=delta
             if self.attacking<=0:
-                self.mystate = "idle"
                 self.attacking = 0
                 self.canAttack = True
         if self.charging>0:
