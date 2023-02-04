@@ -8,12 +8,9 @@ def initEntities(state):
     entities = {}
     p1 = Player(0, state)
     p2 = Player(1, state)
-    p1.x = 200
-    p2.x = 600
-    p1.y = GROUNDHEIGHT
-    p2.y = GROUNDHEIGHT
-    entities["p1"] = p1
-    entities["p2"] = p2
+    p1.x, p2.x = 200, 600
+    p1.y, p2.y = GROUNDHEIGHT, GROUNDHEIGHT
+    entities["p1"], entities["p2"] = p1, p2
     return entities
 
 
@@ -37,6 +34,10 @@ def handlePress(event, timer, player, control, state, enemy, entities):
         player.jumping = 0.6
     if event.key == control['attack']:
         if player.canAttack == True:
+            if timer.isHalfFrame():
+                player.attackType = "heavy"
+            else:
+                player.attackType = "light"
             player.charging = CHARGETIME
             player.canAttack = False
 
@@ -124,6 +125,14 @@ class Player(EntityMovable):
                 #mirrors frames
         #list of all possible frames. it's a list of dict's, #0 for cat 1 and #1 for cat 2, so we dont need 10000 if statements. indexed by id and mystate.
 
+        for key in self.sprite[0]:
+            _image = self.sprite[0][key]
+            self.sprite[0][key] = pygame.transform.smoothscale(_image, (int(CATSCALE*_image.get_width()), int(CATSCALE*_image.get_height())))
+
+        for key in self.sprite[1]:
+            _image = self.sprite[1][key]
+            self.sprite[1][key] = pygame.transform.smoothscale(_image, (int(CATSCALE*_image.get_width()), int(CATSCALE*_image.get_height())))
+
         self.mystate = "idle"
         self.facing = "l"
         #what this sprite is doing rn/how to display it
@@ -168,9 +177,9 @@ class Player(EntityMovable):
             self.charging -= delta
             if self.charging <= 0:
                 self.charging = 0
-                entities['hitbox' + str(self.state.hitboxes)] = Hitbox(self.state.hitboxes, light_attack, self.state, self, entities["p"+str(int(2-self.id))])
+                entities['hitbox' + str(self.state.hitboxes)] = Hitbox(self.state.hitboxes, attacks[self.attackType], self.state, self, entities["p"+str(int(2-self.id))])
                 self.state.hitboxes+=1
-                self.attacking = COOLDOWNTIME
+                self.attacking = COOLDOWNTIME * 2 if self.attackType == "heavy" else 1
 
 
     def render(self, screen):

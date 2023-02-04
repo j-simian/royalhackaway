@@ -41,4 +41,4 @@ class Timer():
         return round(self.getTimer() / q) / 2
 
     def isHalfFrame(self):
-        return not getHalfFrame(self) % 1.0 == 0.0
+        return not self.getHalfFrame() % 1.0 == 0.0
