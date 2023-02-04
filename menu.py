@@ -1,8 +1,6 @@
 import pygame
 import pygame_menu
 
-pygame.init()
-
 
 class Menu():
     def __init__(self, state) -> None:

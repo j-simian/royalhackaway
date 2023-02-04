@@ -79,7 +79,7 @@ class EntityMovable(Entity):
         self.x += self.velx*delta
         self.y += self.vely*delta
         self.x = clamp(0, self.x, self.state.WIDTH-40)
-        self.dash/=1+((FRICTION-1)/2)
+        self.dash/=FRICTION
     def accel(self, x, y):
         self.velx += x
         self.vely += y
@@ -148,7 +148,6 @@ class Player(EntityMovable):
     def render(self, screen):
         self.facing = "l" if self.velx < 0 else "r"
         screen.blit(self.sprite[self.id][self.mystate + self.facing], (self.x - CATWIDTH, self.y - CATHEIGHT))
-        self.renderHealth(screen)
 
     def renderHealth(self, screen):
         screen.blit(self.healthbar, (self.id*400 + 100, 50))
