@@ -137,6 +137,9 @@ class Player(EntityMovable):
         self.facing = "l"
         #what this sprite is doing rn/how to display it
 
+    def accel(self,x,y):
+        if self.stun <= 0:
+            super().accel(x,y)
 
     def tick(self, delta, entities):
         super().tick(delta)
