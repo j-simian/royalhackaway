@@ -108,10 +108,8 @@ class Player(EntityMovable):
             screen.blit(_image, (self.x - CATWIDTH/2, self.y - CATHEIGHT/2))
         else:
             screen.blit(self.sprite[self.id][self.mystate + self.facing], (self.x - CATWIDTH/2, self.y - CATHEIGHT/2))
-        pygame.draw.rect(screen, (255, 255, 0), pygame.Rect(self.x, self.y, 5, 5))
 
     def renderHealth(self, screen):
         screen.blit(self.healthbar, (self.id*780 + 100, 50))
-        #pygame.draw.rect(screen, (127, 0, 0), healthbar)
         pygame.draw.rect(screen, (255, 0, 119), pygame.Rect(self.id*780 + 170, 83, 2.20*self.health, 15))
         pygame.draw.rect(screen, (145, 255, 217), pygame.Rect(self.id*780 + 170, 104, 186, 14))
