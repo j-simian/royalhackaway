@@ -15,12 +15,14 @@ initEntities()
 running = True
 lpressed=False
 while running:
-    dt = clock.tick(60)
+    dt = clock.tick()
     for entity in entities.values():
         entity.tick(dt)
     renderer.renderFrame()
     for event in pygame.event.get():
         if state.screen == 1:
+            t=onRhythm(pygame.mixer.music.get_pos()/1000, 0, 110)
+            
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_a:
                     entities["p1"].moving = -1
