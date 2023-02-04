@@ -9,6 +9,7 @@ state = State()
 clock = pygame.time.Clock()
 renderer = Renderer(state)
 menu = Menu(state)
+timer = Timer(110, 0)
 renderer.renderMenu(menu)
 initEntities(state)
 
@@ -22,13 +23,14 @@ player2controls = controlsMap[state.controls[1]]
 
 while running:
     dt = clock.tick()
+    print(timer.getFrame())
     for entity in entities.values():
         entity.tick(dt)
-    renderer.renderFrame()
+    renderer.renderFrame(timer)
     for event in pygame.event.get():
             
         if state.screen == 1:
-            handleMove(entities["p1"], player1controls, event)
-            handleMove(entities["p2"], player2controls, event)
+            handleMove(entities["p1"], player1controls, event, timer)
+            handleMove(entities["p2"], player2controls, event, timer)
         if event.type == pygame.QUIT:
             running = False
