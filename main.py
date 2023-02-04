@@ -23,6 +23,7 @@ player2controls = controlsMap[state.controls[1]]
 
 while running:
     dt = clock.tick()
+    print(timer.getFrame())
     for entity in entities.values():
         entity.tick(dt)
     renderer.renderFrame(timer)

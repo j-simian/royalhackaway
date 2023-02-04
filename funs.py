@@ -11,6 +11,7 @@ class Timer():
         ms = pygame.mixer.music.get_pos()
         return ms/1000.0-self.offset
 
+
     def findAccuracy(self):
         q = (60/self.bpm)/2  #quarter note length
         accuracy = (self.getTimer() / q) % 1 #0 to 1, 0 or 1 are perfect
@@ -31,4 +32,8 @@ class Timer():
             return ("hit",whichNote)
         else:
             return ("miss",whichNote)
+
+    def getFullFrame(self):
+        q = (60/self.bpm)
+        return round(self.getTimer() / q)
 
