@@ -24,14 +24,25 @@ def tickEntities():
         entity.tick(dt, entities)
         if hasattr(entity, 'dead') and entity.dead:
             del entities[key]
+        if hasattr(entity, 'health') and entity.health <= 0:
+            state.screen = 2
 
 while running:
-    dt = clock.tick()
-    renderer.renderFrame(timer, entities)
-    tickEntities()
+    if state.screen == 1:
+        dt = clock.tick()
+        tickEntities()
+        renderer.renderFrame(timer, entities)
+        renderer.blitScreen()
+        for event in pygame.event.get():
+            if state.screen == 1:
+                handleMove(entities["p1"], player1controls, event, timer, state, entities["p2"], entities)
+                handleMove(entities["p2"], player2controls, event, timer, state, entities["p1"], entities)
+    elif state.screen == 2:
+        dt = clock.tick(1)
+        renderer.renderFrame(timer, entities)
+        renderer.renderDeathMenu()
+        renderer.blitScreen()
     for event in pygame.event.get():
-        if state.screen == 1:
-            handleMove(entities["p1"], player1controls, event, timer, state, entities["p2"], entities)
-            handleMove(entities["p2"], player2controls, event, timer, state, entities["p1"], entities)
         if event.type == pygame.QUIT:
             running = False
+
