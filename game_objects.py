@@ -109,6 +109,8 @@ class Player(EntityMovable):
         self.charging = 0 #time until attack comes out
         self.attacking = 0 #time left in attack animation
 
+        self.healthbar = pygame.transform.scale(pygame.image.load("./assets/imgs/healthbar.png").convert_alpha(), (200, 100))
+
         self.sprite = [{"idler": pygame.image.load("./assets/imgs/cat1idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat1air.png").convert_alpha()},
                        {"idler": pygame.image.load("./assets/imgs/cat2idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat2air.png").convert_alpha()}] #load in drawn frames
 
@@ -116,9 +118,6 @@ class Player(EntityMovable):
             for c in [0, 1]:
                 self.sprite[c].update({s + "l": pygame.transform.flip(self.sprite[c][s+"r"], True, False)})
                 #mirrors frames
-
-        #self.sprite[0].update({"idler": pygame.transform.flip(self.sprite[0]["idlel"], True, False), "airr": pygame.transform.flip(self.sprite[0]["airl"], True, False)})
-        #self.sprite[1].update({"idlel": pygame.transform.flip(self.sprite[1]["idler"], True, False), "airl": pygame.transform.flip(self.sprite[1]["airr"], True, False)})
         #list of all possible frames. it's a list of dict's, #0 for cat 1 and #1 for cat 2, so we dont need 10000 if statements. indexed by id and mystate.
 
         self.mystate = "idle"
@@ -163,6 +162,6 @@ class Player(EntityMovable):
         self.renderHealth(screen)
 
     def renderHealth(self, screen):
-        health_bar = pygame.Rect(0, 0, 640, 50) if self.id == 0 else pygame.Rect(640, 0, 640, 50)
-        pygame.draw.rect(screen, (127, 0, 0), health_bar)
+        screen.blit(self.healthbar, (self.id*400 + 100, 50))
+        #pygame.draw.rect(screen, (127, 0, 0), healthbar)
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(0 if self.id == 0 else 1280-640.0*self.health/100.0, 0, 640.0*self.health/100.0, 50))
