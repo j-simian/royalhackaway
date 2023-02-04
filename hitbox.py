@@ -37,5 +37,3 @@ class Hitbox(Entity):
             self.state.hitboxes-=1
             self.dead = True
 
-    def render(self, screen):
-        pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.x, self.y, self.w, self.h))
