@@ -17,16 +17,27 @@ class Renderer:
         pygame.display.flip()
         self.screen.fill((255, 255, 255))
 
-    def renderFrame(self, timer):
+    def renderFrame(self, timer, entities):
+        self.renderBG(timer)
+        self.renderHUD(entities)
+        self.renderEntities(entities)
+
+        pygame.display.flip()
+
+    def renderBG(self, timer):
         (accuracy,whichNote)=timer.onRhythm()
         if (accuracy=="perfect" and whichNote==0 and FLASH):
             self.screen.blit(self.bgbeat, (-16, -9))
         else:
             self.screen.blit(self.bg, (0, 0))
 
+    def renderHUD(self, entities):
+        entities["p1"].renderHealth(self.screen)
+        entities["p2"].renderHealth(self.screen)
+
+    def renderEntities(self, entities):
         for entity in entities.values():
             entity.render(self.screen)
-        pygame.display.flip()
 
     def renderMenu(self, menu):
         menu.render(self.screen)

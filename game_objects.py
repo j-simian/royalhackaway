@@ -1,23 +1,11 @@
 import pygame
 from utils import *
 from funs import *
-
-GRAVITY = 0.005
-MAXVELY = 20
-MAXVELX = 0.7
-DASHRATIO = 2.5
-FRICTION = 1.05
-AIRFRICTION = 1.01
-PLAYERACCEL = 2
-AIRACCEL = 0.02
-JUMPVEL = -3
-GROUNDHEIGHT = 550
-CATHEIGHT = 300
-CATWIDTH = 200
+from options import *
 
 
-entities = {}
 def initEntities(state):
+    entities = {}
     p1 = Player(0, state)
     p2 = Player(1, state)
     p1.x = 200
@@ -26,6 +14,7 @@ def initEntities(state):
     p2.y = 400
     entities["p1"] = p1
     entities["p2"] = p2
+    return entities
 
 def handleMove(player, control, event, timer, state):
     if event.type == pygame.KEYDOWN:
@@ -71,8 +60,6 @@ class Entity:
     def render(self, screen):
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.x, self.y, 100, 100))
 
-    def tick(self, delta):
-        pass
 
 class EntityMovable(Entity):
     def __init__(self, state):
@@ -90,7 +77,7 @@ class EntityMovable(Entity):
         self.x += self.velx*delta
         self.y += self.vely*delta
         self.x = clamp(0, self.x, self.state.WIDTH-40)
-        self.dash/=1+((FRICTION-1)/2)
+        self.dash/=FRICTION
     def accel(self, x, y):
         self.velx += x
         self.vely += y
@@ -108,6 +95,7 @@ class Player(EntityMovable):
         self.jumping = 0 #positive if we need to jump
         self.charging = 0 #time until attack comes out
         self.attacking = 0 #time left in attack animation
+        self.comboNum = 0 #which hit of combo (currently unused)
 
         self.healthbar = pygame.transform.scale(pygame.image.load("./assets/imgs/healthbar.png").convert_alpha(), (300, 100))
 
@@ -167,17 +155,20 @@ class Player(EntityMovable):
         #pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(100, 0, 0, 50))
 
 class Hitbox(Entity):
-    def __init__(self, id, position, dimensions, damage, knockback, duration, state):
+    def __init__(self, id, offset, dimensions, damage, knockback, stun, duration, state, parent):
         super().__init__(state)
         self.id = id
-        self.x, self.y = position
+        self.offsetx, self.offsety = offset #offset from x,y coords of parent NOTE: also consider direction player is facing
         self.w, self.h = dimensions
         self.damage = damage
         self.kbx, self.kby = knockback
-        self.duration = duration
+        self.stun = stun                    #amount of time the opponent can't act for when getting hit by this
+        self.duration = duration            #amount of time before the hitbox disappears
+        self.parent = parent                #player the hitbox is attached to
 
-    def tick(self,delta):
+    def tick(self,delta): #collision in here
         super().tick(delta)
+        self.x, self.y = self.parent.x, self.parent.y #NOTE: also consider direction player is facing
         self.duration -= delta
         if self.duration <= 0:
             pass #remove this object

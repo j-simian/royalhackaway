@@ -36,3 +36,6 @@ class Timer():
         q = (60/self.bpm)
         return round(self.getTimer() / q)
 
+    def getHalfFrame(self):
+        q = (60/self.bpm)/2
+        return round(self.getTimer() / q) / 2

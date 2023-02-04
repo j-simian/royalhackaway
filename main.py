@@ -11,7 +11,7 @@ renderer = Renderer(state)
 menu = Menu(state)
 timer = Timer(110, 2.28)
 renderer.renderMenu(menu)
-initEntities(state)
+entities = initEntities(state)
 
 running = True
 lpressed=False
@@ -25,7 +25,7 @@ while running:
     dt = clock.tick()
     for entity in entities.values():
         entity.tick(dt)
-    renderer.renderFrame(timer)
+    renderer.renderFrame(timer, entities)
     for event in pygame.event.get():
 
         if state.screen == 1:
