@@ -156,10 +156,10 @@ class Player(EntityMovable):
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(0 if self.id == 0 else 1280-640.0*self.health/100.0, 0, 640.0*self.health/100.0, 50))
 
 class Hitbox(Entity):
-    def __init__(self, id, position, dimensions, damage, knockback, duration, state, parent):
+    def __init__(self, id, offset, dimensions, damage, knockback, duration, state, parent):
         super().__init__(state)
         self.id = id
-        self.x, self.y = position
+        self.offsetx, self.offsety = offset
         self.w, self.h = dimensions
         self.damage = damage
         self.kbx, self.kby = knockback
@@ -168,7 +168,7 @@ class Hitbox(Entity):
 
     def tick(self,delta): #collision in here
         super().tick(delta)
-        self.x, self.y = self.parent.x, self.parent.y
+        self.x, self.y = self.parent.x, self.parent.y #NOTE: also consider direction player is facing
         self.duration -= delta
         if self.duration <= 0:
             pass #remove this object
