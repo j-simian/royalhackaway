@@ -29,9 +29,9 @@ def initEntities(state):
 
 def handleMove(player, control, event, timer, state):
     if event.type == pygame.KEYDOWN:
-        (accuracy,whichNote)=timer.onRhythm(True)
+        (accuracy,whichNote)=timer.onRhythm(False)
         frame = timer.getFullFrame()
-        print(frame)
+        #print(frame)
         if event.key == control['left']:
             player.moving = -1
             if accuracy == 'perfect' and (player.lastdash+1/2<frame or player.lastdashdir!=player.moving):
@@ -165,3 +165,19 @@ class Player(EntityMovable):
         screen.blit(self.healthbar, (self.id*400 + 100, 50))
         #pygame.draw.rect(screen, (127, 0, 0), healthbar)
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(0 if self.id == 0 else 1280-640.0*self.health/100.0, 0, 640.0*self.health/100.0, 50))
+
+class Hitbox(Entity):
+    def __init__(self, id, position, dimensions, damage, knockback, duration, state):
+        super().__init__(state)
+        self.id = id
+        self.x, self.y = position
+        self.w, self.h = dimensions
+        self.damage = damage
+        self.kbx, self.kby = knockback
+        self.duration = duration
+
+    def tick(self,delta):
+        super().tick(delta)
+        self.duration -= delta
+        if self.duration <= 0:
+            pass #remove this object
