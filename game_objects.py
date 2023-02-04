@@ -58,6 +58,8 @@ def handleMove(player, control, event, timer, state):
                 player.moving = -1
             else:
                 player.moving = 0
+        if event.key == control['down']:
+            player.charging = 0.1
         if event.key == control['up'] and player.jumping > 0:
             player.jumping = 0
 
@@ -104,6 +106,8 @@ class Player(EntityMovable):
         self.gravity = True #true if we are in air and fall
         self.moving = 0 #nonzero if needs to move
         self.jumping = 0 #positive if we need to jump
+        self.charging = 0 #time until attack comes out
+        self.attacking = 0 #time left in attack animation
 
         self.sprite = [{"idler": pygame.image.load("./assets/imgs/cat1idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat1air.png").convert_alpha()},
                        {"idler": pygame.image.load("./assets/imgs/cat2idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat2air.png").convert_alpha()}] #load in drawn frames
@@ -123,6 +127,15 @@ class Player(EntityMovable):
 
     def tick(self, delta):
         super().tick(delta)
+
+        self.attacking -= delta
+        if self.charging>0:
+            self.charging -= delta
+            if self.charging <= 0:
+                self.charging = 0
+                ##ATTACK
+                self.attacking = 0.4
+
         if self.moving !=0:
             if self.touchingFloor:
                 self.accel(PLAYERACCEL*self.moving, 0)
