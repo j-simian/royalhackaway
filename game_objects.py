@@ -150,7 +150,7 @@ class Player(EntityMovable):
         self.renderHealth(screen)
 
     def renderHealth(self, screen):
-        screen.blit(self.healthbar, (self.id*800 + 100, 50))
+        screen.blit(self.healthbar, (self.id*780 + 100, 50))
         #pygame.draw.rect(screen, (127, 0, 0), healthbar)
         #pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(100, 0, 0, 50))
 
