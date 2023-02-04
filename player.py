@@ -109,7 +109,7 @@ class Player(EntityMovable):
             _image.fill([(217, 255, 244), (255,179,196)][self.id], special_flags=pygame.BLEND_RGB_MAX) #
             screen.blit(_image, (self.x - 250, self.y - 250))
         else:
-            screen.blit(self.sprite[self.id][self.mystate + self.facing], (self.x - CATWIDTH/2, self.y - CATHEIGHT/2))
+            screen.blit(self.sprite[self.id][self.mystate + self.facing], (self.x - 250, self.y - 250))
 
     def renderHealth(self, screen):
         screen.blit(self.healthbar, (self.id*780 + 100, 50))
