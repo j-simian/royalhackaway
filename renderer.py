@@ -17,3 +17,6 @@ class Renderer:
                 if event.type == pygame.QUIT:
                     running = False
 
+    def renderMenu(self, menu):
+        menu.render(self.screen)
+
