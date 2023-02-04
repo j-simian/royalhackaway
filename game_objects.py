@@ -33,12 +33,12 @@ def handleMove(player, control, event, timer, state):
         frame = timer.getFullFrame()
         if event.key == control['left']:
             player.moving = -1
-            if accuracy == 'perfect' and whichNote == 0 and player.lastdash<frame:
+            if accuracy == 'perfect' and player.lastdash<frame:
                 player.lastdash = frame
                 player.dash+=MAXVELX*DASHRATIO
         if event.key == control['right']:
             player.moving = 1
-            if accuracy == 'perfect' and whichNote == 0 and player.lastdash<frame:
+            if accuracy == 'perfect' and player.lastdash<frame:
                 player.lastdash = frame
                 player.dash+=MAXVELX*DASHRATIO
         if event.key == control['up']:
