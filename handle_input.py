@@ -36,7 +36,19 @@ def handlePress(event, timer, player, control, state, enemy, entities):
     if event.key == control['attack']:
         if player.canAttack == True and player.stun <= 0:
             if player.touchingFloor:
-                player.attackType = "light"
+                if player.combo == 1 and (frame-player.lasthitframe == 1/2):
+                    player.attackType = "light2"
+                    player.combo+=1
+                elif player.combo == 1 and (frame-player.lasthitframe == 1):
+                    player.attackType = "heavy"
+                    player.combo=0
+                elif player.combo == 2 and (frame-player.lasthitframe == 1/2):
+                    player.attackType = "light3"
+                    player.combo=0
+                else:
+                    player.attackType = "light1"
+                    player.combo=1
+                player.lasthitframe = frame
             else:
                 player.attackType = "heavy"
             player.mystate = "charge"

@@ -18,6 +18,8 @@ class Player(EntityMovable):
         self.charging = 0 #time until attack comes out
         self.attacking = 0 #time left in attack animation
         self.stun = 0 #time in stun
+        self.lasthitframe = -1
+        self.combo = 0
         self.canAttack = True
         self.healthbar = pygame.transform.scale(pygame.image.load("./assets/imgs/healthbar.png").convert_alpha(), (300, 100))
 
