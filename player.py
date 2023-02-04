@@ -101,7 +101,13 @@ class Player(EntityMovable):
     def render(self, screen):
         if self.attacking<=0:
             self.facing = "l" if self.velx < 0 else "r"
-        screen.blit(self.sprite[self.id][self.mystate + self.facing], (self.x - CATWIDTH/2, self.y - CATHEIGHT/2))
+
+        if self.dashing(): #for dash effects - makes cat brighter
+            _image = self.sprite[self.id][self.mystate + self.facing].copy()
+            _image.fill([(217, 255, 244), (255,179,196)][self.id], special_flags=pygame.BLEND_RGB_MAX) #
+            screen.blit(_image, (self.x - CATWIDTH/2, self.y - CATHEIGHT/2))
+        else:
+            screen.blit(self.sprite[self.id][self.mystate + self.facing], (self.x - CATWIDTH/2, self.y - CATHEIGHT/2))
         pygame.draw.rect(screen, (255, 255, 0), pygame.Rect(self.x, self.y, 5, 5))
 
     def renderHealth(self, screen):
