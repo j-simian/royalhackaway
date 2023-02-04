@@ -13,16 +13,11 @@ class Renderer:
         pygame.display.flip()
         self.screen.fill((255, 255, 255))
 
-    def gameLoop(self):
-        running = True
-        while running:
-            for event in pygame.event.get():
-                self.screen.fill((255, 255, 255))
-                for entity in entities:
-                    entity.render(self.screen)
-                pygame.display.flip()
-                if event.type == pygame.QUIT:
-                    running = False
+    def renderFrame(self):
+        self.screen.fill((255, 255, 255))
+        for entity in entities:
+            entity.render(self.screen)
+        pygame.display.flip()
 
     def renderMenu(self, menu):
         menu.render(self.screen)

@@ -1,6 +1,6 @@
 import pygame
 
-GRAVITY = 0.1
+GRAVITY = 0.5
 
 entities = []
 

@@ -10,4 +10,13 @@ renderer = Renderer(state)
 menu = Menu(state)
 initEntities()
 renderer.renderMenu(menu)
-renderer.gameLoop()
+
+running = True
+while running:
+    for entity in entities:
+        entity.tick()
+    renderer.renderFrame()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
