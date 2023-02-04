@@ -67,7 +67,7 @@ class Entity:
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.x, self.y, 100, 100))
 
     def tick(self, delta):
-        raise NotImplementedError
+        pass
 
 class EntityMovable(Entity):
     def __init__(self, state):
