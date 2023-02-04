@@ -24,13 +24,13 @@ class Player(EntityMovable):
         self.sprite = [{"idler": pygame.image.load("./assets/imgs/cat1idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat1air.png").convert_alpha(), "attackr": pygame.image.load("./assets/imgs/cat1attack.png").convert_alpha(), "charger": pygame.image.load("./assets/imgs/cat1charge.png").convert_alpha()},
                        {"idler": pygame.image.load("./assets/imgs/cat2idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat2air.png").convert_alpha(), "attackr": pygame.image.load("./assets/imgs/cat2attack.png").convert_alpha(), "charger": pygame.image.load("./assets/imgs/cat2charge.png").convert_alpha()}]#load in drawn frames
 
-        for n in ["0", "1", "2", "3", "4"]:
-            self.sprite[0].update({"run" + n + "r": pygame.image.load("./assets/imgs/cat1run" + n + ".png").convert_alpha()})
-            self.sprite[0].update({"run" + n + "l": pygame.transform.flip(self.sprite[0]["run" + n + "r"], True, False)})
+        for n in [0, 1, 2, 3, 4]:
+            self.sprite[0].update({"run" + str(n) + "r": pygame.image.load("./assets/imgs/cat1run" + str(n) + ".png").convert_alpha()})
+            self.sprite[0].update({"run" + str(4-n) + "l": pygame.transform.flip(self.sprite[0]["run" + str(n) + "r"], True, False)})
 
-        for n in ["0", "1", "2", "3", "4", "5"]:
-            self.sprite[1].update({"run" + n + "r": pygame.image.load("./assets/imgs/cat2run" + n + ".png").convert_alpha()})
-            self.sprite[1].update({"run" + n + "l": pygame.transform.flip(self.sprite[1]["run" + n + "r"], True, False)})
+        for n in [0, 1, 2, 3, 4, 5]:
+            self.sprite[1].update({"run" + str(n) + "r": pygame.image.load("./assets/imgs/cat2run" + str(n) + ".png").convert_alpha()})
+            self.sprite[1].update({"run" + str(5-n) + "l": pygame.transform.flip(self.sprite[1]["run" + str(n) + "r"], True, False)})
 
         for s in ["idle", "air", "charge", "attack"]:
             for c in [0, 1]:
@@ -78,7 +78,7 @@ class Player(EntityMovable):
         else:
             self.velx /= AIRFRICTION #applies the right friction by reducing speed by dividing
 
-            
+
 
     def tickAttack(self, delta, entities):
         if self.attacking>0:
