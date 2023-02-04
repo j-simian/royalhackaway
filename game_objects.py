@@ -25,17 +25,19 @@ def initEntities(state):
     entities["p1"] = p1
     entities["p2"] = p2
 
-
-def handleMove(player, control, event, timer):
+def handleMove(player, control, event, timer, lastdash):
     if event.type == pygame.KEYDOWN:
         (accuracy,whichNote)=timer.onRhythm()
+        frame = timer.getFullFrame()
         if event.key == control['left']:
             player.moving = -1
-            if accuracy == 'perfect':
+            if accuracy == 'perfect' and lastdash<frame:
+                lastdash = frame
                 player.dash+=MAXVELX*DASHRATIO
         if event.key == control['right']:
             player.moving = 1
-            if accuracy == 'perfect':
+            if accuracy == 'perfect' and lastdash<frame:
+                lastdash = frame
                 player.dash+=MAXVELX*DASHRATIO
         if event.key == control['up']:
             player.jumping = 0.6
@@ -96,7 +98,7 @@ class Player(EntityMovable):
         self.moving = 0 #nonzero if needs to move
         self.jumping = 0 #positive if we need to jump
 
-        #self.sprite = {"p1idle": pygame.image.load("./assets/imgs/bg.png").convert()}
+        self.sprite = {"p1idle": pygame.image.load("./assets/imgs/cat1.png").convert(), "p2idle": pygame.image.load("./assets/imgs/cat2.png").convert()}
 
     def tick(self, delta):
         super().tick(delta)
