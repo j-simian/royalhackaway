@@ -85,7 +85,7 @@ class EntityMovable(Entity):
         self.velx = clampAbs(self.velx, MAXVELX+self.dash)
         self.x += self.velx*delta
         self.y += self.vely*delta
-        self.x = clamp(0, self.x, self.state.WIDTH-CATWIDTH)
+        self.x = clamp(CATWIDTH/2, self.x, self.state.WIDTH-CATWIDTH/2)
         self.dash/=FRICTION
     def accel(self, x, y):
         self.velx += x
