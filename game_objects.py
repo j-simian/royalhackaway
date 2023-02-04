@@ -37,7 +37,7 @@ def handlePress(event, timer, player, control, state, enemy, entities):
         player.jumping = 0.6
     if event.key == control['attack']:
         if player.canAttack == True:
-            player.charging = 100
+            player.charging = CHARGETIME
             player.canAttack = False
 def handleRelease(event, player, control):
     if event.key == control['left'] and player.moving == -1:
@@ -130,7 +130,7 @@ class Player(EntityMovable):
                 self.charging = 0
                 entities['hitbox' + str(self.state.hitboxes)] = Hitbox(self.state.hitboxes, {"dimensions": (200, 50), "offset": (-100, -150), "damage": 10, "knockack": (PLAYERACCEL, PLAYERACCEL), "duration": 100, "knockback": (50, 50)}, self.state, self, entities["p"+str(int(2-self.id))])
                 self.state.hitboxes+=1
-                self.attacking = 400
+                self.attacking = COOLDOWNTIME
 
         if self.moving !=0:
             if self.touchingFloor:
