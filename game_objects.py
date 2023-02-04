@@ -31,7 +31,7 @@ def handleMove(player, control, event, timer, state):
     if event.type == pygame.KEYDOWN:
         (accuracy,whichNote)=timer.onRhythm(False)
         frame = timer.getFullFrame()
-        print(frame)
+        #print(frame)
         if event.key == control['left']:
             player.moving = -1
             if accuracy == 'perfect' and (player.lastdash+1/2<frame or player.lastdashdir!=player.moving):
@@ -176,3 +176,9 @@ class Hitbox(Entity):
         self.damage = damage
         self.kbx, self.kby = knockback
         self.duration = duration
+
+    def tick(self,delta):
+        super().tick(delta)
+        self.duration -= delta
+        if self.duration <= 0:
+            pass #remove this object
