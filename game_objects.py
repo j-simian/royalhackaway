@@ -105,13 +105,15 @@ class Player(EntityMovable):
         self.moving = 0 #nonzero if needs to move
         self.jumping = 0 #positive if we need to jump
 
-        self.sprite = [{"idlel": pygame.image.load("./assets/imgs/cat1.png").convert_alpha()}, {"idler": pygame.image.load("./assets/imgs/cat2.png").convert_alpha()}]
+        self.sprite = [{"idlel": pygame.image.load("./assets/imgs/cat1idle.png").convert_alpha(), "airl": pygame.image.load("./assets/imgs/cat1air.png").convert_alpha()},
+                       {"idler": pygame.image.load("./assets/imgs/cat2idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat2air.png").convert_alpha()}]
 
-        self.sprite[0].update({"idler": pygame.transform.flip(self.sprite[0]["idlel"], True, False)})
-        self.sprite[1].update({"idlel": pygame.transform.flip(self.sprite[1]["idler"], True, False)})
+        self.sprite[0].update({"idler": pygame.transform.flip(self.sprite[0]["idlel"], True, False), "airr": pygame.transform.flip(self.sprite[0]["airl"], True, False)})
+        self.sprite[1].update({"idlel": pygame.transform.flip(self.sprite[1]["idler"], True, False), "airl": pygame.transform.flip(self.sprite[1]["airr"], True, False)})
         #list of all possible frames. it's a list of dict's, #0 for cat 1 and #1 for cat 2, so we dont need 10000 if statements. indexed by id and mystate.
 
-        self.mystate = "idlel"
+        self.mystate = "idle"
+        self.facing = "l"
         #what this sprite is doing rn/how to display it
 
     def tick(self, delta):
@@ -122,13 +124,14 @@ class Player(EntityMovable):
             else:
                 self.accel(AIRACCEL*self.moving, 0)
         if self.jumping != 0 and self.touchingFloor: #jumps iff on floor; jumping == scale of how high to jump
-            self.y = GROUNDHEIGHT - 1; self.vely = JUMPVEL*self.jumping; self.gravity = True
+            self.y = GROUNDHEIGHT - 1; self.vely = JUMPVEL*self.jumping; self.gravity = True; self.mystate = "air"
             #makes you go off the ground and accelerates up to jump; makes jumping state 0 so we don't continue jumping
         if self.gravity:
             self.accel(0, GRAVITY*delta) #applies gravity
         self.touchingFloor = self.y >= GROUNDHEIGHT
 
         if self.touchingFloor: #makes you not falling if youre on ground
+            self.mystate = "idle"
             self.velx /= FRICTION
             self.vely = 0
             self.y = GROUNDHEIGHT
@@ -137,8 +140,8 @@ class Player(EntityMovable):
             self.velx /= AIRFRICTION #applies the right friction by reducing speed by dividing
 
     def render(self, screen):
-        self.mystate = "idlel" if self.velx < 0 else "idler"
-        screen.blit(self.sprite[self.id][self.mystate], (self.x - CATWIDTH, self.y - CATHEIGHT))
+        self.facing = "l" if self.velx < 0 else "r"
+        screen.blit(self.sprite[self.id][self.mystate + self.facing], (self.x - CATWIDTH, self.y - CATHEIGHT))
         self.renderHealth(screen)
 
     def renderHealth(self, screen):

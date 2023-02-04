@@ -27,7 +27,7 @@ while running:
         entity.tick(dt)
     renderer.renderFrame(timer)
     for event in pygame.event.get():
-            
+
         if state.screen == 1:
             handleMove(entities["p1"], player1controls, event, timer, state)
             handleMove(entities["p2"], player2controls, event, timer, state)
