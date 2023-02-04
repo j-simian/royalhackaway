@@ -1,4 +1,5 @@
 import pygame
+from utils import *
 
 GRAVITY = 0.001
 MAXVELY = 20
