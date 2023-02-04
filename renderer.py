@@ -1,8 +1,6 @@
 import pygame
 
 class Renderer:
-
-
     def initRenderer(self):
         pygame.init()
         self.width = 800
@@ -13,11 +11,9 @@ class Renderer:
         self.screen.fill((255, 255, 255))
 
     def gameLoop(self):
-        while True:
+        running = True
+        while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
 
-renderer = Renderer()
-renderer.initRenderer()
-renderer.gameLoop()

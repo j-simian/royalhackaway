@@ -1,4 +1,6 @@
-def hello():
-    print("hello world")
+import pygame
+from renderer import * 
 
-hello()
+renderer = Renderer()
+renderer.initRenderer()
+renderer.gameLoop()
