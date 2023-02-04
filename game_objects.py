@@ -60,8 +60,6 @@ class Entity:
     def render(self, screen):
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.x, self.y, 100, 100))
 
-    def tick(self, delta):
-        pass
 
 class EntityMovable(Entity):
     def __init__(self, state):
@@ -148,6 +146,7 @@ class Player(EntityMovable):
     def render(self, screen):
         self.facing = "l" if self.velx < 0 else "r"
         screen.blit(self.sprite[self.id][self.mystate + self.facing], (self.x - CATWIDTH, self.y - CATHEIGHT))
+        self.renderHealth(screen)
 
     def renderHealth(self, screen):
         screen.blit(self.healthbar, (self.id*400 + 100, 50))
