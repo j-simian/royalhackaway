@@ -34,6 +34,10 @@ def handlePress(event, timer, player, control, state, enemy, entities):
         player.jumping = 0.6
     if event.key == control['attack']:
         if player.canAttack == True and player.stun <= 0:
+            if accuracy == "perfect":
+                player.mult = 3
+            else:
+                player.mult = 1
             if player.touchingFloor:
                 if player.combo == 1 and (frame-player.lasthitframe == 1/2):
                     player.attackType = "light2"
