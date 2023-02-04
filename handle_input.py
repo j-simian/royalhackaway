@@ -35,9 +35,9 @@ def handlePress(event, timer, player, control, state, enemy, entities):
     if event.key == control['attack']:
         if player.canAttack == True and player.stun <= 0:
             if accuracy == "perfect":
-                player.mult = 3
+                player.mult = 1.5
             else:
-                player.mult = 1
+                player.mult = 0.75
             if player.touchingFloor:
                 if player.combo == 1 and (frame-player.lasthitframe == 1/2):
                     player.attackType = "light2"
