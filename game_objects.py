@@ -38,6 +38,7 @@ def handlePress(event, timer, player, control, state, enemy, entities):
                 player.attackType = "heavy"
             else:
                 player.attackType = "light"
+            player.mystate = "charge"
             player.charging = CHARGETIME
             player.canAttack = False
 
@@ -108,8 +109,8 @@ class Player(EntityMovable):
         self.canAttack = True
         self.healthbar = pygame.transform.scale(pygame.image.load("./assets/imgs/healthbar.png").convert_alpha(), (300, 100))
 
-        self.sprite = [{"idler": pygame.image.load("./assets/imgs/cat1idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat1air.png").convert_alpha()},
-                       {"idler": pygame.image.load("./assets/imgs/cat2idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat2air.png").convert_alpha()}]#load in drawn frames
+        self.sprite = [{"idler": pygame.image.load("./assets/imgs/cat1idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat1air.png").convert_alpha(), "attackr": pygame.image.load("./assets/imgs/cat1attack.png").convert_alpha(), "charger": pygame.image.load("./assets/imgs/cat1charge.png").convert_alpha()},
+                       {"idler": pygame.image.load("./assets/imgs/cat2idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat2air.png").convert_alpha(), "attackr": pygame.image.load("./assets/imgs/cat2attack.png").convert_alpha(), "charger": pygame.image.load("./assets/imgs/cat2charge.png").convert_alpha()}]#load in drawn frames
 
         for n in ["0", "1", "2", "3", "4"]:
             self.sprite[0].update({"run" + n + "r": pygame.image.load("./assets/imgs/cat1run" + n + ".png").convert_alpha()})
@@ -119,7 +120,7 @@ class Player(EntityMovable):
             self.sprite[1].update({"run" + n + "r": pygame.image.load("./assets/imgs/cat2run" + n + ".png").convert_alpha()})
             self.sprite[1].update({"run" + n + "l": pygame.transform.flip(self.sprite[1]["run" + n + "r"], True, False)})
 
-        for s in ["idle", "air"]:
+        for s in ["idle", "air", "charge", "attack"]:
             for c in [0, 1]:
                 self.sprite[c].update({s + "l": pygame.transform.flip(self.sprite[c][s+"r"], True, False)})
                 #mirrors frames
@@ -156,10 +157,11 @@ class Player(EntityMovable):
         self.touchingFloor = self.y >= GROUNDHEIGHT
 
         if self.touchingFloor: #makes you not falling if youre on ground
-            if abs(self.velx) < 0.1 or self.x <= CATWIDTH/2 or self.x >= self.state.WIDTH-CATWIDTH/2:
-                self.mystate = "idle"
-            else:
-                self.mystate = "run" + str(int((self.x / 100) % (5 + self.id)))
+            if self.attacking == 0 and self.charging == 0:
+                if abs(self.velx) < 0.1 or self.x <= CATWIDTH/2 or self.x >= self.state.WIDTH-CATWIDTH/2:
+                    self.mystate = "idle"
+                else:
+                    self.mystate = "run" + str(int((self.x / 100) % (5 + self.id)))
             self.velx /= FRICTION
             self.vely = 0
             self.y = GROUNDHEIGHT
@@ -171,13 +173,17 @@ class Player(EntityMovable):
         if self.attacking>0:
             self.attacking-=delta
             if self.attacking<=0:
+                self.mystate = "idle"
+                self.attacking = 0
                 self.canAttack = True
         if self.charging>0:
+
             self.charging -= delta
             if self.charging <= 0:
                 self.charging = 0
                 entities['hitbox' + str(self.state.hitboxes)] = Hitbox(self.state.hitboxes, attacks[self.attackType], self.state, self, entities["p"+str(int(2-self.id))])
                 self.state.hitboxes+=1
+                self.mystate = "attack"
                 self.attacking = COOLDOWNTIME * 2 if self.attackType == "heavy" else 1
 
 
