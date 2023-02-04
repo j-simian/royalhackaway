@@ -51,7 +51,7 @@ def handleMove(player, control, event):
                 player.moving = 0
         if event.key == control['up'] and player.jumping == 1:
             if pygame.key.get_pressed()[control['right']]:
-                player.jumping = 1.5
+                player.jumping = 3
             else:
                 player.jumping = 0
 
@@ -90,26 +90,27 @@ class Player(EntityMovable):
         self.id = id
         self.health = 100
         self.touchingFloor = True
-        self.gravity = True
-        self.moving = 0
-        self.jumping = 0
+        self.gravity = True #true if we are in air and fall
+        self.moving = 0 #nonzero if needs to move
+        self.jumping = 0 #positive if we ned to jump
     def tick(self, delta):
         super().tick(delta)
         if self.moving !=0:
             self.accel(PLAYERACCEL*self.moving, 0)
-        if self.jumping != 0 and self.touchingFloor:
+        if self.jumping != 0 and self.touchingFloor: #jumps iff on floor; jumping == scale of how high to jump
             self.y = GROUNDHEIGHT - 1; self.vely = JUMPVEL*self.jumping; self.jumping = 0; self.gravity = True
+            #makes you go off the ground and accelerates up to jump; makes jumping state 0 so we don't continue jumping
         if self.gravity:
-            self.accel(0, GRAVITY*delta)
+            self.accel(0, GRAVITY*delta) #applies gravity
         self.touchingFloor = self.y >= GROUNDHEIGHT
-        #self.gravity = not self.touchingFloor
-        if self.touchingFloor:
+
+        if self.touchingFloor: #makes you not falling if youre on ground
             self.velx /= FRICTION
             self.vely = 0
             self.y = GROUNDHEIGHT
             self.gravity = False
         else:
-            self.velx /= AIRFRICTION
+            self.velx /= AIRFRICTION #applies the right friction by reducing speed by dividing
 
     def render(self, screen):
         pygame.draw.rect(screen, (255, 0, 255) if self.id == 1 else (0, 255, 255), pygame.Rect(self.x, self.y, 40, 100))
@@ -119,4 +120,3 @@ class Player(EntityMovable):
         health_bar = pygame.Rect(0, 0, 640, 50) if self.id == 0 else pygame.Rect(640, 0, 640, 50)
         pygame.draw.rect(screen, (127, 0, 0), health_bar)
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(0 if self.id == 0 else 1280-640.0*self.health/100.0, 0, 640.0*self.health/100.0, 50))
-
