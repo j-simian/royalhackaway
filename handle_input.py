@@ -23,6 +23,7 @@ def handlePress(event, timer, player, control, state, enemy, entities):
     frame = timer.getFullFrame()
     available = dashAvailable(accuracy, player, frame)
     if available and event.key in [control['left'], control['right']]:
+        print("wow!")
         player.lastdash = frame + whichNote/2
         player.lastdashdir = player.moving
         player.dash+=MAXVELX*DASHRATIO

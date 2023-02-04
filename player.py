@@ -55,7 +55,7 @@ class Player(EntityMovable):
         if self.moving !=0:
             if self.touchingFloor and self.attacking == 0 and self.charging == 0:
                 self.accel(PLAYERACCEL*self.moving, 0)
-            elif not self.touchingFloor and self.attacking == 0 and self.charging == 0:
+            elif not self.touchingFloor:
                 self.accel(AIRACCEL*self.moving, 0)
             else:
                 pass
@@ -99,7 +99,8 @@ class Player(EntityMovable):
 
 
     def render(self, screen):
-        self.facing = "l" if self.velx < 0 else "r"
+        if self.attacking<=0:
+            self.facing = "l" if self.velx < 0 else "r"
         screen.blit(self.sprite[self.id][self.mystate + self.facing], (self.x - CATWIDTH/2, self.y - CATHEIGHT/2))
         pygame.draw.rect(screen, (255, 255, 0), pygame.Rect(self.x, self.y, 5, 5))
 
