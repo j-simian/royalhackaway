@@ -1,6 +1,6 @@
 import pygame
 
-GRAVITY = 0.5
+GRAVITY = 0.025
 
 entities = []
 
@@ -18,9 +18,9 @@ class Entity:
     def render(self, screen):
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.x, self.y, 100, 100))
 
-    def tick(self):
+    def tick(self, delta):
         if self.gravity:
-            self.y += GRAVITY
+            self.y += GRAVITY*delta
 
 class EntityMovable(Entity):
     def move(self, dx, dy):
