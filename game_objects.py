@@ -184,7 +184,8 @@ class Player(EntityMovable):
 
     def render(self, screen):
         self.facing = "l" if self.velx < 0 else "r"
-        screen.blit(self.sprite[self.id][self.mystate + self.facing], (self.x - CATWIDTH, self.y - CATHEIGHT))
+        screen.blit(self.sprite[self.id][self.mystate + self.facing], (self.x - CATWIDTH/2, self.y - CATHEIGHT/2))
+        pygame.draw.rect(screen, (255, 255, 0), pygame.Rect(self.x, self.y, 5, 5))
 
     def renderHealth(self, screen):
         screen.blit(self.healthbar, (self.id*780 + 100, 50))
@@ -206,13 +207,13 @@ class Hitbox(Entity):
         self.parent = parent
         self.dead = False
         self.enemy = enemy
-        self.x, self.y = self.parent.x + (-self.w-CATWIDTH if self.parent.facing == "l" else 0) + (-1 if self.parent.facing == "l" else 1) * self.offsetx, self.parent.y + self.offsety
+        self.x, self.y = self.parent.x + (-self.w if self.parent.facing == "l" else 0) + (-1 if self.parent.facing == "l" else 1) * self.offsetx, self.parent.y + self.offsety
 
     def tick(self,delta, entities): #collision in here
         super().tick(delta)
-        self.x, self.y = self.parent.x + (-self.w-CATWIDTH if self.parent.facing == "l" else 0) + (-1 if self.parent.facing == "l" else 1) * self.offsetx, self.parent.y + self.offsety
+        self.x, self.y = self.parent.x + (-self.w if self.parent.facing == "l" else 0) + (-1 if self.parent.facing == "l" else 1) * self.offsetx, self.parent.y + self.offsety
 
-        if pygame.Rect.colliderect(pygame.Rect(self.x, self.y, self.w, self.h), pygame.Rect(self.enemy.x - CATWIDTH, self.enemy.y - CATHEIGHT, CATWIDTH, CATHEIGHT)):
+        if pygame.Rect.colliderect(pygame.Rect(self.x, self.y, self.w, self.h), pygame.Rect(self.enemy.x - CATWIDTH/2, self.enemy.y - CATHEIGHT /2, CATWIDTH, CATHEIGHT)):
             if self.parent.facing == "l":
                 self.kbx = 0-self.kbx
             self.enemy.health -= self.damage
