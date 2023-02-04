@@ -1,14 +1,14 @@
 import pygame
 from utils import *
 
-GRAVITY = 0.001
+GRAVITY = 0.003
 MAXVELY = 20
 MAXVELX = 0.5
 FRICTION = 1.05
 AIRFRICTION = 1.01
 PLAYERACCEL = 2
 AIRACCEL = 0.02
-JUMPVEL = -0.5
+JUMPVEL = -1.2
 GROUNDHEIGHT = 500
 
 entities = {}
