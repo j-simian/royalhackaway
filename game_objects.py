@@ -13,6 +13,7 @@ AIRACCEL = 0.02
 JUMPVEL = -1.2
 GROUNDHEIGHT = 500
 
+
 entities = {}
 def initEntities(state):
     p1 = Player(0, state)
