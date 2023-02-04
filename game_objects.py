@@ -55,6 +55,8 @@ def handleRelease(event, player, control):
 def handleMove(player, control, event, timer, state):
     if event.type == pygame.KEYDOWN:
         handlePress(event, timer, player, control)
+    if event.type == pygame.KEYUP:
+        handleRelease(event, player, control)
 
 class Entity:
     def __init__(self, state):
