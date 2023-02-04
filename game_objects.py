@@ -109,7 +109,7 @@ class Player(EntityMovable):
         self.charging = 0 #time until attack comes out
         self.attacking = 0 #time left in attack animation
 
-        self.healthbar = pygame.transform.scale(pygame.image.load("./assets/imgs/healthbar.png").convert_alpha(), (200, 100))
+        self.healthbar = pygame.transform.scale(pygame.image.load("./assets/imgs/healthbar.png").convert_alpha(), (300, 100))
 
         self.sprite = [{"idler": pygame.image.load("./assets/imgs/cat1idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat1air.png").convert_alpha()},
                        {"idler": pygame.image.load("./assets/imgs/cat2idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat2air.png").convert_alpha()}] #load in drawn frames
@@ -162,9 +162,9 @@ class Player(EntityMovable):
         self.renderHealth(screen)
 
     def renderHealth(self, screen):
-        screen.blit(self.healthbar, (self.id*400 + 100, 50))
+        screen.blit(self.healthbar, (self.id*800 + 100, 50))
         #pygame.draw.rect(screen, (127, 0, 0), healthbar)
-        pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(0 if self.id == 0 else 1280-640.0*self.health/100.0, 0, 640.0*self.health/100.0, 50))
+        #pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(100, 0, 0, 50))
 
 class Hitbox(Entity):
     def __init__(self, id, position, dimensions, damage, knockback, duration, state):
