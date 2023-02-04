@@ -1,6 +1,8 @@
 import pygame
+from game_objects import *
 
 class Renderer:
+    
     def initRenderer(self):
         pygame.init()
         self.width = 800
@@ -15,6 +17,8 @@ class Renderer:
         while running:
             for event in pygame.event.get():
                 self.screen.fill((255, 255, 255))
+                for entity in entities:
+                    entity.render(screen)
                 pygame.display.flip()
                 if event.type == pygame.QUIT:
                     running = False
