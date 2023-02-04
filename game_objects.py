@@ -126,20 +126,12 @@ class Player(EntityMovable):
         self.facing = "l"
         #what this sprite is doing rn/how to display it
 
+
     def tick(self, delta, entities):
         super().tick(delta)
-        if self.attacking>0:
-            self.attacking-=delta
-            if self.attacking<=0:
-                self.canAttack = True
-        if self.charging>0:
-            self.charging -= delta
-            if self.charging <= 0:
-                self.charging = 0
-                entities['hitbox' + str(self.state.hitboxes)] = Hitbox(self.state.hitboxes, light_attack, self.state, self, entities["p"+str(int(2-self.id))])
-                self.state.hitboxes+=1
-                self.attacking = COOLDOWNTIME
 
+        self.tickAttack(delta, entities)
+        # movement
         if self.moving !=0:
             if self.touchingFloor:
                 self.accel(PLAYERACCEL*self.moving, 0)
@@ -163,6 +155,20 @@ class Player(EntityMovable):
             self.gravity = False
         else:
             self.velx /= AIRFRICTION #applies the right friction by reducing speed by dividing
+
+    def tickAttack(self, delta, entities):
+        if self.attacking>0:
+            self.attacking-=delta
+            if self.attacking<=0:
+                self.canAttack = True
+        if self.charging>0:
+            self.charging -= delta
+            if self.charging <= 0:
+                self.charging = 0
+                entities['hitbox' + str(self.state.hitboxes)] = Hitbox(self.state.hitboxes, light_attack, self.state, self, entities["p"+str(int(2-self.id))])
+                self.state.hitboxes+=1
+                self.attacking = COOLDOWNTIME
+
 
     def render(self, screen):
         self.facing = "l" if self.velx < 0 else "r"
