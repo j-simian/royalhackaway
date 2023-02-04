@@ -9,8 +9,8 @@ state = State()
 clock = pygame.time.Clock()
 renderer = Renderer(state)
 menu = Menu(state)
-initEntities()
 renderer.renderMenu(menu)
+initEntities()
 
 running = True
 while running:
@@ -19,6 +19,10 @@ while running:
         entity.tick(dt)
     renderer.renderFrame()
     for event in pygame.event.get():
+        if state.screen == 1:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_a:
+                    entities["p1"].accel(0,-5)
         if event.type == pygame.QUIT:
             running = False
 
