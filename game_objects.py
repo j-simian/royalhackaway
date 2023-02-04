@@ -188,6 +188,7 @@ class Hitbox(Entity):
             self.enemy.accel(self.kbx, self.kby)
             self.state.hitboxes-=1
             self.dead = True
+            #self.__del__()
         self.duration -= delta
         if self.duration <= 0 and self.dead == False:
             self.state.hitboxes-=1
