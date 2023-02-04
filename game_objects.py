@@ -27,7 +27,7 @@ def initEntities(state):
 
 def handleMove(player, control, event, timer, lastdash):
     if event.type == pygame.KEYDOWN:
-        (accuracy,whichNote)=timer.onRhythm()
+        (accuracy,whichNote)=timer.onRhythm(False)
         frame = timer.getFullFrame()
         if event.key == control['left']:
             player.moving = -1
