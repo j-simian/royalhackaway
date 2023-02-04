@@ -13,6 +13,7 @@ class Renderer:
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.bg = pygame.image.load("./assets/imgs/bg.png").convert()
         self.bgbeat = pygame.transform.scale(self.bg, (self.width+32, self.height+18))
+        self.overlay = pygame.image.load("./assets/imgs/overlay.png").convert_alpha()
         pygame.display.set_caption("Nya Nya Revolution")
         pygame.display.flip()
         self.screen.fill((255, 255, 255))
@@ -22,6 +23,7 @@ class Renderer:
         self.renderHUD(entities)
         self.renderEntities(entities)
 
+    def blitScreen(self):
         pygame.display.flip()
 
     def renderBG(self, timer):
@@ -41,3 +43,6 @@ class Renderer:
 
     def renderMenu(self, menu):
         menu.render(self.screen)
+
+    def renderDeathMenu(self):
+        self.screen.blit(self.overlay, (0, 0))

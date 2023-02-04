@@ -76,6 +76,8 @@ class Player(EntityMovable):
         else:
             self.velx /= AIRFRICTION #applies the right friction by reducing speed by dividing
 
+            
+
     def tickAttack(self, delta, entities):
         if self.attacking>0:
             self.attacking-=delta
