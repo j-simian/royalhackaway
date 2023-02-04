@@ -1,10 +1,10 @@
 import pygame
 
-GRAVITY = 0.0004
+GRAVITY = 0.001
 MAXVELY = 20
 MAXVELX = 0.2
-FRICTION = 1.1
-AIRFRICTION = 1.05
+FRICTION = 1.05
+AIRFRICTION = 1.0001
 PLAYERACCEL = 2
 JUMPVEL = -0.5
 GROUNDHEIGHT = 500
@@ -49,6 +49,11 @@ def handleMove(player, control, event):
                 player.moving = -1
             else:
                 player.moving = 0
+        if event.key == control['up'] and player.jumping == 1:
+            if pygame.key.get_pressed()[control['right']]:
+                player.jumping = 1.5
+            else:
+                player.jumping = 0
 
 class Entity:
     def __init__(self):
