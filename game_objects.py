@@ -130,7 +130,7 @@ class Player(EntityMovable):
             self.velx /= AIRFRICTION #applies the right friction by reducing speed by dividing
 
     def render(self, screen):
-        screen.blit(self.sprite["p1idle"], (self.x - CATWIDTH, self.y - CATHEIGHT))
+        screen.blit(self.sprite["p1idle"] if self.id == 1 else self.sprite["p2idle"], (self.x - CATWIDTH, self.y - CATHEIGHT))
         #pygame.draw.rect(screen, (255, 0, 255) if self.id == 1 else (0, 255, 255), pygame.Rect(self.x, self.y, 40, 100))
         self.renderHealth(screen)
 
