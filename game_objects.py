@@ -10,9 +10,9 @@ def initEntities(state):
     p2 = Player(1, state)
     p1.x = 200
     p2.x = 600
-    p1.y = 400
-    p2.y = 400
-    hitbox = Hitbox(0, {"dimensions": (200, 50), "offset": (0, -100), "damage": 10, "knockack": (10, 10), "duration": 100000, "knockback": (10, 10)}, state, p1)
+    p1.y = GROUNDHEIGHT
+    p2.y = GROUNDHEIGHT
+    hitbox = Hitbox(0, {"dimensions": (200, 50), "offset": (-100, -150), "damage": 10, "knockack": (10, 10), "duration": 100000, "knockback": (10, 10)}, state, p1)
     entities["p1"] = p1
     entities["p2"] = p2
     entities["hitb"] = hitbox
@@ -169,7 +169,8 @@ class Hitbox(Entity):
 
     def tick(self,delta): #collision in here
         super().tick(delta)
-        self.x, self.y = self.parent.x + (-self.w+CATWIDTH if self.parent.facing == "l" else 0) + self.offsetx, self.parent.y + self.offsety #NOTE: also consider direction player is facing
+        self.x, self.y = self.parent.x + (-self.w-CATWIDTH if self.parent.facing == "l" else 0) + (-1 if self.parent.facing == "l" else 1) * self.offsetx, self.parent.y + self.offsety 
+        
         self.duration -= delta
         if self.duration <= 0:
             self.dead = True
