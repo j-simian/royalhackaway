@@ -19,8 +19,8 @@ HITTHRESHOLD = 0.4
 
 attacks = {
     "light": {
-        "dimensions": (200, 50),
-        "offset": (0, 0),
+        "dimensions": (200, 100),
+        "offset": (0, -100),
         "damage": 4,
         "knockback": (2, -1),
         "duration": 100,
