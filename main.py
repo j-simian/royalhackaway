@@ -15,7 +15,7 @@ renderer.renderMenu(menu)
 running = True
 while running:
     dt = clock.tick(60)
-    for entity in entities:
+    for entity in entities.values():
         entity.tick(dt)
     renderer.renderFrame()
     for event in pygame.event.get():
