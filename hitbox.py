@@ -24,7 +24,7 @@ class Hitbox(Entity):
         super().tick(delta)
         self.x, self.y = self.parent.x + (-self.w if self.parent.facing == "l" else 0) + (-1 if self.parent.facing == "l" else 1) * self.offsetx, self.parent.y + self.offsety
 
-        if pygame.Rect.colliderect(pygame.Rect(self.x, self.y, self.w, self.h), pygame.Rect(self.enemy.x - CATWIDTH/2, self.enemy.y - CATHEIGHT /2, CATWIDTH, CATHEIGHT)):
+        if pygame.Rect.colliderect(pygame.Rect(self.x, self.y, self.w, self.h), pygame.Rect(self.enemy.x - HURTWIDTH/2, self.enemy.y - CATHEIGHT /2, HURTWIDTH, CATHEIGHT)):
             if self.parent.facing == "l":
                 self.kbx = 0-self.kbx
             self.enemy.health -= self.damage
