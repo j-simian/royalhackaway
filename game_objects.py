@@ -96,7 +96,7 @@ class Player(EntityMovable):
         self.moving = 0 #nonzero if needs to move
         self.jumping = 0 #positive if we need to jump
 
-        #self.sprite = {"p1idle": pygame.image.load("./assets/imgs/bg.png").convert()}
+        self.sprite = {"p1idle": pygame.image.load("./assets/imgs/cat1.png").convert(), "p2idle": pygame.image.load("./assets/imgs/cat2.png").convert()}
 
     def tick(self, delta):
         super().tick(delta)
