@@ -26,6 +26,25 @@ def initEntities():
     entities["p2"] = p2
 
 
+def handleMove(player, control, event):
+    if event.type == pygame.KEYDOWN:
+        if event.key == control['left']:
+            player.moving = -1
+        if event.key == control['right']:
+            player.moving = 1
+            
+    if event.type == pygame.KEYUP:
+        if event.key == control['left'] and player.moving == -1:
+            if pygame.key.get_pressed()[control['right']]:
+                player.moving = 1        
+            else:
+                player.moving = 0
+        if event.key == control['right'] and player.moving == 1:
+            if pygame.key.get_pressed()[control['left']]:
+                player.moving = -1
+            else:
+                player.moving = 0
+
 class Entity:
     def __init__(self):
         self.x = 0.0
