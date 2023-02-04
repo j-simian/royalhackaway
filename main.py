@@ -14,6 +14,12 @@ initEntities()
 
 running = True
 lpressed=False
+
+controlsMap = {0:{'left': pygame.K_a, 'right': pygame.K_d, 'up': pygame.K_w, 'down':pygame.K_s}, 1:{'left': pygame.K_j, 'right': pygame.K_l, 'up': pygame.K_i, 'down':pygame.K_k}}
+player1controls = controlsMap[state.controls[0]]
+player2controls = controlsMap[state.controls[1]]
+
+
 while running:
     dt = clock.tick()
     for entity in entities.values():
@@ -23,18 +29,8 @@ while running:
         if state.screen == 1:
             t=onRhythm(pygame.mixer.music.get_pos()/1000, 0, 110)
             
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_a:
-                    entities["p1"].moving = -1
-                if event.key == pygame.K_d:
-                    entities["p1"].moving = 1
-            
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_a and entities["p1"].moving == -1:
-                    entities["p1"].moving = 0
-
-                if event.key == pygame.K_d and entities["p1"].moving == 1:
-                    entities["p1"].moving = 0
+            handleMove(entities["p1"], player1controls, event)
+            handleMove(entities["p2"], player2controls, event)
         if event.type == pygame.QUIT:
             running = False
 

@@ -38,10 +38,10 @@ class Menu():
         self.menu = pygame_menu.Menu('Nya Nya Revolution', self.state.WIDTH, self.state.HEIGHT,
                        theme=self.nyatheme, mouse_motion_selection=True, columns = 2, rows = 3)
 
-        self.menu.add.text_input('Player1 Name :', default='Catgirl 1')
+        self.menu.add.text_input('Player 1 Name:', default='Catgirl 1')
         self.menu.add.selector('Player 1 Controls:', [["wasd",0], ["ijkl",1]], onchange=(lambda _, y: self.set_controls(0, y)))
         self.menu.add.button('Play', self.start_the_game)
-        self.menu.add.text_input('Player2 Name :', default='Catgirl 2')
+        self.menu.add.text_input('Player 2 Name:', default='Catgirl 2')
         self.menu.add.selector('Player 2 Controls:', [["ijkl",1], ["wasd",0]], onchange=(lambda _, y: self.set_controls(1, y)))
         self.menu.add.button('Quit', pygame_menu.events.EXIT)
 
