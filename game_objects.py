@@ -31,11 +31,11 @@ def handleMove(player, control, event, timer):
         (accuracy,whichNote)=timer.onRhythm()
         if event.key == control['left']:
             player.moving = -1
-            if accuracy == 'perfect' and whichNote == 0:
+            if accuracy == 'perfect':
                 player.dash+=MAXVELX*DASHRATIO
         if event.key == control['right']:
             player.moving = 1
-            if accuracy == 'perfect' and whichNote == 0:
+            if accuracy == 'perfect':
                 player.dash+=MAXVELX*DASHRATIO
         if event.key == control['up']:
             player.jumping = 0.6

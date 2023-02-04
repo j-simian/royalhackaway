@@ -9,7 +9,7 @@ state = State()
 clock = pygame.time.Clock()
 renderer = Renderer(state)
 menu = Menu(state)
-timer = Timer(110, 0)
+timer = Timer(110, 2.35)
 renderer.renderMenu(menu)
 initEntities(state)
 
@@ -23,7 +23,7 @@ player2controls = controlsMap[state.controls[1]]
 
 while running:
     dt = clock.tick()
-    print(timer.getFrame())
+    print(timer.getFullFrame())
     for entity in entities.values():
         entity.tick(dt)
     renderer.renderFrame(timer)
