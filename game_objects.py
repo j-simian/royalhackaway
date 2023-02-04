@@ -109,11 +109,16 @@ class Player(EntityMovable):
         self.charging = 0 #time until attack comes out
         self.attacking = 0 #time left in attack animation
 
-        self.sprite = [{"idlel": pygame.image.load("./assets/imgs/cat1idle.png").convert_alpha(), "airl": pygame.image.load("./assets/imgs/cat1air.png").convert_alpha()},
-                       {"idler": pygame.image.load("./assets/imgs/cat2idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat2air.png").convert_alpha()}]
+        self.sprite = [{"idler": pygame.image.load("./assets/imgs/cat1idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat1air.png").convert_alpha()},
+                       {"idler": pygame.image.load("./assets/imgs/cat2idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat2air.png").convert_alpha()}] #load in drawn frames
 
-        self.sprite[0].update({"idler": pygame.transform.flip(self.sprite[0]["idlel"], True, False), "airr": pygame.transform.flip(self.sprite[0]["airl"], True, False)})
-        self.sprite[1].update({"idlel": pygame.transform.flip(self.sprite[1]["idler"], True, False), "airl": pygame.transform.flip(self.sprite[1]["airr"], True, False)})
+        for s in ["idle", "air"]:
+            for c in [0, 1]:
+                self.sprite[c].update({s + "l": pygame.transform.flip(self.sprite[c][s+"r"], True, False)})
+                #mirrors frames
+
+        #self.sprite[0].update({"idler": pygame.transform.flip(self.sprite[0]["idlel"], True, False), "airr": pygame.transform.flip(self.sprite[0]["airl"], True, False)})
+        #self.sprite[1].update({"idlel": pygame.transform.flip(self.sprite[1]["idler"], True, False), "airl": pygame.transform.flip(self.sprite[1]["airr"], True, False)})
         #list of all possible frames. it's a list of dict's, #0 for cat 1 and #1 for cat 2, so we dont need 10000 if statements. indexed by id and mystate.
 
         self.mystate = "idle"
