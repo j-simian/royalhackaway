@@ -29,10 +29,7 @@ def handleMove(player, control, event):
         if event.key == control['right']:
             player.moving = 1
         if event.key == control['up']:
-            if player.jumping <= 0:
-                player.jumping = 1
-            else:
-                player.jumping += 0.1
+            player.jumping = 1
 
     if event.type == pygame.KEYUP:
         if event.key == control['left'] and player.moving == -1:
@@ -92,7 +89,7 @@ class Player(EntityMovable):
         if self.moving !=0:
             self.accel(PLAYERACCEL*self.moving, 0)
         if self.jumping != 0 and self.touchingFloor: #jumps iff on floor; jumping == scale of how high to jump
-            self.y = GROUNDHEIGHT - 1; self.vely = JUMPVEL*self.jumping; self.jumping = 0; self.gravity = True
+            self.y = GROUNDHEIGHT - 1; self.vely = JUMPVEL*self.jumping; self.gravity = True
             #makes you go off the ground and accelerates up to jump; makes jumping state 0 so we don't continue jumping
         if self.gravity:
             self.accel(0, GRAVITY*delta) #applies gravity
