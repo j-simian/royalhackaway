@@ -1,9 +1,12 @@
 import pygame
 from renderer import * 
 from menu import *
+from state import *
+
 
 renderer = Renderer()
-menu = Menu()
+state = State()
+menu = Menu(state)
 renderer.initRenderer()
 renderer.renderMenu(menu)
 renderer.gameLoop()
