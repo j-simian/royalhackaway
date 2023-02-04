@@ -1,6 +1,6 @@
 import pygame
 
-GRAVITY = 0.0005
+GRAVITY = 0.000025
 MAXVELY = 20
 
 entities = []
@@ -33,8 +33,8 @@ class EntityMovable(Entity):
         if self.gravity:
             self.vely += GRAVITY*delta
         self.vely = min(self.vely, MAXVELY)
-        self.x += self.velx
-        self.y += self.vely
+        self.x += self.velx*delta
+        self.y += self.vely*delta
     def accel(self, x, y):
         self.velx += x
         self.vely += y
