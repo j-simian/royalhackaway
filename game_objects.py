@@ -25,8 +25,7 @@ def initEntities(state):
     entities["p1"] = p1
     entities["p2"] = p2
 
-lastdash = -1
-def handleMove(player, control, event, timer):
+def handleMove(player, control, event, timer, lastdash):
     if event.type == pygame.KEYDOWN:
         (accuracy,whichNote)=timer.onRhythm()
         frame = timer.getFullFrame()

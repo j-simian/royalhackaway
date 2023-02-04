@@ -4,6 +4,6 @@ class State():
         self.HEIGHT = 720
         self.VOLUME = 0.7
 
-
+        self.lastdash = -1
         self.screen = 0
         self.controls = [0,1]
