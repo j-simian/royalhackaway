@@ -95,6 +95,7 @@ class Player(EntityMovable):
         self.jumping = 0 #positive if we need to jump
         self.charging = 0 #time until attack comes out
         self.attacking = 0 #time left in attack animation
+        self.comboNum = 0 #which hit of combo (currently unused)
 
         self.healthbar = pygame.transform.scale(pygame.image.load("./assets/imgs/healthbar.png").convert_alpha(), (200, 100))
 
@@ -154,15 +155,16 @@ class Player(EntityMovable):
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(0 if self.id == 0 else 1280-640.0*self.health/100.0, 0, 640.0*self.health/100.0, 50))
 
 class Hitbox(Entity):
-    def __init__(self, id, offset, dimensions, damage, knockback, duration, state, parent):
+    def __init__(self, id, offset, dimensions, damage, knockback, stun, duration, state, parent):
         super().__init__(state)
         self.id = id
-        self.offsetx, self.offsety = offset
+        self.offsetx, self.offsety = offset #offset from x,y coords of parent NOTE: also consider direction player is facing
         self.w, self.h = dimensions
         self.damage = damage
         self.kbx, self.kby = knockback
-        self.duration = duration
-        self.parent = parent
+        self.stun = stun                    #amount of time the opponent can't act for when getting hit by this
+        self.duration = duration            #amount of time before the hitbox disappears
+        self.parent = parent                #player the hitbox is attached to
 
     def tick(self,delta): #collision in here
         super().tick(delta)
