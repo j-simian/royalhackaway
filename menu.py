@@ -15,6 +15,10 @@ class Menu():
     # Do the job here !
         if self.state.controls[0] != self.state.controls[1]:
             self.state.screen = 1
+            pygame.mixer.init()
+            pygame.mixer.music.load("assets/music/DANCE ALL NIGHT.mp3")
+            pygame.mixer.music.set_volume(0.7)
+            pygame.mixer.music.play()
             self.menu.disable()
     def render(self, screen):
 
