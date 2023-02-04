@@ -1,22 +1,17 @@
 import pygame
+from utils import *
 
 GRAVITY = 0.001
 MAXVELY = 20
 MAXVELX = 0.5
 FRICTION = 1.05
-AIRFRICTION = 1.0001
+AIRFRICTION = 1.01
 PLAYERACCEL = 2
 AIRACCEL = 0.02
 JUMPVEL = -0.5
 GROUNDHEIGHT = 500
 
 entities = {}
-def clamp(left, value, right):
-    if value < left:
-        value = left
-    if value > right:
-        value = right
-    return value
 def initEntities(state):
     p1 = Player(0, state)
     p2 = Player(1, state)
@@ -35,7 +30,10 @@ def handleMove(player, control, event):
         if event.key == control['right']:
             player.moving = 1
         if event.key == control['up']:
-            player.jumping = 1
+            if player.jumping <= 0:
+                player.jumping = 1
+            else:
+                player.jumping += 0.1
 
     if event.type == pygame.KEYUP:
         if event.key == control['left'] and player.moving == -1:
@@ -48,11 +46,8 @@ def handleMove(player, control, event):
                 player.moving = -1
             else:
                 player.moving = 0
-        if event.key == control['up'] and player.jumping == 1:
-            if pygame.key.get_pressed()[control['right']]:
-                player.jumping = 3
-            else:
-                player.jumping = 0
+        if event.key == control['up'] and player.jumping > 0:
+            player.jumping = 0
 
 class Entity:
     def __init__(self, state):
