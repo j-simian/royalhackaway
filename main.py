@@ -22,7 +22,7 @@ player2controls = controlsMap[state.controls[1]]
 
 def tickEntities():
     for (key, entity) in list(entities.items()):
-        entity.tick(dt)
+        entity.tick(dt, entities)
         if hasattr(entity, 'dead') and entity.dead:
             del entities[key]
 

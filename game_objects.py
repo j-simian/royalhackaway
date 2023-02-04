@@ -36,8 +36,9 @@ def handlePress(event, timer, player, control, state, enemy, entities):
     if event.key == control['up']:
         player.jumping = 0.6
     if event.key == control['attack']:
-        entities['hitbox' + str(state.hitboxes)] = Hitbox(state.hitboxes, {"dimensions": (200, 50), "offset": (-100, -150), "damage": 10, "knockack": (PLAYERACCEL, PLAYERACCEL), "duration": 40, "knockback": (50, 50)}, state, player, enemy)
-        state.hitboxes+=1
+        if player.canAttack == True:
+            player.charging = 100
+            player.canAttack = False
 def handleRelease(event, player, control):
     if event.key == control['left'] and player.moving == -1:
         player.moving = 0
@@ -47,8 +48,6 @@ def handleRelease(event, player, control):
         player.moving = 0
         if pygame.key.get_pressed()[control['left']]:
             player.moving = -1
-    if event.key == control['down']:
-        player.charging = 0.1
     if event.key == control['up'] and player.jumping > 0:
         player.jumping = 0
 
@@ -103,7 +102,7 @@ class Player(EntityMovable):
         self.jumping = 0 #positive if we need to jump
         self.charging = 0 #time until attack comes out
         self.attacking = 0 #time left in attack animation
-
+        self.canAttack = True
         self.healthbar = pygame.transform.scale(pygame.image.load("./assets/imgs/healthbar.png").convert_alpha(), (300, 100))
 
         self.sprite = [{"idler": pygame.image.load("./assets/imgs/cat1idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat1air.png").convert_alpha()},
@@ -119,16 +118,19 @@ class Player(EntityMovable):
         self.facing = "l"
         #what this sprite is doing rn/how to display it
 
-    def tick(self, delta):
+    def tick(self, delta, entities):
         super().tick(delta)
-
-        self.attacking -= delta
+        if self.attacking>0:
+            self.attacking-=delta
+            if self.attacking<=0:
+                self.canAttack = True
         if self.charging>0:
             self.charging -= delta
             if self.charging <= 0:
                 self.charging = 0
-                ##ATTACK
-                self.attacking = 0.4
+                entities['hitbox' + str(self.state.hitboxes)] = Hitbox(self.state.hitboxes, {"dimensions": (200, 50), "offset": (-100, -150), "damage": 10, "knockack": (PLAYERACCEL, PLAYERACCEL), "duration": 100, "knockback": (50, 50)}, self.state, self, entities["p"+str(int(2-self.id))])
+                self.state.hitboxes+=1
+                self.attacking = 400
 
         if self.moving !=0:
             if self.touchingFloor:
@@ -175,7 +177,7 @@ class Hitbox(Entity):
         self.dead = False
         self.enemy = enemy
 
-    def tick(self,delta): #collision in here
+    def tick(self,delta, entities): #collision in here
         super().tick(delta)
         self.x, self.y = self.parent.x + (-self.w-CATWIDTH if self.parent.facing == "l" else 0) + (-1 if self.parent.facing == "l" else 1) * self.offsetx, self.parent.y + self.offsety
 
