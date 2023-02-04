@@ -25,6 +25,9 @@ class Hitbox(Entity):
         self.x, self.y = self.parent.x + (-self.w if self.parent.facing == "l" else 0) + (-1 if self.parent.facing == "l" else 1) * self.offsetx, self.parent.y + self.offsety
 
         if pygame.Rect.colliderect(pygame.Rect(self.x, self.y, self.w, self.h), pygame.Rect(self.enemy.x - HURTWIDTH/2, self.enemy.y - CATHEIGHT /2, HURTWIDTH, CATHEIGHT)):
+            soundObj = pygame.mixer.Sound('assets/sfx/audioman.wav')
+            soundObj.play()
+
             if self.parent.facing == "l":
                 self.kbx = 0-self.kbx
             self.enemy.health -= self.damage
@@ -39,4 +42,5 @@ class Hitbox(Entity):
             self.dead = True
     
     def render(self, screen):
-        pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.x, self.y, self.w, self.h))
+        if VIEWHITBOXES:
+            pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.x, self.y, self.w, self.h))

@@ -17,6 +17,7 @@ CHARGETIME = 100
 COOLDOWNTIME = 100
 PERFECTTHRESHOLD = 0.2
 HITTHRESHOLD = 0.4
+VIEWHITBOXES = True
 
 attacks = {
     "light1": {
@@ -48,7 +49,7 @@ attacks = {
         "offset": (50, 0),
         "damage": 10,
         "knockback": (20, 0),
-        "duration": 500,
+        "duration": 200,
         "stun": 400
     }
 }
