@@ -34,7 +34,10 @@ def handleMove(player, control, event):
         if event.key == control['right']:
             player.moving = 1
         if event.key == control['up']:
-            player.jumping = 1
+            if player.jumping <= 0:
+                player.jumping = 1
+            else:
+                player.jumping += 0.1
 
     if event.type == pygame.KEYUP:
         if event.key == control['left'] and player.moving == -1:
@@ -47,11 +50,8 @@ def handleMove(player, control, event):
                 player.moving = -1
             else:
                 player.moving = 0
-        if event.key == control['up'] and player.jumping == 1:
-            if pygame.key.get_pressed()[control['right']]:
-                player.jumping = 3
-            else:
-                player.jumping = 0
+        if event.key == control['up'] and player.jumping > 0:
+            player.jumping = 0
 
 class Entity:
     def __init__(self, state):
