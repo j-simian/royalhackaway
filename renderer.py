@@ -17,14 +17,12 @@ class Renderer:
         pygame.display.flip()
         self.screen.fill((255, 255, 255))
 
-    def renderFrame(self):
-        (accuracy,whichNote)=onRhythm(pygame.mixer.music.get_pos()/1000, 0, 110)
-
+    def renderFrame(self, timer):
+        (accuracy,whichNote)=timer.onRhythm(getTimer(), 110)
         if (accuracy=="perfect" and whichNote==0 and FLASH):
             self.screen.blit(self.bgbeat, (-16, -9))
         else:
             self.screen.blit(self.bg, (0, 0))
-
 
         for entity in entities.values():
             entity.render(self.screen)

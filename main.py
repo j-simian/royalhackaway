@@ -9,6 +9,7 @@ state = State()
 clock = pygame.time.Clock()
 renderer = Renderer(state)
 menu = Menu(state)
+timer = Timer(110, 0)
 renderer.renderMenu(menu)
 initEntities(state)
 
@@ -24,7 +25,7 @@ while running:
     dt = clock.tick()
     for entity in entities.values():
         entity.tick(dt)
-    renderer.renderFrame()
+    renderer.renderFrame(timer)
     for event in pygame.event.get():
             
         if state.screen == 1:
