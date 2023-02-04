@@ -217,8 +217,6 @@ class Hitbox(Entity):
                 self.kbx = 0-self.kbx
             self.enemy.health -= self.damage
             self.enemy.stun = self.stun
-            self.enemy.velx = 0
-            self.enemy.vely = 0
             self.enemy.accel(self.kbx, self.kby)
             self.state.hitboxes-=1
             self.dead = True
