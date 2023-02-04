@@ -160,7 +160,7 @@ class Player(EntityMovable):
         self.touchingFloor = self.y >= GROUNDHEIGHT
 
         if self.touchingFloor: #makes you not falling if youre on ground
-            if abs(self.velx) < 0.1:
+            if abs(self.velx) < 0.1 or self.x <= CATWIDTH/2 or self.x >= self.state.WIDTH-CATWIDTH/2:
                 self.mystate = "idle"
             else:
                 self.mystate = "run" + str(int((self.x / 100) % (5 + self.id)))
