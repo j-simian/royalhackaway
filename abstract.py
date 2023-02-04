@@ -7,8 +7,8 @@ class Entity:
         self.x = 0.0
         self.y = 0.0
         self.state = state
-    def render(self, screen):
-        pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.x, self.y, 100, 100))
+    #def render(self, screen):
+    #    pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.x, self.y, 100, 100))
 
     def tick(self, delta):
         pass

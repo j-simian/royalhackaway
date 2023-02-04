@@ -2,7 +2,7 @@ import pygame
 from options import *
 from utils import *
 from abstract import *
-
+from copy import deepcopy
 
 class Hitbox(Entity):
     def __init__(self, id, hitbox_options, state, parent, enemy):
@@ -16,6 +16,7 @@ class Hitbox(Entity):
         self.duration = hitbox_options["duration"]
         self.stun = hitbox_options["stun"]
         self.parent = parent
+        self.mult = deepcopy(self.parent.mult)
         self.dead = False
         self.enemy = enemy
         self.x, self.y = self.parent.x + (-self.w if self.parent.facing == "l" else 0) + (-1 if self.parent.facing == "l" else 1) * self.offsetx, self.parent.y + self.offsety
@@ -24,18 +25,23 @@ class Hitbox(Entity):
         super().tick(delta)
         self.x, self.y = self.parent.x + (-self.w if self.parent.facing == "l" else 0) + (-1 if self.parent.facing == "l" else 1) * self.offsetx, self.parent.y + self.offsety
 
-        if pygame.Rect.colliderect(pygame.Rect(self.x, self.y, self.w, self.h), pygame.Rect(self.enemy.x - CATWIDTH/2, self.enemy.y - CATHEIGHT /2, CATWIDTH, CATHEIGHT)):
+        if pygame.Rect.colliderect(pygame.Rect(self.x, self.y, self.w, self.h), pygame.Rect(self.enemy.x - HURTWIDTH/2, self.enemy.y - CATHEIGHT /2, HURTWIDTH, CATHEIGHT)):
+            soundObj = pygame.mixer.Sound('assets/sfx/audioman.wav')
+            soundObj.play()
+
             if self.parent.facing == "l":
                 self.kbx = 0-self.kbx
-            self.enemy.health -= self.damage
+            self.enemy.health -= self.damage * self.mult
             self.enemy.stun = self.stun
             self.enemy.accel(self.kbx, self.kby)
+            self.enemy.canAttack = True
             self.state.hitboxes-=1
             self.dead = True
         self.duration -= delta
         if self.duration <= 0 and self.dead == False:
             self.state.hitboxes-=1
             self.dead = True
-
+    
     def render(self, screen):
-        pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.x, self.y, self.w, self.h))
+        if VIEWHITBOXES:
+            pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.x, self.y, self.w, self.h))

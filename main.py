@@ -12,7 +12,6 @@ menu = Menu(state)
 timer = Timer(110, 2.28)
 renderer.renderMenu(menu)
 entities = initEntities(state)
-
 running = True
 
 controlsMap = {0:{'left': pygame.K_a, 'right': pygame.K_d, 'up': pygame.K_w, 'down':pygame.K_s, 'attack': pygame.K_q}, 1:{'left': pygame.K_j, 'right': pygame.K_l, 'up': pygame.K_i, 'down':pygame.K_k, 'attack': pygame.K_u}}
@@ -37,6 +36,8 @@ while running:
             if state.screen == 1:
                 handleMove(entities["p1"], player1controls, event, timer, state, entities["p2"], entities)
                 handleMove(entities["p2"], player2controls, event, timer, state, entities["p1"], entities)
+            if event.type == pygame.QUIT:
+                running = False
     elif state.screen == 2:
         dt = clock.tick(1)
         renderer.renderFrame(timer, entities)

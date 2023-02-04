@@ -12,26 +12,44 @@ GROUNDHEIGHT = 550
 CATSCALE = 0.66
 CATHEIGHT = 500*CATSCALE
 CATWIDTH = 500*CATSCALE
+HURTWIDTH = 300*CATSCALE
 CHARGETIME = 100
-COOLDOWNTIME = 400
+COOLDOWNTIME = 100
 PERFECTTHRESHOLD = 0.2
 HITTHRESHOLD = 0.4
+VIEWHITBOXES = True
 
 attacks = {
-    "light": {
-        "dimensions": (200, 100),
-        "offset": (0, -100),
+    "light1": {
+        "dimensions": (100, 200),
+        "offset": (0, -200),
         "damage": 4,
-        "knockback": (2, -1),
+        "knockback": (0, -1),
         "duration": 100,
         "stun": 200
     },
+    "light2": {
+        "dimensions": (100, 100),
+        "offset": (0, -100),
+        "damage": 4,
+        "knockback": (-3, -1),
+        "duration": 100,
+        "stun": 200
+    },
+    "light3": {
+        "dimensions": (100, 100),
+        "offset": (0, -100),
+        "damage": 4,
+        "knockback": (2, -2),
+        "duration": 100,
+        "stun": 500
+    },
     "heavy": {
-        "dimensions": (250, 100),
-        "offset": (0, 0),
+        "dimensions": (150, 150),
+        "offset": (50, 0),
         "damage": 10,
-        "knockback": (5, -1),
-        "duration": 500,
+        "knockback": (20, 0),
+        "duration": 200,
         "stun": 400
     }
 }

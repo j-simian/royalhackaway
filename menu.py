@@ -18,6 +18,10 @@ class Menu():
             pygame.mixer.music.set_volume(self.state.VOLUME)
             pygame.mixer.music.play()
             self.menu.disable()
+    def setp1name(self, val):
+        self.state.player1name = val
+    def setp2name(self,val):
+        self.state.player2name = val
     def render(self, screen):
 
         self.nyatheme = pygame_menu.themes.THEME_SOLARIZED.copy()

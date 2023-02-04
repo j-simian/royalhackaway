@@ -18,6 +18,9 @@ class Player(EntityMovable):
         self.charging = 0 #time until attack comes out
         self.attacking = 0 #time left in attack animation
         self.stun = 0 #time in stun
+        self.lasthitframe = -1
+        self.combo = 0
+        self.mult = 1
         self.canAttack = True
         self.healthbar = pygame.transform.scale(pygame.image.load("./assets/imgs/healthbar.png").convert_alpha(), (300, 100))
 
@@ -108,10 +111,8 @@ class Player(EntityMovable):
             screen.blit(_image, (self.x - CATWIDTH/2, self.y - CATHEIGHT/2))
         else:
             screen.blit(self.sprite[self.id][self.mystate + self.facing], (self.x - CATWIDTH/2, self.y - CATHEIGHT/2))
-        pygame.draw.rect(screen, (255, 255, 0), pygame.Rect(self.x, self.y, 5, 5))
 
     def renderHealth(self, screen):
         screen.blit(self.healthbar, (self.id*780 + 100, 50))
-        #pygame.draw.rect(screen, (127, 0, 0), healthbar)
         pygame.draw.rect(screen, (255, 0, 119), pygame.Rect(self.id*780 + 170, 83, 2.20*self.health, 15))
         pygame.draw.rect(screen, (145, 255, 217), pygame.Rect(self.id*780 + 170, 104, 186, 14))

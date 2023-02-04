@@ -15,15 +15,14 @@ def initEntities(state):
 
 
 def dashAvailable(accuracy, player, frame):
-    return accuracy == 'perfect' and (player.lastdash+1/2<frame or player.lastdashdir!=player.moving)
+    return accuracy == 'perfect' and frame%1==0 and (player.lastdash+1/4<frame or player.lastdashdir!=player.moving)
 
 
 def handlePress(event, timer, player, control, state, enemy, entities):
     (accuracy,whichNote)=timer.onRhythm(False)
-    frame = timer.getHalfFrame()
+    frame = timer.getQuarterFrame()
     available = dashAvailable(accuracy, player, frame)
     if available and event.key in [control['left'], control['right']]:
-        print("wow!")
         player.lastdash = frame
         player.lastdashdir = player.moving
         player.dash+=MAXVELX*DASHRATIO
@@ -35,8 +34,24 @@ def handlePress(event, timer, player, control, state, enemy, entities):
         player.jumping = 0.6
     if event.key == control['attack']:
         if player.canAttack == True and player.stun <= 0:
+            if accuracy == "perfect":
+                player.mult = 3
+            else:
+                player.mult = 1
             if player.touchingFloor:
-                player.attackType = "light"
+                if player.combo == 1 and (frame-player.lasthitframe == 1/2):
+                    player.attackType = "light2"
+                    player.combo+=1
+                elif player.combo == 1 and (frame-player.lasthitframe == 1):
+                    player.attackType = "heavy"
+                    player.combo=0
+                elif player.combo == 2 and (frame-player.lasthitframe == 1/2):
+                    player.attackType = "light3"
+                    player.combo=0
+                else:
+                    player.attackType = "light1"
+                    player.combo=1
+                player.lasthitframe = frame
             else:
                 player.attackType = "heavy"
             player.mystate = "charge"
