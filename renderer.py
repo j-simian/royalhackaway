@@ -15,7 +15,7 @@ class Renderer:
 
     def renderFrame(self):
         self.screen.fill((255, 255, 255))
-        for entity in entities:
+        for entity in entities.values():
             entity.render(self.screen)
         pygame.display.flip()
 

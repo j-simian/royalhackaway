@@ -17,7 +17,7 @@ class Menu():
             self.state.screen = 1
             pygame.mixer.init()
             pygame.mixer.music.load("assets/music/DANCE ALL NIGHT.mp3")
-            pygame.mixer.music.set_volume(0.7)
+            pygame.mixer.music.set_volume(self.state.VOLUME)
             pygame.mixer.music.play()
             self.menu.disable()
     def render(self, screen):
@@ -26,13 +26,16 @@ class Menu():
 
         self.menubg = pygame_menu.baseimage.BaseImage(
             image_path="assets/catbg.jpg",
-            drawing_mode=pygame_menu.baseimage.IMAGE_MODE_FILL
+            drawing_mode=pygame_menu.baseimage.IMAGE_MODE_REPEAT_XY
         )
         self.nyatheme.background_color = self.menubg
         self.nyatheme.title_background_color=(240, 0, 110)
         self.nyatheme.widget_selection_effect=pygame_menu.widgets.RightArrowSelection()
+        self.nyatheme.widget_font=pygame_menu.font.FONT_MUNRO
+        self.nyatheme.title_font=pygame_menu.font.FONT_MUNRO
+        self.nyatheme.title_font_color=(255,255,255)
 
-        self.menu = pygame_menu.Menu('Welcome', self.state.WIDTH, self.state.HEIGHT,
+        self.menu = pygame_menu.Menu('Nya Nya Revolution', self.state.WIDTH, self.state.HEIGHT,
                        theme=self.nyatheme, mouse_motion_selection=True, columns = 2, rows = 3)
 
         self.menu.add.text_input('Player1 Name :', default='Catgirl 1')
