@@ -128,7 +128,7 @@ class Player(EntityMovable):
             self.charging -= delta
             if self.charging <= 0:
                 self.charging = 0
-                entities['hitbox' + str(self.state.hitboxes)] = Hitbox(self.state.hitboxes, {"dimensions": (200, 50), "offset": (-100, -150), "damage": 10, "knockack": (PLAYERACCEL, PLAYERACCEL), "duration": 100, "knockback": (50, 50)}, self.state, self, entities["p"+str(int(2-self.id))])
+                entities['hitbox' + str(self.state.hitboxes)] = Hitbox(self.state.hitboxes, light_attack, self.state, self, entities["p"+str(int(2-self.id))])
                 self.state.hitboxes+=1
                 self.attacking = COOLDOWNTIME
 
