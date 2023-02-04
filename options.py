@@ -19,7 +19,7 @@ attacks = {
         "dimensions": (200, 50),
         "offset": (0, 0),
         "damage": 10,
-        "knockback": (2, 0),
+        "knockback": (2, -1),
         "duration": 100,
         "stun": 20
     },
@@ -27,7 +27,7 @@ attacks = {
         "dimensions": (250, 100),
         "offset": (0, 0),
         "damage": 20,
-        "knockback": (5, 0),
+        "knockback": (5, -1),
         "duration": 500,
         "stun": 40
     }

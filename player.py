@@ -62,7 +62,7 @@ class Player(EntityMovable):
             else:
                 self.accel(AIRACCEL*self.moving, 0)
         if self.jumping != 0 and self.touchingFloor: #jumps iff on floor; jumping == scale of how high to jump
-            self.y = GROUNDHEIGHT - 1; self.vely = JUMPVEL*self.jumping; self.gravity = True; self.mystate = "air"
+            self.y = GROUNDHEIGHT - 1; self.vely = JUMPVEL*self.jumping; self.mystate = "air"
             #makes you go off the ground and accelerates up to jump; makes jumping state 0 so we don't continue jumping
         if self.gravity:
             self.accel(0, GRAVITY*delta) #applies gravity
@@ -77,7 +77,6 @@ class Player(EntityMovable):
             self.velx /= FRICTION
             self.vely = 0
             self.y = GROUNDHEIGHT
-            self.gravity = False
         else:
             self.velx /= AIRFRICTION #applies the right friction by reducing speed by dividing
 
