@@ -5,6 +5,7 @@ from funs import *
 GRAVITY = 0.003
 MAXVELY = 20
 MAXVELX = 0.3
+DASHRATIO = 2.5
 FRICTION = 1.05
 AIRFRICTION = 1.01
 PLAYERACCEL = 2
@@ -30,11 +31,11 @@ def handleMove(player, control, event):
         if event.key == control['left']:
             player.moving = -1
             if accuracy == 'perfect' and whichNote == 0:
-                player.dash+=0.6
+                player.dash+=MAXVELX*DASHRATIO
         if event.key == control['right']:
             player.moving = 1
             if accuracy == 'perfect' and whichNote == 0:
-                player.dash+=0.6
+                player.dash+=MAXVELX*DASHRATIO
         if event.key == control['up']:
             player.jumping = 0.6
 
@@ -79,7 +80,7 @@ class EntityMovable(Entity):
         self.x += self.velx*delta
         self.y += self.vely*delta
         self.x = clamp(0, self.x, self.state.WIDTH-40)
-        self.dash/=FRICTION
+        self.dash/=1+((FRICTION-1)/2)
     def accel(self, x, y):
         self.velx += x
         self.vely += y
