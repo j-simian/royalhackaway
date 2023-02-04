@@ -1,5 +1,5 @@
 import pygame
-from game_objects import *
+from handle_input import *
 from funs import *
 
 FLASH = True

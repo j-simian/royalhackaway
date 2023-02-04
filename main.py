@@ -1,6 +1,6 @@
 import pygame
 from renderer import *
-from game_objects import *
+from handle_input import *
 from menu import *
 from state import *
 from funs import *
