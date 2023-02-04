@@ -76,11 +76,11 @@ class EntityMovable(Entity):
         super().tick(delta)
         #if self.gravity:
         #    self.vely += GRAVITY*delta
-        self.vely = clamp(-MAXVELY, self.vely, MAXVELY)
-        self.velx = clamp(-MAXVELX - self.dash, self.velx, MAXVELX+self.dash)
+        self.vely = clampAbs(self.vely, MAXVELY)
+        self.velx = clampAbs(self.velx, MAXVELX+self.dash)
         self.x += self.velx*delta
         self.y += self.vely*delta
-        self.x = clamp(0, self.x, self.state.WIDTH-40)
+        self.x = clamp(0, self.x, self.state.WIDTH-CATWIDTH)
         self.dash/=FRICTION
     def accel(self, x, y):
         self.velx += x
