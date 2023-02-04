@@ -5,6 +5,8 @@ MAXVELY = 20
 MAXVELX = 0.2
 FRICTION = 1.1
 PLAYERACCEL = 2
+JUMPVEL = -2
+GROUNDHEIGHT = 400
 
 entities = {}
 def clampAbs(value, limit):
@@ -60,17 +62,19 @@ class Player(EntityMovable):
         super().__init__()
         self.id = id
         self.health = 100
-        self.floor = True
-        self.gravity = False
+        self.touchingFloor = True
+        self.gravity = not self.touchingFloor
         self.moving = 0
+        self.jumping = 0
     def tick(self, delta):
         super().tick(delta)
         if self.moving !=0:
             self.accel(PLAYERACCEL*self.moving, 0)
-        if self.floor:
+        if self.jumping != 0:
+            self.vely = JUMPVEL*self.jumping; self.jumping = 0
+        self.touchingFloor = self.y >= GROUNDHEIGHT
+        self.gravity = not self.touchingFloor
+        if self.touchingFloor:
             self.velx /= FRICTION
     def render(self, screen):
         pygame.draw.rect(screen, (255, 0, 255) if self.id == 1 else (0, 255, 255), pygame.Rect(self.x, self.y, 40, 100))
-
-
-
