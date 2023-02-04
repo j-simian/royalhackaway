@@ -26,10 +26,13 @@ while running:
         entity.tick(dt)
     renderer.renderFrame()
     for event in pygame.event.get():
+            
         if state.screen == 1:
-            t=onRhythm(pygame.mixer.music.get_pos()/1000, 0, 110)
             
             if event.type == pygame.KEYDOWN:
+                (accuracy,whichNote)=onRhythm(pygame.mixer.music.get_pos()/1000, 0, 110, True)
+                #print(whichNote,accuracy)
+
                 if event.key == pygame.K_a:
                     entities["p1"].moving = -1
                 if event.key == pygame.K_d:

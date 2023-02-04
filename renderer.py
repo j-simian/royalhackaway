@@ -1,5 +1,6 @@
 import pygame
 from game_objects import *
+from funs import *
 
 class Renderer:
     
@@ -14,7 +15,14 @@ class Renderer:
         self.screen.fill((255, 255, 255))
 
     def renderFrame(self):
-        self.screen.fill((255, 255, 255))
+        (accuracy,whichNote)=onRhythm(pygame.mixer.music.get_pos()/1000, 0, 110)
+
+        if (accuracy=="perfect" and whichNote==0):
+            self.screen.fill((255, 255, 255))
+        else:
+            self.screen.fill((230, 230, 230))
+
+
         for entity in entities.values():
             entity.render(self.screen)
         pygame.display.flip()
