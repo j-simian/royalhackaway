@@ -19,16 +19,16 @@ attacks = {
         "dimensions": (200, 50),
         "offset": (0, 0),
         "damage": 10,
-        "knockback": (2, 2),
+        "knockback": (2, 0),
         "duration": 100,
-        "stun": 200
+        "stun": 20
     },
     "heavy": {
         "dimensions": (250, 100),
         "offset": (0, 0),
         "damage": 20,
-        "knockback": (5, 5),
+        "knockback": (5, 0),
         "duration": 500,
-        "stun": 400
+        "stun": 40
     }
 }

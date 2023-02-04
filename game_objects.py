@@ -82,7 +82,7 @@ class EntityMovable(Entity):
         super().tick(delta)
         #if self.gravity:
         #    self.vely += GRAVITY*delta
-        self.vely = clampAbs(self.vely, MAXVELY)
+        self.vely = softClamp(self.vely, MAXVELY)
         self.velx = clampAbs(self.velx, MAXVELX+self.dash)
         self.x += self.velx*delta
         self.y += self.vely*delta
@@ -137,10 +137,6 @@ class Player(EntityMovable):
         self.mystate = "idle"
         self.facing = "l"
         #what this sprite is doing rn/how to display it
-
-    def accel(self,x,y):
-        if self.stun <= 0:
-            super().accel(x,y)
 
     def tick(self, delta, entities):
         super().tick(delta)
