@@ -156,8 +156,10 @@ class Player(EntityMovable):
         screen.blit(self.sprite[self.id][self.mystate + self.facing], (self.x - CATWIDTH, self.y - CATHEIGHT))
 
     def renderHealth(self, screen):
-        screen.blit(self.healthbar, (self.id*400 + 100, 50))
-        pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(0 if self.id == 0 else 1280-640.0*self.health/100.0, 0, 640.0*self.health/100.0, 50))
+        screen.blit(self.healthbar, (self.id*780 + 100, 50))
+        #pygame.draw.rect(screen, (127, 0, 0), healthbar)
+        pygame.draw.rect(screen, (255, 0, 119), pygame.Rect(self.id*780 + 170, 83, 2.20*self.health, 15))
+        pygame.draw.rect(screen, (145, 255, 217), pygame.Rect(self.id*780 + 170, 104, 186, 14))
 
 class Hitbox(Entity):
     def __init__(self, id, hitbox_options, state, parent, enemy):
@@ -174,7 +176,7 @@ class Hitbox(Entity):
 
     def tick(self,delta): #collision in here
         super().tick(delta)
-        self.x, self.y = self.parent.x + (-self.w-CATWIDTH if self.parent.facing == "l" else 0) + (-1 if self.parent.facing == "l" else 1) * self.offsetx, self.parent.y + self.offsety 
+        self.x, self.y = self.parent.x + (-self.w-CATWIDTH if self.parent.facing == "l" else 0) + (-1 if self.parent.facing == "l" else 1) * self.offsetx, self.parent.y + self.offsety
 
         if pygame.Rect.colliderect(pygame.Rect(self.x, self.y, self.w, self.h), pygame.Rect(self.enemy.x - CATWIDTH, self.enemy.y - CATHEIGHT, CATWIDTH, CATHEIGHT)):
             self.enemy.health -= self.damage
