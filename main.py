@@ -22,7 +22,15 @@ while running:
         if state.screen == 1:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_a:
-                    entities["p1"].accel(0,-5)
+                    entities["p1"].moving = -1
+                if event.key == pygame.K_d:
+                    entities["p1"].moving = 1
+            
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_a:
+                    entities["p1"].moving = 0
+                if event.key == pygame.K_d:
+                    entities["p1"].moving = 0
         if event.type == pygame.QUIT:
             running = False
 

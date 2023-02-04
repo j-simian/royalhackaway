@@ -2,10 +2,19 @@ import pygame
 
 GRAVITY = 0.000025
 MAXVELY = 20
-MAXVELX = 10
+MAXVELX = 0.2
+FRICTION = 1.1
+PLAYERACCEL = 2
 
 entities = {}
-
+def clampAbs(value, limit):
+    right = limit
+    left = - limit
+    if value < left:
+        value = left
+    if value > right:
+        value = right
+    return value
 def initEntities():
     p1 = Player(0)
     p2 = Player(1)
@@ -38,8 +47,8 @@ class EntityMovable(Entity):
         super().tick(delta)
         if self.gravity:
             self.vely += GRAVITY*delta
-        self.vely = min(self.vely, MAXVELY)
-        self.velx = min(self.velx, MAXVELX)
+        self.vely = clampAbs(self.vely, MAXVELY)
+        self.velx = clampAbs(self.velx, MAXVELX)
         self.x += self.velx*delta
         self.y += self.vely*delta
     def accel(self, x, y):
@@ -51,8 +60,15 @@ class Player(EntityMovable):
         super().__init__()
         self.id = id
         self.health = 100
+        self.floor = True
+        self.gravity = False
+        self.moving = 0
     def tick(self, delta):
         super().tick(delta)
+        if self.moving !=0:
+            self.accel(PLAYERACCEL*self.moving, 0)
+        if self.floor:
+            self.velx /= FRICTION
     def render(self, screen):
         pygame.draw.rect(screen, (255, 0, 255) if self.id == 1 else (0, 255, 255), pygame.Rect(self.x, self.y, 40, 100))
 
