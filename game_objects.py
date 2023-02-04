@@ -25,17 +25,19 @@ def initEntities(state):
     entities["p1"] = p1
     entities["p2"] = p2
 
-
-def handleMove(player, control, event, timer):
+def handleMove(player, control, event, timer, lastdash):
     if event.type == pygame.KEYDOWN:
         (accuracy,whichNote)=timer.onRhythm()
+        frame = timer.getFullFrame()
         if event.key == control['left']:
             player.moving = -1
-            if accuracy == 'perfect' and whichNote == 0:
+            if accuracy == 'perfect' and whichNote == 0 and lastdash<frame:
+                lastdash = frame
                 player.dash+=MAXVELX*DASHRATIO
         if event.key == control['right']:
             player.moving = 1
-            if accuracy == 'perfect' and whichNote == 0:
+            if accuracy == 'perfect' and whichNote == 0 and lastdash<frame:
+                lastdash = frame
                 player.dash+=MAXVELX*DASHRATIO
         if event.key == control['up']:
             player.jumping = 0.6
