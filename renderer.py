@@ -3,10 +3,11 @@ from game_objects import *
 
 class Renderer:
     
-    def initRenderer(self):
+    def __init__(self, state):
         pygame.init()
-        self.width = 800
-        self.height = 600
+        self.state = state
+        self.width = self.state.WIDTH
+        self.height = self.state.HEIGHT
         self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption("Nya Nya Revolution")
         pygame.display.flip()
@@ -18,7 +19,7 @@ class Renderer:
             for event in pygame.event.get():
                 self.screen.fill((255, 255, 255))
                 for entity in entities:
-                    entity.render(screen)
+                    entity.render(self.screen)
                 pygame.display.flip()
                 if event.type == pygame.QUIT:
                     running = False

@@ -4,9 +4,8 @@ from menu import *
 from state import *
 from funs import *
 
-renderer = Renderer()
 state = State()
+renderer = Renderer(state)
 menu = Menu(state)
-renderer.initRenderer()
 renderer.renderMenu(menu)
 renderer.gameLoop()
