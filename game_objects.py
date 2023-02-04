@@ -176,6 +176,7 @@ class Hitbox(Entity):
         self.parent = parent
         self.dead = False
         self.enemy = enemy
+        self.x, self.y = self.parent.x + (-self.w-CATWIDTH if self.parent.facing == "l" else 0) + (-1 if self.parent.facing == "l" else 1) * self.offsetx, self.parent.y + self.offsety
 
     def tick(self,delta, entities): #collision in here
         super().tick(delta)
