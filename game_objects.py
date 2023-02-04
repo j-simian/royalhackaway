@@ -1,11 +1,12 @@
 import pygame
 
-GRAVITY = 0.0003
+GRAVITY = 0.0004
 MAXVELY = 20
 MAXVELX = 0.2
 FRICTION = 1.1
+AIRFRICTION = 1.05
 PLAYERACCEL = 2
-JUMPVEL = -0.1
+JUMPVEL = -0.5
 GROUNDHEIGHT = 500
 
 entities = {}
@@ -102,6 +103,8 @@ class Player(EntityMovable):
             self.vely = 0
             self.y = GROUNDHEIGHT
             self.gravity = False
+        else:
+            self.velx /= AIRFRICTION
 
     def render(self, screen):
         pygame.draw.rect(screen, (255, 0, 255) if self.id == 1 else (0, 255, 255), pygame.Rect(self.x, self.y, 40, 100))
