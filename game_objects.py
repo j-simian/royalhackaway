@@ -1,9 +1,10 @@
 import pygame
 from utils import *
+from funs import *
 
 GRAVITY = 0.001
 MAXVELY = 20
-MAXVELX = 0.5
+MAXVELX = 0.3
 FRICTION = 1.05
 AIRFRICTION = 1.01
 PLAYERACCEL = 2
@@ -25,12 +26,17 @@ def initEntities(state):
 
 def handleMove(player, control, event):
     if event.type == pygame.KEYDOWN:
+        (accuracy,whichNote)=onRhythm(pygame.mixer.music.get_pos()/1000, 0, 110)
         if event.key == control['left']:
             player.moving = -1
+            if accuracy == 'perfect' and whichNote == 0:
+                player.dash+=0.6
         if event.key == control['right']:
             player.moving = 1
+            if accuracy == 'perfect' and whichNote == 0:
+                player.dash+=0.6
         if event.key == control['up']:
-            player.jumping = 1
+            player.jumping = 0.6
 
     if event.type == pygame.KEYUP:
         if event.key == control['left'] and player.moving == -1:
@@ -62,16 +68,18 @@ class EntityMovable(Entity):
         super().__init__(state)
         self.velx = 0
         self.vely = 0
+        self.dash = 0
         self.gravity = True
     def tick(self, delta):
         super().tick(delta)
         #if self.gravity:
         #    self.vely += GRAVITY*delta
         self.vely = clamp(-MAXVELY, self.vely, MAXVELY)
-        self.velx = clamp(-MAXVELX, self.velx, MAXVELX)
+        self.velx = clamp(-MAXVELX - self.dash, self.velx, MAXVELX+self.dash)
         self.x += self.velx*delta
         self.y += self.vely*delta
         self.x = clamp(0, self.x, self.state.WIDTH-40)
+        self.dash/=FRICTION
     def accel(self, x, y):
         self.velx += x
         self.vely += y
