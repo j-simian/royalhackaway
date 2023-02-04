@@ -18,6 +18,10 @@ class Menu():
             pygame.mixer.music.set_volume(self.state.VOLUME)
             pygame.mixer.music.play()
             self.menu.disable()
+    def setp1name(self, val):
+        self.state.player1name = val
+    def setp2name(self,val):
+        self.state.player2name = val
     def render(self, screen):
 
         self.nyatheme = pygame_menu.themes.THEME_SOLARIZED.copy()
@@ -36,10 +40,10 @@ class Menu():
         self.menu = pygame_menu.Menu('Nya Nya Revolution', self.state.WIDTH, self.state.HEIGHT,
                        theme=self.nyatheme, mouse_motion_selection=True, columns = 2, rows = 3)
 
-        self.menu.add.text_input('Player 1 Name: ', default='Caterine')
+        self.menu.add.text_input('Player 1 Name: ', default='Caterine', onchange = self.setp1name )
         self.menu.add.selector('Player 1 Controls: ', [["wasd",0], ["ijkl",1]], onchange=(lambda _, y: self.set_controls(0, y)))
         self.menu.add.button('Play', self.start_the_game)
-        self.menu.add.text_input('Player 2 Name: ', default='Nyatalie')
+        self.menu.add.text_input('Player 2 Name: ', default='Nyatalie', onchange = self.setp2name)
         self.menu.add.selector('Player 2 Controls: ', [["ijkl",1], ["wasd",0]], onchange=(lambda _, y: self.set_controls(1, y)))
         self.menu.add.button('Quit', pygame_menu.events.EXIT)
 

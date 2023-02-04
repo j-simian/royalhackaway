@@ -12,7 +12,7 @@ menu = Menu(state)
 timer = Timer(110, 2.28)
 renderer.renderMenu(menu)
 entities = initEntities(state)
-
+print(state.player1name)
 running = True
 
 controlsMap = {0:{'left': pygame.K_a, 'right': pygame.K_d, 'up': pygame.K_w, 'down':pygame.K_s, 'attack': pygame.K_q}, 1:{'left': pygame.K_j, 'right': pygame.K_l, 'up': pygame.K_i, 'down':pygame.K_k, 'attack': pygame.K_u}}
