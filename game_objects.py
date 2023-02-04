@@ -1,21 +1,16 @@
 import pygame
+from utils import *
 
 GRAVITY = 0.001
 MAXVELY = 20
 MAXVELX = 0.2
 FRICTION = 1.05
-AIRFRICTION = 1.0001
+AIRFRICTION = 1.01
 PLAYERACCEL = 2
 JUMPVEL = -0.5
 GROUNDHEIGHT = 500
 
 entities = {}
-def clamp(left, value, right):
-    if value < left:
-        value = left
-    if value > right:
-        value = right
-    return value
 def initEntities(state):
     p1 = Player(0, state)
     p2 = Player(1, state)
