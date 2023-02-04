@@ -86,11 +86,7 @@ class EntityMovable(Entity):
         self.velx = clampAbs(self.velx, MAXVELX+self.dash)
         self.x += self.velx*delta
         self.y += self.vely*delta
-<<<<<<< HEAD
         self.x = clamp(CATWIDTH/2, self.x, self.state.WIDTH-CATWIDTH/2)
-=======
-        self.x = clamp(0, self.x, self.state.WIDTH-CATWIDTH/2)
->>>>>>> 5caee1f (bruh)
         self.dash/=FRICTION
     def accel(self, x, y):
         self.velx += x
@@ -188,7 +184,7 @@ class Player(EntityMovable):
                 entities['hitbox' + str(self.state.hitboxes)] = Hitbox(self.state.hitboxes, attacks[self.attackType], self.state, self, entities["p"+str(int(2-self.id))])
                 self.state.hitboxes+=1
                 self.mystate = "attack"
-                self.attacking = COOLDOWNTIME * 2 if self.attackType == "heavy" else 1
+                self.attacking = COOLDOWNTIME * (2 if self.attackType == "heavy" else 1)
 
 
     def render(self, screen):
