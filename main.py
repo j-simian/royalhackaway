@@ -10,7 +10,7 @@ clock = pygame.time.Clock()
 renderer = Renderer(state)
 menu = Menu(state)
 renderer.renderMenu(menu)
-initEntities()
+initEntities(state)
 
 running = True
 lpressed=False
