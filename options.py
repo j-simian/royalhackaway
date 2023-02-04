@@ -9,24 +9,26 @@ AIRACCEL = 0.05
 JUMPVEL = -3
 GROUNDHEIGHT = 550
 CATSCALE = 0.66
-CATHEIGHT = 385*CATSCALE
-CATWIDTH = 248*CATSCALE
+CATHEIGHT = 500*CATSCALE
+CATWIDTH = 500*CATSCALE
 CHARGETIME = 100
 COOLDOWNTIME = 400
 
-light_attack = {
-    "dimensions": (200, 50),
-    "offset": (-100, -150),
-    "damage": 10,
-    "knockback": (2, 2),
-    "duration": 100,
-    "stun": 200
-}
-heavy_attack = {
-    "dimensions": (250, 100),
-    "offset": (-100, -150),
-    "damage": 20,
-    "knockback": (5, 5),
-    "duration": 500,
-    "stun": 400
+attacks = {
+    "light": {
+        "dimensions": (200, 50),
+        "offset": (0, 0),
+        "damage": 10,
+        "knockback": (2, 2),
+        "duration": 100,
+        "stun": 200
+    },
+    "heavy": {
+        "dimensions": (250, 100),
+        "offset": (0, 0),
+        "damage": 20,
+        "knockback": (5, 5),
+        "duration": 500,
+        "stun": 400
+    }
 }
