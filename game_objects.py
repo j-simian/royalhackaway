@@ -23,7 +23,7 @@ def dashAvailable(accuracy, player, frame):
     return accuracy == 'perfect' and (player.lastdash+1/2<frame or player.lastdashdir!=player.moving)
 
 
-def handlePress(event, timer, player, control):
+def handlePress(event, timer, player, control, state, enemy, entities):
     (accuracy,whichNote)=timer.onRhythm(False)
     frame = timer.getFullFrame()
     available = dashAvailable(accuracy, player, frame)
@@ -37,7 +37,9 @@ def handlePress(event, timer, player, control):
         player.moving = 1
     if event.key == control['up']:
         player.jumping = 0.6
-
+    if event.key == control['attack']:
+        entities['hitbox' + str(state.hitboxes)] = Hitbox(state.hitboxes, {"dimensions": (200, 50), "offset": (-100, -150), "damage": 10, "knockack": (PLAYERACCEL, PLAYERACCEL), "duration": 100000, "knockback": (50, 50)}, state, player, enemy)
+        state.hitboxes+=1
 def handleRelease(event, player, control):
     if event.key == control['left'] and player.moving == -1:
         player.moving = 0
@@ -52,9 +54,9 @@ def handleRelease(event, player, control):
     if event.key == control['up'] and player.jumping > 0:
         player.jumping = 0
 
-def handleMove(player, control, event, timer, state):
+def handleMove(player, control, event, timer, state, enemy, entities):
     if event.type == pygame.KEYDOWN:
-        handlePress(event, timer, player, control)
+        handlePress(event, timer, player, control, state, enemy, entities)
     if event.type == pygame.KEYUP:
         handleRelease(event, player, control)
 
@@ -165,6 +167,7 @@ class Hitbox(Entity):
     def __init__(self, id, hitbox_options, state, parent, enemy):
         super().__init__(state)
         self.id = id
+        self.state = state
         self.offsetx, self.offsety = hitbox_options["offset"]
         self.w, self.h = hitbox_options["dimensions"]
         self.damage = hitbox_options["damage"]
@@ -181,9 +184,11 @@ class Hitbox(Entity):
         if pygame.Rect.colliderect(pygame.Rect(self.x, self.y, self.w, self.h), pygame.Rect(self.enemy.x - CATWIDTH, self.enemy.y - CATHEIGHT, CATWIDTH, CATHEIGHT)):
             self.enemy.health -= self.damage
             self.enemy.accel(self.kbx, self.kby)
+            self.state.hitboxes-=1
             self.dead = True
         self.duration -= delta
-        if self.duration <= 0:
+        if self.duration <= 0 and self.dead == False:
+            self.state.hitboxes-=1
             self.dead = True
 
     def render(self, screen):
