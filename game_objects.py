@@ -1,6 +1,7 @@
 import pygame
 
-GRAVITY = 0.025
+GRAVITY = 0.0005
+MAXVELY = 20
 
 entities = []
 
@@ -19,7 +20,6 @@ class Entity:
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.x, self.y, 100, 100))
 
     def tick(self, delta):
-        print(delta)
         pass
 
 class EntityMovable(Entity):
@@ -32,6 +32,7 @@ class EntityMovable(Entity):
         super().tick(delta)
         if self.gravity:
             self.vely += GRAVITY*delta
+        self.vely = min(self.vely, MAXVELY)
         self.x += self.velx
         self.y += self.vely
     def accel(self, x, y):
