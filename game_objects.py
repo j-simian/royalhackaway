@@ -148,7 +148,6 @@ class Player(EntityMovable):
     def render(self, screen):
         self.facing = "l" if self.velx < 0 else "r"
         screen.blit(self.sprite[self.id][self.mystate + self.facing], (self.x - CATWIDTH, self.y - CATHEIGHT))
-        self.renderHealth(screen)
 
     def renderHealth(self, screen):
         screen.blit(self.healthbar, (self.id*400 + 100, 50))

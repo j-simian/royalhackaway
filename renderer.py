@@ -24,6 +24,8 @@ class Renderer:
         else:
             self.screen.blit(self.bg, (0, 0))
 
+        entities["p1"].renderHealth(self.screen)
+        entities["p2"].renderHealth(self.screen)
         for entity in entities.values():
             entity.render(self.screen)
         pygame.display.flip()
