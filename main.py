@@ -20,16 +20,20 @@ controlsMap = {0:{'left': pygame.K_a, 'right': pygame.K_d, 'up': pygame.K_w, 'do
 player1controls = controlsMap[state.controls[0]]
 player2controls = controlsMap[state.controls[1]]
 
+def tickEntities():
+    for (key, entity) in list(entities.items()):
+        entity.tick(dt)
+        if hasattr(entity, 'dead') and entity.dead:
+            del entities[key]
 
 while running:
     dt = clock.tick()
-    for entity in entities.values():
-        entity.tick(dt)
     renderer.renderFrame(timer, entities)
+    tickEntities()
     for event in pygame.event.get():
-
         if state.screen == 1:
             handleMove(entities["p1"], player1controls, event, timer, state)
             handleMove(entities["p2"], player2controls, event, timer, state)
         if event.type == pygame.QUIT:
             running = False
+
