@@ -109,10 +109,10 @@ class Player(EntityMovable):
 
         self.sprite[0].update({"idler": pygame.transform.flip(self.sprite[0]["idlel"], True, False)})
         self.sprite[1].update({"idlel": pygame.transform.flip(self.sprite[1]["idler"], True, False)})
-        #list of all possible frames. it's a list of dict's, #0 for cat 1 and #1 for cat 2, so we dont need 10000 if statements
+        #list of all possible frames. it's a list of dict's, #0 for cat 1 and #1 for cat 2, so we dont need 10000 if statements. indexed by id and mystate.
 
-        self.me = self.sprite[self.id]["idlel"]
-        #what this sprite looks like rn/how to display it
+        self.mystate = "idlel"
+        #what this sprite is doing rn/how to display it
 
     def tick(self, delta):
         super().tick(delta)
@@ -137,8 +137,8 @@ class Player(EntityMovable):
             self.velx /= AIRFRICTION #applies the right friction by reducing speed by dividing
 
     def render(self, screen):
-        screen.blit(self.me, (self.x - CATWIDTH, self.y - CATHEIGHT))
-        #pygame.draw.rect(screen, (255, 0, 255) if self.id == 1 else (0, 255, 255), pygame.Rect(self.x, self.y, 40, 100))
+        self.mystate = "idlel" if self.velx < 0 else "idler"
+        screen.blit(self.sprite[self.id][self.mystate], (self.x - CATWIDTH, self.y - CATHEIGHT))
         self.renderHealth(screen)
 
     def renderHealth(self, screen):
