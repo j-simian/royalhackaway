@@ -33,11 +33,11 @@ def handlePress(event, timer, player, control, state, enemy, entities):
     if event.key == control['up']:
         player.jumping = 0.6
     if event.key == control['attack']:
-        if player.canAttack == True:
-            if timer.isHalfFrame():
-                player.attackType = "heavy"
-            else:
+        if player.canAttack == True and player.stun <= 0:
+            if player.touchingFloor:
                 player.attackType = "light"
+            else:
+                player.attackType = "heavy"
             player.mystate = "charge"
             player.charging = CHARGETIME
             player.canAttack = False

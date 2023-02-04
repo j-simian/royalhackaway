@@ -21,7 +21,7 @@ attacks = {
         "damage": 10,
         "knockback": (2, -1),
         "duration": 100,
-        "stun": 20
+        "stun": 200
     },
     "heavy": {
         "dimensions": (250, 100),
@@ -29,6 +29,6 @@ attacks = {
         "damage": 20,
         "knockback": (5, -1),
         "duration": 500,
-        "stun": 40
+        "stun": 400
     }
 }

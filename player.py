@@ -88,10 +88,11 @@ class Player(EntityMovable):
             self.charging -= delta
             if self.charging <= 0:
                 self.charging = 0
-                entities['hitbox' + str(self.state.hitboxes)] = Hitbox(self.state.hitboxes, attacks[self.attackType], self.state, self, entities["p"+str(int(2-self.id))])
-                self.state.hitboxes+=1
-                self.mystate = "attack"
-                self.attacking = COOLDOWNTIME * (2 if self.attackType == "heavy" else 1)
+                if self.stun<=0:
+                    entities['hitbox' + str(self.state.hitboxes)] = Hitbox(self.state.hitboxes, attacks[self.attackType], self.state, self, entities["p"+str(int(2-self.id))])
+                    self.state.hitboxes+=1
+                    self.mystate = "attack"
+                    self.attacking = COOLDOWNTIME * (2 if self.attackType == "heavy" else 1)
 
 
     def render(self, screen):
