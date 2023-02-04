@@ -29,7 +29,7 @@ def initEntities(state):
 
 def handleMove(player, control, event, timer, state):
     if event.type == pygame.KEYDOWN:
-        (accuracy,whichNote)=timer.onRhythm(True)
+        (accuracy,whichNote)=timer.onRhythm(False)
         frame = timer.getFullFrame()
         print(frame)
         if event.key == control['left']:
@@ -161,3 +161,13 @@ class Player(EntityMovable):
         health_bar = pygame.Rect(0, 0, 640, 50) if self.id == 0 else pygame.Rect(640, 0, 640, 50)
         pygame.draw.rect(screen, (127, 0, 0), health_bar)
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(0 if self.id == 0 else 1280-640.0*self.health/100.0, 0, 640.0*self.health/100.0, 50))
+
+class Hitbox(Entity):
+    def __init__(self, id, position, dimensions, damage, knockback, duration, state):
+        super().__init__(state)
+        self.id = id
+        self.x, self.y = position
+        self.w, self.h = dimensions
+        self.damage = damage
+        self.kbx, self.kby = knockback
+        self.duration = duration
