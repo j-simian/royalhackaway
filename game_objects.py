@@ -10,17 +10,15 @@ JUMPVEL = -0.5
 GROUNDHEIGHT = 500
 
 entities = {}
-def clampAbs(value, limit):
-    right = limit
-    left = - limit
+def clamp(left, value, right):
     if value < left:
         value = left
     if value > right:
         value = right
     return value
-def initEntities():
-    p1 = Player(0)
-    p2 = Player(1)
+def initEntities(state):
+    p1 = Player(0, state)
+    p2 = Player(1, state)
     p1.x = 200
     p2.x = 600
     p1.y = 400
@@ -56,10 +54,10 @@ def handleMove(player, control, event):
                 player.jumping = 0
 
 class Entity:
-    def __init__(self):
+    def __init__(self, state):
         self.x = 0.0
         self.y = 0.0
-
+        self.state = state
     def render(self, screen):
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.x, self.y, 100, 100))
 
@@ -67,8 +65,8 @@ class Entity:
         pass
 
 class EntityMovable(Entity):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, state):
+        super().__init__(state)
         self.velx = 0
         self.vely = 0
         self.gravity = True
@@ -76,17 +74,18 @@ class EntityMovable(Entity):
         super().tick(delta)
         #if self.gravity:
         #    self.vely += GRAVITY*delta
-        self.vely = clampAbs(self.vely, MAXVELY)
-        self.velx = clampAbs(self.velx, MAXVELX)
+        self.vely = clamp(-MAXVELY, self.vely, MAXVELY)
+        self.velx = clamp(-MAXVELX, self.velx, MAXVELX)
         self.x += self.velx*delta
         self.y += self.vely*delta
+        self.x = clamp(0, self.x, self.state.WIDTH-40)
     def accel(self, x, y):
         self.velx += x
         self.vely += y
 
 class Player(EntityMovable):
-    def __init__(self, id):
-        super().__init__()
+    def __init__(self, id, state):
+        super().__init__(state)
         self.id = id
         self.health = 100
         self.touchingFloor = True
