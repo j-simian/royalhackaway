@@ -17,8 +17,19 @@ class Menu():
             self.state.screen = 1
             self.menu.disable()
     def render(self, screen):
+
+        self.nyatheme = pygame_menu.themes.THEME_SOLARIZED.copy()
+
+        self.menubg = pygame_menu.baseimage.BaseImage(
+            image_path="assets/catbg.jpg",
+            drawing_mode=pygame_menu.baseimage.IMAGE_MODE_FILL
+        )
+        self.nyatheme.background_color = menubg
+        self.nyatheme.title_background_color=(240, 0, 110)
+        self.nyatheme.widget_selection_effect=pygame_menu.widgets.RightArrowSelection()
+
         self.menu = pygame_menu.Menu('Welcome', self.state.WIDTH, self.state.HEIGHT,
-                       theme=pygame_menu.themes.THEME_DARK)
+                       theme=nyatheme, mouse_motion_selection=True)
 
         self.menu.add.text_input('Name :', default='Catgirl 1')
         self.menu.add.selector('Player 1 Controls:', [["wasd",0], ["ijkl",1]], onchange=(lambda _, y: self.set_controls(0, y)))
