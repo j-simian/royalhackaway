@@ -36,4 +36,3 @@ while running:
             handleMove(entities["p2"], player2controls, event, timer, state)
         if event.type == pygame.QUIT:
             running = False
-

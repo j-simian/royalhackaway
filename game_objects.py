@@ -107,7 +107,15 @@ class Player(EntityMovable):
         self.healthbar = pygame.transform.scale(pygame.image.load("./assets/imgs/healthbar.png").convert_alpha(), (300, 100))
 
         self.sprite = [{"idler": pygame.image.load("./assets/imgs/cat1idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat1air.png").convert_alpha()},
-                       {"idler": pygame.image.load("./assets/imgs/cat2idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat2air.png").convert_alpha()}] #load in drawn frames
+                       {"idler": pygame.image.load("./assets/imgs/cat2idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat2air.png").convert_alpha()}]#load in drawn frames
+
+        for n in ["0", "1", "2", "3", "4"]:
+            self.sprite[0].update({"run" + n + "r": pygame.image.load("./assets/imgs/cat1run" + n + ".png").convert_alpha()})
+            self.sprite[0].update({"run" + n + "l": pygame.transform.flip(self.sprite[0]["run" + n + "r"], True, False)})
+
+        for n in ["0", "1", "2", "3", "4", "5"]:
+            self.sprite[1].update({"run" + n + "r": pygame.image.load("./assets/imgs/cat2run" + n + ".png").convert_alpha()})
+            self.sprite[1].update({"run" + n + "l": pygame.transform.flip(self.sprite[1]["run" + n + "r"], True, False)})
 
         for s in ["idle", "air"]:
             for c in [0, 1]:
@@ -143,7 +151,10 @@ class Player(EntityMovable):
         self.touchingFloor = self.y >= GROUNDHEIGHT
 
         if self.touchingFloor: #makes you not falling if youre on ground
-            self.mystate = "idle"
+            if abs(self.velx) < 0.1:
+                self.mystate = "idle"
+            else:
+                self.mystate = "run" + str(int((self.x / 100) % (5 + self.id)))
             self.velx /= FRICTION
             self.vely = 0
             self.y = GROUNDHEIGHT
