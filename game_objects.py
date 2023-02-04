@@ -12,10 +12,8 @@ def initEntities(state):
     p2.x = 600
     p1.y = GROUNDHEIGHT
     p2.y = GROUNDHEIGHT
-    hitbox = Hitbox(0, {"dimensions": (200, 50), "offset": (-100, -150), "damage": 10, "knockack": (PLAYERACCEL, PLAYERACCEL), "duration": 100000, "knockback": (50, 50)}, state, p1, p2)
     entities["p1"] = p1
     entities["p2"] = p2
-    entities["hitb"] = hitbox
     return entities
 
 
@@ -23,7 +21,7 @@ def dashAvailable(accuracy, player, frame):
     return accuracy == 'perfect' and (player.lastdash+1/2<frame or player.lastdashdir!=player.moving)
 
 
-def handlePress(event, timer, player, control):
+def handlePress(event, timer, player, control, state, enemy, entities):
     (accuracy,whichNote)=timer.onRhythm(False)
     frame = timer.getFullFrame()
     available = dashAvailable(accuracy, player, frame)
@@ -37,7 +35,10 @@ def handlePress(event, timer, player, control):
         player.moving = 1
     if event.key == control['up']:
         player.jumping = 0.6
-
+    if event.key == control['attack']:
+        if player.canAttack == True:
+            player.charging = CHARGETIME
+            player.canAttack = False
 def handleRelease(event, player, control):
     if event.key == control['left'] and player.moving == -1:
         player.moving = 0
@@ -47,14 +48,12 @@ def handleRelease(event, player, control):
         player.moving = 0
         if pygame.key.get_pressed()[control['left']]:
             player.moving = -1
-    if event.key == control['down']:
-        player.charging = 0.1
     if event.key == control['up'] and player.jumping > 0:
         player.jumping = 0
 
-def handleMove(player, control, event, timer, state):
+def handleMove(player, control, event, timer, state, enemy, entities):
     if event.type == pygame.KEYDOWN:
-        handlePress(event, timer, player, control)
+        handlePress(event, timer, player, control, state, enemy, entities)
     if event.type == pygame.KEYUP:
         handleRelease(event, player, control)
 
@@ -103,7 +102,7 @@ class Player(EntityMovable):
         self.jumping = 0 #positive if we need to jump
         self.charging = 0 #time until attack comes out
         self.attacking = 0 #time left in attack animation
-
+        self.canAttack = True
         self.healthbar = pygame.transform.scale(pygame.image.load("./assets/imgs/healthbar.png").convert_alpha(), (300, 100))
 
         self.sprite = [{"idler": pygame.image.load("./assets/imgs/cat1idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat1air.png").convert_alpha()},
@@ -127,16 +126,19 @@ class Player(EntityMovable):
         self.facing = "l"
         #what this sprite is doing rn/how to display it
 
-    def tick(self, delta):
+    def tick(self, delta, entities):
         super().tick(delta)
-
-        self.attacking -= delta
+        if self.attacking>0:
+            self.attacking-=delta
+            if self.attacking<=0:
+                self.canAttack = True
         if self.charging>0:
             self.charging -= delta
             if self.charging <= 0:
                 self.charging = 0
-                ##ATTACK
-                self.attacking = 0.4
+                entities['hitbox' + str(self.state.hitboxes)] = Hitbox(self.state.hitboxes, light_attack, self.state, self, entities["p"+str(int(2-self.id))])
+                self.state.hitboxes+=1
+                self.attacking = COOLDOWNTIME
 
         if self.moving !=0:
             if self.touchingFloor:
@@ -176,6 +178,7 @@ class Hitbox(Entity):
     def __init__(self, id, hitbox_options, state, parent, enemy):
         super().__init__(state)
         self.id = id
+        self.state = state
         self.offsetx, self.offsety = hitbox_options["offset"]
         self.w, self.h = hitbox_options["dimensions"]
         self.damage = hitbox_options["damage"]
@@ -184,17 +187,22 @@ class Hitbox(Entity):
         self.parent = parent
         self.dead = False
         self.enemy = enemy
+        self.x, self.y = self.parent.x + (-self.w-CATWIDTH if self.parent.facing == "l" else 0) + (-1 if self.parent.facing == "l" else 1) * self.offsetx, self.parent.y + self.offsety
 
-    def tick(self,delta): #collision in here
+    def tick(self,delta, entities): #collision in here
         super().tick(delta)
         self.x, self.y = self.parent.x + (-self.w-CATWIDTH if self.parent.facing == "l" else 0) + (-1 if self.parent.facing == "l" else 1) * self.offsetx, self.parent.y + self.offsety
 
         if pygame.Rect.colliderect(pygame.Rect(self.x, self.y, self.w, self.h), pygame.Rect(self.enemy.x - CATWIDTH, self.enemy.y - CATHEIGHT, CATWIDTH, CATHEIGHT)):
+            if self.parent.facing == "l":
+                self.kbx = 0-self.kbx
             self.enemy.health -= self.damage
             self.enemy.accel(self.kbx, self.kby)
+            self.state.hitboxes-=1
             self.dead = True
         self.duration -= delta
-        if self.duration <= 0:
+        if self.duration <= 0 and self.dead == False:
+            self.state.hitboxes-=1
             self.dead = True
 
     def render(self, screen):
