@@ -94,7 +94,10 @@ class Player(EntityMovable):
         self.touchingFloor = True
         self.gravity = True #true if we are in air and fall
         self.moving = 0 #nonzero if needs to move
-        self.jumping = 0 #positive if we ned to jump
+        self.jumping = 0 #positive if we need to jump
+
+        #self.sprite = {"p1idle": pygame.image.load("./assets/imgs/bg.png").convert()}
+
     def tick(self, delta):
         super().tick(delta)
         if self.moving !=0:
