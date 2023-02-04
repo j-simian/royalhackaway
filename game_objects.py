@@ -38,7 +38,7 @@ def handlePress(event, timer, player, control, state, enemy, entities):
     if event.key == control['up']:
         player.jumping = 0.6
     if event.key == control['attack']:
-        entities['hitbox' + str(state.hitboxes)] = Hitbox(state.hitboxes, {"dimensions": (200, 50), "offset": (-100, -150), "damage": 10, "knockack": (PLAYERACCEL, PLAYERACCEL), "duration": 100000, "knockback": (50, 50)}, state, player, enemy)
+        entities['hitbox' + str(state.hitboxes)] = Hitbox(state.hitboxes, {"dimensions": (200, 50), "offset": (-100, -150), "damage": 10, "knockack": (PLAYERACCEL, PLAYERACCEL), "duration": 100, "knockback": (50, 50)}, state, player, enemy)
         state.hitboxes+=1
 def handleRelease(event, player, control):
     if event.key == control['left'] and player.moving == -1:
