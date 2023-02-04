@@ -7,4 +7,9 @@ def clampAbs(value, limit):
         value = right
     return value
 
-
+def clamp(left, value, right):
+    if value < left:
+        value = left
+    if value > right:
+        value = right
+    return value
