@@ -128,11 +128,11 @@ class Player(EntityMovable):
 
         for key in self.sprite[0]:
             _image = self.sprite[0][key]
-            self.sprite[0][key] = pygame.transform.smoothscale(_image, (int(0.66*_image.get_width()), int(0.66*_image.get_height())))
+            self.sprite[0][key] = pygame.transform.smoothscale(_image, (int(CATSCALE*_image.get_width()), int(CATSCALE*_image.get_height())))
 
         for key in self.sprite[1]:
             _image = self.sprite[1][key]
-            self.sprite[1][key] = pygame.transform.smoothscale(_image, (int(0.66*_image.get_width()), int(0.66*_image.get_height())))
+            self.sprite[1][key] = pygame.transform.smoothscale(_image, (int(CATSCALE*_image.get_width()), int(CATSCALE*_image.get_height())))
 
         self.mystate = "idle"
         self.facing = "l"

@@ -12,8 +12,9 @@ CATHEIGHT = 385
 CATWIDTH = 248
 CHARGETIME = 100
 COOLDOWNTIME = 400
+CATSCALE = 0.66
 
-attacks = { 
+attacks = {
     "light": {
         "dimensions": (200, 50),
         "offset": (-100, -150),
