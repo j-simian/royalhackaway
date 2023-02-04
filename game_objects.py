@@ -122,6 +122,14 @@ class Player(EntityMovable):
                 #mirrors frames
         #list of all possible frames. it's a list of dict's, #0 for cat 1 and #1 for cat 2, so we dont need 10000 if statements. indexed by id and mystate.
 
+        for key in self.sprite[0]:
+            _image = self.sprite[0][key]
+            self.sprite[0][key] = pygame.transform.smoothscale(_image, (int(0.66*_image.get_width()), int(0.66*_image.get_height())))
+
+        for key in self.sprite[1]:
+            _image = self.sprite[1][key]
+            self.sprite[1][key] = pygame.transform.smoothscale(_image, (int(0.66*_image.get_width()), int(0.66*_image.get_height())))
+
         self.mystate = "idle"
         self.facing = "l"
         #what this sprite is doing rn/how to display it
