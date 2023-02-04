@@ -182,6 +182,8 @@ class Hitbox(Entity):
         self.x, self.y = self.parent.x + (-self.w-CATWIDTH if self.parent.facing == "l" else 0) + (-1 if self.parent.facing == "l" else 1) * self.offsetx, self.parent.y + self.offsety
 
         if pygame.Rect.colliderect(pygame.Rect(self.x, self.y, self.w, self.h), pygame.Rect(self.enemy.x - CATWIDTH, self.enemy.y - CATHEIGHT, CATWIDTH, CATHEIGHT)):
+            if self.parent.facing == "l":
+                self.kbx = 0-self.kbx
             self.enemy.health -= self.damage
             self.enemy.accel(self.kbx, self.kby)
             self.state.hitboxes-=1
