@@ -1,5 +1,6 @@
 from statistics import mean
 import pygame
+from options import *
 
 class Timer():
     def __init__(self, bpm, offset):
@@ -21,13 +22,11 @@ class Timer():
 
     def onRhythm(self, echo=False):
         (accuracy,whichNote) = self.findAccuracy()
-        perfectThreshold = 0.25 #tolerance either side of note
-        hitThreshold = 0.5
         if echo:
             print(accuracy)
-        if (abs(accuracy) < perfectThreshold):
+        if (abs(accuracy) < PERFECTTHRESHOLD):
             return ("perfect",whichNote)
-        elif (abs(accuracy) < hitThreshold):
+        elif (abs(accuracy) < HITTHRESHOLD):
             return ("hit",whichNote)
         else:
             return ("miss",whichNote)

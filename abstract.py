@@ -29,7 +29,9 @@ class EntityMovable(Entity):
         self.x += self.velx*delta
         self.y = min(self.y+self.vely*delta, GROUNDHEIGHT)
         self.x = clamp(CATWIDTH/2 - 120, self.x, self.state.WIDTH-CATWIDTH/2 + 120) #INVISIBLE WALLS DEFINED HERE! 100 = magic number
-        self.dash/=FRICTION
+        self.dash=max(self.dash-DASHDECREASE*delta,0)
     def accel(self, x, y):
         self.velx += x
         self.vely += y
+    def dashing(self):
+        return self.dash > 0
