@@ -1,12 +1,12 @@
 import pygame
 
-GRAVITY = 0.000025
+GRAVITY = 0.0001
 MAXVELY = 20
 MAXVELX = 0.2
 FRICTION = 1.1
 PLAYERACCEL = 2
-JUMPVEL = -2
-GROUNDHEIGHT = 400
+JUMPVEL = -0.1
+GROUNDHEIGHT = 500
 
 entities = {}
 def clampAbs(value, limit):
@@ -34,11 +34,13 @@ def handleMove(player, control, event):
             player.moving = -1
         if event.key == control['right']:
             player.moving = 1
-            
+        if event.key == control['up']:
+            player.jumping = 1
+
     if event.type == pygame.KEYUP:
         if event.key == control['left'] and player.moving == -1:
             if pygame.key.get_pressed()[control['right']]:
-                player.moving = 1        
+                player.moving = 1
             else:
                 player.moving = 0
         if event.key == control['right'] and player.moving == 1:
@@ -66,8 +68,8 @@ class EntityMovable(Entity):
         self.gravity = True
     def tick(self, delta):
         super().tick(delta)
-        if self.gravity:
-            self.vely += GRAVITY*delta
+        #if self.gravity:
+        #    self.vely += GRAVITY*delta
         self.vely = clampAbs(self.vely, MAXVELY)
         self.velx = clampAbs(self.velx, MAXVELX)
         self.x += self.velx*delta
@@ -82,7 +84,7 @@ class Player(EntityMovable):
         self.id = id
         self.health = 100
         self.touchingFloor = True
-        self.gravity = not self.touchingFloor
+        self.gravity = True
         self.moving = 0
         self.jumping = 0
     def tick(self, delta):
@@ -90,10 +92,16 @@ class Player(EntityMovable):
         if self.moving !=0:
             self.accel(PLAYERACCEL*self.moving, 0)
         if self.jumping != 0:
-            self.vely = JUMPVEL*self.jumping; self.jumping = 0
+            self.y = GROUNDHEIGHT - 1; self.vely = JUMPVEL*self.jumping; self.jumping = 0; self.gravity = True
+        if self.gravity:
+            self.accel(0, GRAVITY*delta)
         self.touchingFloor = self.y >= GROUNDHEIGHT
-        self.gravity = not self.touchingFloor
+        #self.gravity = not self.touchingFloor
         if self.touchingFloor:
             self.velx /= FRICTION
+            self.vely = 0
+            self.y = GROUNDHEIGHT
+            self.gravity = False
+
     def render(self, screen):
         pygame.draw.rect(screen, (255, 0, 255) if self.id == 1 else (0, 255, 255), pygame.Rect(self.x, self.y, 40, 100))
