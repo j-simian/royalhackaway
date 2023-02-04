@@ -29,17 +29,20 @@ def initEntities(state):
 
 def handleMove(player, control, event, timer, state):
     if event.type == pygame.KEYDOWN:
-        (accuracy,whichNote)=timer.onRhythm(False)
+        (accuracy,whichNote)=timer.onRhythm(True)
         frame = timer.getFullFrame()
+        print(frame)
         if event.key == control['left']:
             player.moving = -1
-            if accuracy == 'perfect' and player.lastdash<frame:
-                player.lastdash = frame
+            if accuracy == 'perfect' and (player.lastdash+1/2<frame or player.lastdashdir!=player.moving):
+                player.lastdash = frame + whichNote/2
+                player.lastdashdir = player.moving
                 player.dash+=MAXVELX*DASHRATIO
         if event.key == control['right']:
             player.moving = 1
-            if accuracy == 'perfect' and player.lastdash<frame:
-                player.lastdash = frame
+            if accuracy == 'perfect' and (player.lastdash+1/2<frame or player.lastdashdir!=player.moving):
+                player.lastdash = frame + whichNote/2
+                player.lastdashdir = player.moving
                 player.dash+=MAXVELX*DASHRATIO
         if event.key == control['up']:
             player.jumping = 0.6
@@ -94,6 +97,7 @@ class Player(EntityMovable):
     def __init__(self, id, state):
         super().__init__(state)
         self.lastdash = -1
+        self.lastdashdir = 0
         self.id = id
         self.health = 100
         self.touchingFloor = True
