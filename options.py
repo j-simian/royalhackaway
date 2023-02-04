@@ -20,7 +20,7 @@ attacks = {
         "offset": (0, 0),
         "damage": 10,
         "knockback": (2, 2),
-        "duration": 100
+        "duration": 100,
         "stun": 200
     },
     "heavy": {
@@ -28,7 +28,7 @@ attacks = {
         "offset": (0, 0),
         "damage": 20,
         "knockback": (5, 5),
-        "duration": 500
+        "duration": 500,
         "stun": 400
     }
 }
