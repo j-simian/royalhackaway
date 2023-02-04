@@ -5,24 +5,35 @@ GRAVITY = 0.025
 entities = []
 
 def initEntities():
-    e = Entity()
+    e = EntityMovable()
     e.gravity = True
     entities.append(e)
 
 
 class Entity:
-    x = 0.0
-    y = 0.0
-    gravity = False
+    def __init__(self):
+        self.x = 0.0
+        self.y = 0.0
 
     def render(self, screen):
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.x, self.y, 100, 100))
 
     def tick(self, delta):
-        if self.gravity:
-            self.y += GRAVITY*delta
+        print(delta)
+        pass
 
 class EntityMovable(Entity):
-    def move(self, dx, dy):
-        self.x += dx
-        self.y += dy
+    def __init__(self):
+        super().__init__()
+        self.velx = 0
+        self.vely = 0
+        self.gravity = True
+    def tick(self, delta):
+        super().tick(delta)
+        if self.gravity:
+            self.vely += GRAVITY*delta
+        self.x += self.velx
+        self.y += self.vely
+    def accel(self, x, y):
+        self.velx += x
+        self.vely += y
