@@ -12,10 +12,8 @@ def initEntities(state):
     p2.x = 600
     p1.y = GROUNDHEIGHT
     p2.y = GROUNDHEIGHT
-    hitbox = Hitbox(0, {"dimensions": (200, 50), "offset": (-100, -150), "damage": 10, "knockack": (PLAYERACCEL, PLAYERACCEL), "duration": 100000, "knockback": (50, 50)}, state, p1, p2)
     entities["p1"] = p1
     entities["p2"] = p2
-    entities["hitb"] = hitbox
     return entities
 
 
@@ -38,7 +36,7 @@ def handlePress(event, timer, player, control, state, enemy, entities):
     if event.key == control['up']:
         player.jumping = 0.6
     if event.key == control['attack']:
-        entities['hitbox' + str(state.hitboxes)] = Hitbox(state.hitboxes, {"dimensions": (200, 50), "offset": (-100, -150), "damage": 10, "knockack": (PLAYERACCEL, PLAYERACCEL), "duration": 100, "knockback": (50, 50)}, state, player, enemy)
+        entities['hitbox' + str(state.hitboxes)] = Hitbox(state.hitboxes, {"dimensions": (200, 50), "offset": (-100, -150), "damage": 10, "knockack": (PLAYERACCEL, PLAYERACCEL), "duration": 40, "knockback": (50, 50)}, state, player, enemy)
         state.hitboxes+=1
 def handleRelease(event, player, control):
     if event.key == control['left'] and player.moving == -1:
@@ -188,7 +186,6 @@ class Hitbox(Entity):
             self.enemy.accel(self.kbx, self.kby)
             self.state.hitboxes-=1
             self.dead = True
-            #self.__del__()
         self.duration -= delta
         if self.duration <= 0 and self.dead == False:
             self.state.hitboxes-=1
