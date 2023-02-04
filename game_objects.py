@@ -12,12 +12,13 @@ def initEntities(state):
     p2.x = 600
     p1.y = GROUNDHEIGHT
     p2.y = GROUNDHEIGHT
-    hitbox = Hitbox(0, {"dimensions": (200, 50), "offset": (-100, -150), "damage": 10, "knockack": (10, 10), "duration": 100000, "knockback": (10, 10)}, state, p1)
+    hitbox = Hitbox(0, {"dimensions": (200, 50), "offset": (-100, -150), "damage": 10, "knockack": (PLAYERACCEL, PLAYERACCEL), "duration": 100000, "knockback": (50, 50)}, state, p1, p2)
     entities["p1"] = p1
     entities["p2"] = p2
     entities["hitb"] = hitbox
     return entities
 
+<<<<<<< HEAD
 
 def dashAvailable(accuracy, player, frame):
     return accuracy == 'perfect' and (player.lastdash+1/2<frame or player.lastdashdir!=player.moving)
@@ -42,6 +43,19 @@ def handleRelease(event, player, control):
     if event.key == control['left'] and player.moving == -1:
         player.moving = 0
         if pygame.key.get_pressed()[control['right']]:
+=======
+def handleMove(player, control, event, timer, state):
+    if event.type == pygame.KEYDOWN:
+        (accuracy,whichNote)=timer.onRhythm(False)
+        frame = timer.getFullFrame()
+        if event.key == control['left']:
+            player.moving = -1
+            if accuracy == 'perfect' and (player.lastdash+1/2<frame or player.lastdashdir!=player.moving):
+                player.lastdash = frame + whichNote/2
+                player.lastdashdir = player.moving
+                player.dash+=MAXVELX*DASHRATIO
+        if event.key == control['right']:
+>>>>>>> faf90c8 (attacks)
             player.moving = 1
     if event.key == control['right'] and player.moving == 1:
         player.moving = 0
@@ -160,7 +174,7 @@ class Player(EntityMovable):
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(0 if self.id == 0 else 1280-640.0*self.health/100.0, 0, 640.0*self.health/100.0, 50))
 
 class Hitbox(Entity):
-    def __init__(self, id, hitbox_options, state, parent):
+    def __init__(self, id, hitbox_options, state, parent, enemy):
         super().__init__(state)
         self.id = id
         self.offsetx, self.offsety = hitbox_options["offset"]
@@ -170,11 +184,16 @@ class Hitbox(Entity):
         self.duration = hitbox_options["duration"]
         self.parent = parent
         self.dead = False
+        self.enemy = enemy
 
     def tick(self,delta): #collision in here
         super().tick(delta)
         self.x, self.y = self.parent.x + (-self.w-CATWIDTH if self.parent.facing == "l" else 0) + (-1 if self.parent.facing == "l" else 1) * self.offsetx, self.parent.y + self.offsety 
-        
+
+        if pygame.Rect.colliderect(pygame.Rect(self.x, self.y, self.w, self.h), pygame.Rect(self.enemy.x - CATWIDTH, self.enemy.y - CATHEIGHT, CATWIDTH, CATHEIGHT)):
+            self.enemy.health -= self.damage
+            self.enemy.accel(self.kbx, self.kby)
+            self.dead = True
         self.duration -= delta
         if self.duration <= 0:
             self.dead = True
