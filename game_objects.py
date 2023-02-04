@@ -153,7 +153,8 @@ class Player(EntityMovable):
     def renderHealth(self, screen):
         screen.blit(self.healthbar, (self.id*780 + 100, 50))
         #pygame.draw.rect(screen, (127, 0, 0), healthbar)
-        #pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(100, 0, 0, 50))
+        pygame.draw.rect(screen, (255, 0, 119), pygame.Rect(self.id*780 + 170, 83, 2.20*self.health, 15))
+        pygame.draw.rect(screen, (145, 255, 217), pygame.Rect(self.id*780 + 170, 104, 186, 14))
 
 class Hitbox(Entity):
     def __init__(self, id, offset, dimensions, damage, knockback, stun, duration, state, parent):
