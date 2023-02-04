@@ -36,6 +36,8 @@ while running:
             if state.screen == 1:
                 handleMove(entities["p1"], player1controls, event, timer, state, entities["p2"], entities)
                 handleMove(entities["p2"], player2controls, event, timer, state, entities["p1"], entities)
+            if event.type == pygame.QUIT:
+                running = False
     elif state.screen == 2:
         dt = clock.tick(1)
         renderer.renderFrame(timer, entities)
