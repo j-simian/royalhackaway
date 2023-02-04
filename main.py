@@ -9,7 +9,7 @@ state = State()
 clock = pygame.time.Clock()
 renderer = Renderer(state)
 menu = Menu(state)
-timer = Timer(110, 0)
+timer = Timer(110, 2.35)
 renderer.renderMenu(menu)
 initEntities(state)
 
@@ -29,7 +29,7 @@ while running:
     for event in pygame.event.get():
             
         if state.screen == 1:
-            handleMove(entities["p1"], player1controls, event, timer, state.lastdash)
-            handleMove(entities["p2"], player2controls, event, timer, state.lastdash)
+            handleMove(entities["p1"], player1controls, event, timer, state)
+            handleMove(entities["p2"], player2controls, event, timer, state)
         if event.type == pygame.QUIT:
             running = False

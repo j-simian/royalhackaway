@@ -14,7 +14,8 @@ class Timer():
 
     def findAccuracy(self):
         q = (60/self.bpm)/2  #quarter note length
-        accuracy = (self.getTimer() / q) % 1 #0 to 1, 0 or 1 are perfect
+        waythrough = (self.getTimer() / q) % 1  #0 to 1
+        accuracy = (0.5+waythrough)%1-0.5 #-0.5 to 0.5
         whichNote = round(self.getTimer() / (q)) % 2
         return (accuracy,whichNote)
 
@@ -23,12 +24,10 @@ class Timer():
         perfectThreshold = 0.25 #tolerance either side of note
         hitThreshold = 0.5
         if echo:
-            print((0.5+accuracy)%1-0.5)
-        if (accuracy < perfectThreshold or
-            accuracy > 1-perfectThreshold):
+            print(accuracy)
+        if (abs(accuracy) < perfectThreshold):
             return ("perfect",whichNote)
-        elif (accuracy < hitThreshold or
-            accuracy > 1-hitThreshold):
+        elif (abs(accuracy) < hitThreshold):
             return ("hit",whichNote)
         else:
             return ("miss",whichNote)
