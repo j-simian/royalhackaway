@@ -35,7 +35,7 @@ class Menu():
         self.nyatheme.title_font=pygame_menu.font.FONT_MUNRO
         self.nyatheme.title_font_color=(255,255,255)
 
-        self.menu = pygame_menu.Menu('Welcome', self.state.WIDTH, self.state.HEIGHT,
+        self.menu = pygame_menu.Menu('Nya Nya Revolution', self.state.WIDTH, self.state.HEIGHT,
                        theme=self.nyatheme, mouse_motion_selection=True, columns = 2, rows = 3)
 
         self.menu.add.text_input('Player1 Name :', default='Catgirl 1')
