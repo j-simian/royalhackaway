@@ -17,7 +17,7 @@ class Renderer:
         pygame.display.flip()
         self.screen.fill((255, 255, 255))
 
-    def renderFrame(self, timer):
+    def renderFrame(self, timer, entities):
         (accuracy,whichNote)=timer.onRhythm()
         if (accuracy=="perfect" and whichNote==0 and FLASH):
             self.screen.blit(self.bgbeat, (-16, -9))
