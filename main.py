@@ -12,6 +12,7 @@ initEntities()
 renderer.renderMenu(menu)
 
 running = True
+lpressed=False
 while running:
     for entity in entities:
         entity.tick()
