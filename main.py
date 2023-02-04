@@ -28,9 +28,10 @@ while running:
                     entities["p1"].moving = 1
             
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_a:
+                if event.key == pygame.K_a and entities["p1"].moving == -1:
                     entities["p1"].moving = 0
-                if event.key == pygame.K_d:
+
+                if event.key == pygame.K_d and entities["p1"].moving == 1:
                     entities["p1"].moving = 0
         if event.type == pygame.QUIT:
             running = False
