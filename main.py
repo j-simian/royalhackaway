@@ -1,6 +1,6 @@
 import pygame
-from renderer import * 
-from game_objects import * 
+from renderer import *
+from game_objects import *
 from menu import *
 from state import *
 from funs import *
@@ -29,8 +29,19 @@ while running:
         if state.screen == 1:
             t=onRhythm(pygame.mixer.music.get_pos()/1000, 0, 110)
             
-            handleMove(entities["p1"], player1controls, event)
-            handleMove(entities["p2"], player2controls, event)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_a:
+                    entities["p1"].moving = -1
+                if event.key == pygame.K_d:
+                    entities["p1"].moving = 1
+                if event.key == pygame.K_w:
+                    entities["p1"].jumping = 1
+
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_a and entities["p1"].moving == -1:
+                    entities["p1"].moving = 0
+
+                if event.key == pygame.K_d and entities["p1"].moving == 1:
+                    entities["p1"].moving = 0
         if event.type == pygame.QUIT:
             running = False
-
