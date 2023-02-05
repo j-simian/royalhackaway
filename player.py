@@ -108,7 +108,7 @@ class Player(EntityMovable):
         if self.attacking<=0:
             self.facing = "l" if self.velx < 0 else "r"
 
-        if self.dashing(): #for dash effects - makes cat brighter
+        if self.dashing() or self.hitglow>0: #for dash effects - makes cat brighter
             _image = self.sprite[self.id][self.mystate + self.facing].copy()
             _image.fill([(217, 255, 244), (255,179,196)][self.id], special_flags=pygame.BLEND_RGB_MAX) #
             screen.blit(_image, (self.x - CATWIDTH/2, self.y - CATHEIGHT/2))
