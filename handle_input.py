@@ -76,7 +76,7 @@ def handlePress(event, timer, player, control, state, enemy, entities):
                 player.charging = CHARGETIME
                 player.canAttack = False
             else:
-                soundObj = pygame.mixer.Sound('assets/sfx/quack.wav')
+                soundObj = pygame.mixer.Sound('assets/sfx/cat.wav')
                 soundObj.play()
 
 
