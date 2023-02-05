@@ -77,6 +77,7 @@ def handlePress(event, timer, player, control, state, enemy, entities):
                 player.canAttack = False
             else:
                 soundObj = pygame.mixer.Sound('assets/sfx/cat.wav')
+                soundObj.set_volume(0.5)
                 soundObj.play()
 
 
