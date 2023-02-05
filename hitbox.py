@@ -1,4 +1,4 @@
-import pygame 
+import pygame
 from options import *
 from utils import *
 from abstract import *
@@ -30,6 +30,9 @@ class Hitbox(Entity):
             if self.parent.mult <= MISSMULT:
                 soundObj.set_volume(0.3)
             soundObj.play()
+            if self.parent.combo > 0:
+                self.parent.comboactive = False
+                self.parent.comboset()
 
             if self.parent.facing == "l":
                 self.kbx = 0-self.kbx
@@ -54,7 +57,7 @@ class Hitbox(Entity):
 
             self.state.hitboxes-=1
             self.dead = True
-    
+
     def render(self, screen):
         if VIEWHITBOXES:
             pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.x, self.y, self.w, self.h))

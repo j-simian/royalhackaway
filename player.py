@@ -30,9 +30,9 @@ class Player(EntityMovable):
         self.textopacity = 0 #clear
         self.textx, self.texty = 500, 500
         self.textactive = False
-
         self.font = pygame.font.Font(pygame_menu.font.FONT_8BIT, 20)
         self.textimg = self.font.render(self.text, True, [(217, 255, 244), (255,179,196)][self.id])
+        self.comboactive = False
         self.comboopacity = 0
         self.comboimg = self.font.render("COMBO 0", True, [(217, 255, 244), (255,179,196)][self.id])
         self.combofont = pygame.font.Font(pygame_menu.font.FONT_8BIT, 50)
@@ -116,10 +116,11 @@ class Player(EntityMovable):
             self.textopacity = 0
             self.textactive = False
 
-        if self.comboopacity > 0:
+        if self.comboactive:
             self.comboopacity -= delta/4
-        else:
+        if self.comboopacity < 0:
             self.comboopacity = 0
+            self.comboactive = False
 
         if self.dashing(): #we've done a perfect
             self.textset("Perfect", (self.x, self.y - CATHEIGHT*CATSCALE/2))
@@ -127,7 +128,6 @@ class Player(EntityMovable):
             self.textactive = False #lets us repeatedly have hit text
             self.textset("perfect hit", (self.x, self.y - CATHEIGHT*CATSCALE/2))
 
-        self.comboset()
 
 
 
@@ -183,15 +183,13 @@ class Player(EntityMovable):
             pass
 
     def comboset(self):
-        if self.combo > 0.5 and self.attacking != 0 and self.charging != 0 :
-            #self.comboactive = True
-            #self.text = text
-            #self.textx, self.texty = pos
+        if not self.comboactive:
+            self.comboactive = True
             self.comboopacity = 370 #opaque
             self.comboimg = self.combofont.render("combo " + str(self.combo), True, [(217, 255, 244), (255,179,196)][self.id])
 
     def renderCombo(self, screen):
-        if self.comboopacity > 0:
+        if self.comboactive:
             self.comboimg.set_alpha(min(self.comboopacity, 255))
             screen.blit(self.comboimg, (640 - self.comboimg.get_width()/2, 600 - self.comboimg.get_height()/2))
         else:

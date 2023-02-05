@@ -57,7 +57,7 @@ def handlePress(event, timer, player, control, state, enemy, entities):
                     player.combo=0
                 elif player.combo == 2 and (frame-player.lasthitframe == 1/2):
                     player.attackType = "light3"
-                    player.combo=0
+                    player.combo=3
                 elif ((player.combo == 1 and frame-player.lasthitframe == 1.5) or
                     (player.combo == 2 and frame-player.lasthitframe == 1.5)):
                     player.attackTypee = "badhit"
