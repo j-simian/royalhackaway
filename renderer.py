@@ -43,6 +43,11 @@ class Renderer:
         for c in range (0,2):
             _text = self.font.render(self.state.names[c], True, (255, 0, 119))
             self.screen.blit(_text, (c*780 + 180, 11))
+        entities["p1"].renderText(self.screen)
+        entities["p2"].renderText(self.screen)
+        entities["p1"].renderCombo(self.screen)
+        entities["p2"].renderCombo(self.screen)
+
 
     def renderEntities(self, entities):
         for entity in entities.values():

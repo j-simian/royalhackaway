@@ -1,6 +1,7 @@
 import pygame
 from options import *
 from utils import *
+import pygame_menu
 
 class Entity:
     def __init__(self, state):
@@ -12,6 +13,7 @@ class Entity:
 
     def tick(self, delta):
         pass
+
 
 class EntityMovable(Entity):
     def __init__(self, state):

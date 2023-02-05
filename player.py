@@ -3,6 +3,7 @@ from options import *
 from utils import *
 from abstract import *
 from hitbox import *
+import pygame_menu
 
 class Player(EntityMovable):
     def __init__(self, id, state):
@@ -25,6 +26,15 @@ class Player(EntityMovable):
         self.mult = 1
         self.canAttack = True
         self.healthbar = pygame.transform.scale(pygame.image.load("./assets/imgs/healthbar.png").convert_alpha(), (300, 100))
+        self.text = ""
+        self.textopacity = 0 #clear
+        self.textx, self.texty = 500, 500
+        self.textactive = False
+        self.font = pygame.font.Font(pygame_menu.font.FONT_8BIT, 20)
+        self.textimg = self.font.render(self.text, True, (255,255,255))
+        self.comboopacity = 0
+        self.comboimg = self.font.render("COMBO 0", True, (255,255,255))
+        self.combofont = pygame.font.Font(pygame_menu.font.FONT_8BIT, 50)
 
         self.sprite = [{}, {}]
         for s in ["idle", "air", "charge", "attack", "hit", "heavy", "hvcharge", "die"]:
@@ -99,6 +109,25 @@ class Player(EntityMovable):
             self.velx /= AIRFRICTION #applies the right friction by reducing speed by dividing
         if self.stun > 0: self.mystate = "hit"
 
+        if self.textactive:
+            self.textopacity -= delta/4
+        if self.textopacity < 0:
+            self.textopacity = 0
+            self.textactive = False
+
+        if self.comboopacity > 2:
+            self.comboopacity -= delta/4
+        else:
+            self.comboopacity = 0
+
+        if self.dashing(): #we've done a perfect
+            self.textset("Perfect", (self.x, self.y - CATHEIGHT*CATSCALE/2))
+        if self.hitglow>0:
+            self.textactive = False #lets us repeatedly have hit text
+            self.textset("perfect hit", (self.x, self.y - CATHEIGHT*CATSCALE/2))
+
+        self.comboset()
+
 
 
     def tickAttack(self, delta, entities):
@@ -136,3 +165,33 @@ class Player(EntityMovable):
 
         pygame.draw.rect(screen, (255, 0, 119), pygame.Rect(self.id*780 + 170, 68, 2.20*self.health, 15))
         pygame.draw.rect(screen, (145, 255, 217), pygame.Rect(self.id*780 + 170, 89, 1.86*self.energy, 14))
+
+    def textset(self, text, pos):
+        if not self.textactive:
+            self.textactive = True
+            self.text = text
+            self.textx, self.texty = pos
+            self.textopacity = 370 #opaque
+            self.textimg = self.font.render(self.text, True, (255,255,255))
+
+    def renderText(self, screen):
+        if self.textactive:
+            self.textimg.set_alpha(min(self.textopacity, 255))
+            screen.blit(self.textimg, (self.textx - self.textimg.get_width()/2, self.texty - self.textimg.get_height()/2))
+        else:
+            pass
+
+    def comboset(self):
+        if self.combo > 0.1:
+            #self.comboactive = True
+            #self.text = text
+            #self.textx, self.texty = pos
+            self.comboopacity = 370 #opaque
+            self.comboimg = self.combofont.render("combo " + str(self.combo), True, (255,255,255))
+
+    def renderCombo(self, screen):
+        if self.comboopacity > 2:
+            self.comboimg.set_alpha(min(self.comboopacity, 255))
+            screen.blit(self.comboimg, (640 - self.comboimg.get_width()/2, 600 - self.comboimg.get_height()/2))
+        else:
+            pass
