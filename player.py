@@ -24,8 +24,10 @@ class Player(EntityMovable):
         self.canAttack = True
         self.healthbar = pygame.transform.scale(pygame.image.load("./assets/imgs/healthbar.png").convert_alpha(), (300, 100))
 
-        self.sprite = [{"idler": pygame.image.load("./assets/imgs/cat1idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat1air.png").convert_alpha(), "attackr": pygame.image.load("./assets/imgs/cat1attack.png").convert_alpha(), "charger": pygame.image.load("./assets/imgs/cat1charge.png").convert_alpha(), "hitr": pygame.image.load("./assets/imgs/cat1hit.png").convert_alpha()},
-                       {"idler": pygame.image.load("./assets/imgs/cat2idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat2air.png").convert_alpha(), "attackr": pygame.image.load("./assets/imgs/cat2attack.png").convert_alpha(), "charger": pygame.image.load("./assets/imgs/cat2charge.png").convert_alpha(), "hitr": pygame.image.load("./assets/imgs/cat2hit.png").convert_alpha()}]#load in drawn frames
+        self.sprite = [{}, {}]
+        for s in ["idle", "air", "charge", "attack", "hit", "heavy", "hvcharge"]:
+            for c in [0, 1]:
+                self.sprite[c].update({s + "r": pygame.image.load("./assets/imgs/cat" + str(c+1) + s + ".png").convert_alpha()})
 
         for n in [0, 1, 2, 3, 4]:
             self.sprite[0].update({"run" + str(n) + "r": pygame.image.load("./assets/imgs/cat1run" + str(n) + ".png").convert_alpha()})
@@ -35,7 +37,7 @@ class Player(EntityMovable):
             self.sprite[1].update({"run" + str(n) + "r": pygame.image.load("./assets/imgs/cat2run" + str(n) + ".png").convert_alpha()})
             self.sprite[1].update({"run" + str(5-n) + "l": pygame.transform.flip(self.sprite[1]["run" + str(n) + "r"], True, False)})
 
-        for s in ["idle", "air", "charge", "attack", "hit"]:
+        for s in ["idle", "air", "charge", "attack", "hit", "heavy", "hvcharge"]:
             for c in [0, 1]:
                 self.sprite[c].update({s + "l": pygame.transform.flip(self.sprite[c][s+"r"], True, False)})
                 #mirrors frames
@@ -98,7 +100,7 @@ class Player(EntityMovable):
                 if self.stun<=0:
                     entities['hitbox' + str(self.state.hitboxes)] = Hitbox(self.state.hitboxes, attacks[self.attackType], self.state, self, entities["p"+str(int(2-self.id))])
                     self.state.hitboxes+=1
-                    self.mystate = "attack"
+                    self.mystate = "heavy" if self.attackType == "heavy" else "attack"
                     self.attacking = COOLDOWNTIME * (2 if self.attackType == "heavy" else 1)
 
 
