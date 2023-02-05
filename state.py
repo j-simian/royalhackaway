@@ -7,4 +7,4 @@ class State():
         self.hitboxes = 0
         self.screen = 0
         self.controls = [0,1]
-        self.names = ['Caterine', 'Nyatalie']
+        self.names = ['Caterina', 'Nyatalie']

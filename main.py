@@ -55,9 +55,9 @@ while running:
     elif state.screen == 2:
         dt = clock.tick()
         renderer.renderFrame(timer, entities)
-        renderer.renderDeath()
+        renderer.renderDeath(entities)
         renderer.blitScreen()
-        dt = clock.tick(0.5)
+        dt = clock.tick(0.4)
         deathmenu = DeathMenu(state)
         renderer.renderMenu(deathmenu)
     for event in pygame.event.get():

@@ -51,9 +51,10 @@ class Renderer:
     def renderMenu(self, menu):
         menu.render(self.screen)
 
-    def renderDeath(self):
+    def renderDeath(self, entities):
         self.font = pygame.font.Font(pygame_menu.font.FONT_8BIT, 100)
-        _text = self.font.render("GAME OVER", True, (255,255,255))
+        _winner = self.state.names[0] if entities["p1"].health > 0 else self.state.names[1]
+        _text = self.font.render(_winner + " wins", True, (255,255,255))
         self.screen.blit(self.overlay, (0, 0))
         self.screen.blit(_text, (self.width/2 - _text.get_width()/2, self.height/2 - _text.get_height()/2))
         #deathmenu.render(self.screen)
