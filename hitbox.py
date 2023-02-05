@@ -34,10 +34,12 @@ class Hitbox(Entity):
             if not self.enemy.touchingFloor:
                 self.kby = self.kby/2
             self.enemy.health -= self.damage * self.mult
-            self.enemy.stun = self.stun
-            self.enemy.accel(self.kbx, self.kby)
+            self.enemy.stun = max(self.stun,self.enemy.stun)
             self.enemy.canAttack = True
             self.enemy.jumping = 0
+            self.enemy.velx = 0
+            self.enemy.vely = 0
+            self.enemy.accel(self.kbx, self.kby)
             self.parent.jumping = 0
             if self.parent.touchingFloor:
                 self.parent.attacking = HITCOOLDOWN
