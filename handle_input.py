@@ -22,7 +22,7 @@ def handlePress(event, timer, player, control, state, enemy, entities):
     (accuracy,whichNote)=timer.onRhythm(False)
     frame = timer.getQuarterFrame()
     available = dashAvailable(accuracy, player, frame)
-    if available and event.key in [control['left'], control['right']]:
+    if available and event.key in [control['left'], control['right']] and not pygame.key.get_pressed()[control['down']]:
         player.energy = 100
         player.lastdash = frame
         player.lastdashdir = player.moving
@@ -77,6 +77,7 @@ def handlePress(event, timer, player, control, state, enemy, entities):
                 player.canAttack = False
             else:
                 soundObj = pygame.mixer.Sound('assets/sfx/cat.wav')
+                soundObj.set_volume(0.5)
                 soundObj.play()
 
 

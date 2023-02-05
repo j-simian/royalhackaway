@@ -8,8 +8,8 @@ def clampAbs(value, limit):
     return value
 
 def softClamp(value, limit):
-    right = (limit+value*3)/4
-    left = - (limit+value*3)/4
+    right = (limit*9+value)/10
+    left = - (limit*9+value)/10
     if value < left:
         value = left
     if value > right:
