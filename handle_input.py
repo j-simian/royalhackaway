@@ -36,6 +36,7 @@ def handlePress(event, timer, player, control, state, enemy, entities):
         if player.canAttack == True and player.stun <= 0:
             if accuracy == "perfect":
                 player.mult = 1.5
+                player.hitglow = 100
             elif accuracy == "hit":
                 player.mult = 0.8
             else:

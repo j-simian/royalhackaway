@@ -18,6 +18,7 @@ class Player(EntityMovable):
         self.charging = 0 #time until attack comes out
         self.attacking = 0 #time left in attack animation
         self.stun = 0 #time in stun
+        self.hitglow = 0 #time left glowing
         self.lasthitframe = -1
         self.combo = 0
         self.mult = 1
@@ -53,6 +54,7 @@ class Player(EntityMovable):
         super().tick(delta)
 
         self.tickAttack(delta, entities)
+        self.hitglow -= delta
         self.stun -= delta
         # movement
         if self.moving !=0:
