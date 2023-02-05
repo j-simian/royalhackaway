@@ -38,8 +38,9 @@ class Hitbox(Entity):
             self.enemy.accel(self.kbx, self.kby)
             self.enemy.canAttack = True
             self.enemy.jumping = 0
-            self.parent.canAttack = True
-            self.parent.attacking = HITCOOLDOWN
+            self.parent.jumping = 0
+            if self.parent.touchingFloor:
+                self.parent.attacking = HITCOOLDOWN
             self.state.hitboxes-=1
             self.dead = True
         self.duration -= delta

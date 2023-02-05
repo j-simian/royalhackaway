@@ -67,9 +67,14 @@ class Player(EntityMovable):
         if self.jumping != 0 and self.touchingFloor: #jumps iff on floor; jumping == scale of how high to jump
             self.y = GROUNDHEIGHT - 1; self.vely = JUMPVEL*self.jumping; self.mystate = "air"
             #makes you go off the ground and accelerates up to jump; makes jumping state 0 so we don't continue jumping
+            self.jumping = 0
         if self.gravity:
             self.accel(0, GRAVITY*delta) #applies gravity
-        self.touchingFloor = self.y >= GROUNDHEIGHT
+        
+        nextTouchingFloor = self.y >= GROUNDHEIGHT
+        if nextTouchingFloor and not self.touchingFloor: #just landed
+            self.attacking = min(self.attacking,HITCOOLDOWN)
+        self.touchingFloor = nextTouchingFloor
 
         if self.touchingFloor: #makes you not falling if youre on ground
             if self.attacking == 0 and self.charging == 0 and self.stun <= 0:

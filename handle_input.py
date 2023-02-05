@@ -70,7 +70,7 @@ def handleRelease(event, player, control):
         player.moving = 0
         if pygame.key.get_pressed()[control['left']]:
             player.moving = -1
-    if event.key == control['up'] and player.jumping > 0:
+    if event.key == control['up']:
         player.jumping = 0
 
 def handleMove(player, control, event, timer, state, enemy, entities):
