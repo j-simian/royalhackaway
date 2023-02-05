@@ -39,6 +39,9 @@ class Hitbox(Entity):
             self.dead = True
         self.duration -= delta
         if self.duration <= 0 and self.dead == False:
+            soundObj = pygame.mixer.Sound('assets/sfx/clickman.wav')
+            soundObj.play()
+
             self.state.hitboxes-=1
             self.dead = True
     
