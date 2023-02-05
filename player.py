@@ -30,10 +30,11 @@ class Player(EntityMovable):
         self.textopacity = 0 #clear
         self.textx, self.texty = 500, 500
         self.textactive = False
+
         self.font = pygame.font.Font(pygame_menu.font.FONT_8BIT, 20)
-        self.textimg = self.font.render(self.text, True, (255,255,255))
+        self.textimg = self.font.render(self.text, True, [(217, 255, 244), (255,179,196)][self.id])
         self.comboopacity = 0
-        self.comboimg = self.font.render("COMBO 0", True, (255,255,255))
+        self.comboimg = self.font.render("COMBO 0", True, [(217, 255, 244), (255,179,196)][self.id])
         self.combofont = pygame.font.Font(pygame_menu.font.FONT_8BIT, 50)
 
         self.sprite = [{}, {}]
@@ -115,7 +116,7 @@ class Player(EntityMovable):
             self.textopacity = 0
             self.textactive = False
 
-        if self.comboopacity > 2:
+        if self.comboopacity > 0:
             self.comboopacity -= delta/4
         else:
             self.comboopacity = 0
@@ -172,7 +173,7 @@ class Player(EntityMovable):
             self.text = text
             self.textx, self.texty = pos
             self.textopacity = 370 #opaque
-            self.textimg = self.font.render(self.text, True, (255,255,255))
+            self.textimg = self.font.render(self.text, True, [(217, 255, 244), (255,179,196)][self.id])
 
     def renderText(self, screen):
         if self.textactive:
@@ -182,15 +183,15 @@ class Player(EntityMovable):
             pass
 
     def comboset(self):
-        if self.combo > 0.1:
+        if self.combo > 0.5 and self.attacking != 0 and self.charging != 0 :
             #self.comboactive = True
             #self.text = text
             #self.textx, self.texty = pos
             self.comboopacity = 370 #opaque
-            self.comboimg = self.combofont.render("combo " + str(self.combo), True, (255,255,255))
+            self.comboimg = self.combofont.render("combo " + str(self.combo), True, [(217, 255, 244), (255,179,196)][self.id])
 
     def renderCombo(self, screen):
-        if self.comboopacity > 2:
+        if self.comboopacity > 0:
             self.comboimg.set_alpha(min(self.comboopacity, 255))
             screen.blit(self.comboimg, (640 - self.comboimg.get_width()/2, 600 - self.comboimg.get_height()/2))
         else:
