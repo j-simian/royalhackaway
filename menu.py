@@ -8,6 +8,8 @@ class Menu():
     def set_controls(self, player, controls):
         self.state.controls[player] = controls
         # 0: wasd, 1: ijkl
+    def set_name(self, player, name):
+        self.state.names[player] = name
 
     def start_the_game(self):
     # Do the job here !
@@ -56,9 +58,9 @@ class Menu():
         self.menu = pygame_menu.Menu('Nya Nya Revolution', self.state.WIDTH, self.state.HEIGHT,
                     theme=self.nyatheme, mouse_motion_selection=True)
 
-        self.menu.add.text_input('Enter P1: ', default='Caterine')
+        self.menu.add.text_input('Enter P1: ', default='Caterine', onchange=(lambda y: self.set_name(0, y)))
         self.menu.add.label("VS")
-        self.menu.add.text_input('Enter P2: ', default='Nyatalie')
+        self.menu.add.text_input('Enter P2: ', default='Nyatalie', onchange=(lambda y: self.set_name(1, y)))
 
 
         self.playbuttonimage = pygame_menu.BaseImage(image_path="assets/imgs/playbtn.png",) #play button

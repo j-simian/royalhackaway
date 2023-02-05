@@ -7,5 +7,4 @@ class State():
         self.hitboxes = 0
         self.screen = 0
         self.controls = [0,1]
-        self.player1name = 'Caterine'
-        self.player2name = 'Nyatalie'
+        self.names = ['Caterine', 'Nyatalie']
