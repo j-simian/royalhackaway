@@ -24,8 +24,8 @@ class Player(EntityMovable):
         self.canAttack = True
         self.healthbar = pygame.transform.scale(pygame.image.load("./assets/imgs/healthbar.png").convert_alpha(), (300, 100))
 
-        self.sprite = [{"idler": pygame.image.load("./assets/imgs/cat1idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat1air.png").convert_alpha(), "attackr": pygame.image.load("./assets/imgs/cat1attack.png").convert_alpha(), "charger": pygame.image.load("./assets/imgs/cat1charge.png").convert_alpha()},
-                       {"idler": pygame.image.load("./assets/imgs/cat2idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat2air.png").convert_alpha(), "attackr": pygame.image.load("./assets/imgs/cat2attack.png").convert_alpha(), "charger": pygame.image.load("./assets/imgs/cat2charge.png").convert_alpha()}]#load in drawn frames
+        self.sprite = [{"idler": pygame.image.load("./assets/imgs/cat1idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat1air.png").convert_alpha(), "attackr": pygame.image.load("./assets/imgs/cat1attack.png").convert_alpha(), "charger": pygame.image.load("./assets/imgs/cat1charge.png").convert_alpha(), "hitr": pygame.image.load("./assets/imgs/cat1hit.png").convert_alpha()},
+                       {"idler": pygame.image.load("./assets/imgs/cat2idle.png").convert_alpha(), "airr": pygame.image.load("./assets/imgs/cat2air.png").convert_alpha(), "attackr": pygame.image.load("./assets/imgs/cat2attack.png").convert_alpha(), "charger": pygame.image.load("./assets/imgs/cat2charge.png").convert_alpha(), "hitr": pygame.image.load("./assets/imgs/cat2hit.png").convert_alpha()}]#load in drawn frames
 
         for n in [0, 1, 2, 3, 4]:
             self.sprite[0].update({"run" + str(n) + "r": pygame.image.load("./assets/imgs/cat1run" + str(n) + ".png").convert_alpha()})
@@ -35,7 +35,7 @@ class Player(EntityMovable):
             self.sprite[1].update({"run" + str(n) + "r": pygame.image.load("./assets/imgs/cat2run" + str(n) + ".png").convert_alpha()})
             self.sprite[1].update({"run" + str(5-n) + "l": pygame.transform.flip(self.sprite[1]["run" + str(n) + "r"], True, False)})
 
-        for s in ["idle", "air", "charge", "attack"]:
+        for s in ["idle", "air", "charge", "attack", "hit"]:
             for c in [0, 1]:
                 self.sprite[c].update({s + "l": pygame.transform.flip(self.sprite[c][s+"r"], True, False)})
                 #mirrors frames
@@ -56,7 +56,7 @@ class Player(EntityMovable):
         self.stun -= delta
         # movement
         if self.moving !=0:
-            if self.touchingFloor and self.attacking == 0 and self.charging == 0:
+            if self.touchingFloor and self.attacking == 0 and self.charging == 0 and self.stun <= 0:
                 self.accel(PLAYERACCEL*self.moving, 0)
             elif not self.touchingFloor:
                 self.accel(AIRACCEL*self.moving, 0)
@@ -70,7 +70,7 @@ class Player(EntityMovable):
         self.touchingFloor = self.y >= GROUNDHEIGHT
 
         if self.touchingFloor: #makes you not falling if youre on ground
-            if self.attacking == 0 and self.charging == 0:
+            if self.attacking == 0 and self.charging == 0 and self.stun <= 0:
                 if abs(self.velx) < 0.1 or self.x <= CATWIDTH/2 or self.x >= self.state.WIDTH-CATWIDTH/2:
                     self.mystate = "idle"
                 else:
@@ -80,6 +80,7 @@ class Player(EntityMovable):
             self.y = GROUNDHEIGHT
         else:
             self.velx /= AIRFRICTION #applies the right friction by reducing speed by dividing
+        if self.stun > 0: self.mystate = "hit"
 
 
 
