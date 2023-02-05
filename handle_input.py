@@ -57,7 +57,7 @@ def handlePress(event, timer, player, control, state, enemy, entities):
                 player.lasthitframe = frame
             else:
                 player.attackType = "heavy"
-            player.mystate = "charge"
+            player.mystate = "hvcharge" if player.attackType == "heavy" else "charge"
             player.charging = CHARGETIME
             player.canAttack = False
 
@@ -78,5 +78,3 @@ def handleMove(player, control, event, timer, state, enemy, entities):
         handlePress(event, timer, player, control, state, enemy, entities)
     if event.type == pygame.KEYUP:
         handleRelease(event, player, control)
-
-
