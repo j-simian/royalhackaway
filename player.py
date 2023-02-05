@@ -12,6 +12,7 @@ class Player(EntityMovable):
         self.lastdashdir = 0
         self.id = id
         self.health = 100
+        self.energy = 0
         self.touchingFloor = True
         self.gravity = True #true if we are in air and fall
         self.moving = 0 #nonzero if needs to move
@@ -57,6 +58,7 @@ class Player(EntityMovable):
         super().tick(delta)
 
         self.tickAttack(delta, entities)
+        self.energy = max(0,self.energy-10/delta)
         self.hitglow -= delta
         self.stun -= delta
         # movement
@@ -70,9 +72,14 @@ class Player(EntityMovable):
         if self.jumping != 0 and self.touchingFloor: #jumps iff on floor; jumping == scale of how high to jump
             self.y = GROUNDHEIGHT - 1; self.vely = JUMPVEL*self.jumping; self.mystate = "air"
             #makes you go off the ground and accelerates up to jump; makes jumping state 0 so we don't continue jumping
+            self.jumping = 0
         if self.gravity:
             self.accel(0, GRAVITY*delta) #applies gravity
-        self.touchingFloor = self.y >= GROUNDHEIGHT
+        
+        nextTouchingFloor = self.y >= GROUNDHEIGHT
+        if nextTouchingFloor and not self.touchingFloor: #just landed
+            self.attacking = min(self.attacking,HITCOOLDOWN)
+        self.touchingFloor = nextTouchingFloor
 
         if self.touchingFloor: #makes you not falling if youre on ground
             if self.attacking == 0 and self.charging == 0 and self.stun <= 0:

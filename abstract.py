@@ -24,7 +24,7 @@ class EntityMovable(Entity):
         super().tick(delta)
         #if self.gravity:
         #    self.vely += GRAVITY*delta
-        self.vely = softClamp(self.vely, MAXVELY)
+        self.vely = clampAbs(self.vely, MAXVELY)
         self.velx = clampAbs(self.velx, MAXVELX+self.dash)
         self.x += self.velx*delta
         self.y = min(self.y+self.vely*delta, GROUNDHEIGHT)
