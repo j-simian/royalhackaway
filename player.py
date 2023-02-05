@@ -75,7 +75,7 @@ class Player(EntityMovable):
             self.jumping = 0
         if self.gravity:
             self.accel(0, GRAVITY*delta) #applies gravity
-        
+
         nextTouchingFloor = self.y >= GROUNDHEIGHT
         if nextTouchingFloor and not self.touchingFloor: #just landed
             self.attacking = min(self.attacking,HITCOOLDOWN)
@@ -131,4 +131,4 @@ class Player(EntityMovable):
         screen.blit(self.healthbar, (self.id*780 + 100, 35))
         screen.blit(_text, (self.id*780 + 180, 11))
         pygame.draw.rect(screen, (255, 0, 119), pygame.Rect(self.id*780 + 170, 68, 2.20*self.health, 15))
-        pygame.draw.rect(screen, (145, 255, 217), pygame.Rect(self.id*780 + 170, 89, 186, 14))
+        pygame.draw.rect(screen, (145, 255, 217), pygame.Rect(self.id*780 + 170, 89, 1.86*self.energy, 14))
