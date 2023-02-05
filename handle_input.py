@@ -23,6 +23,7 @@ def handlePress(event, timer, player, control, state, enemy, entities):
     frame = timer.getQuarterFrame()
     available = dashAvailable(accuracy, player, frame)
     if available and event.key in [control['left'], control['right']]:
+        player.energy = 100
         player.lastdash = frame
         player.lastdashdir = player.moving
         player.dash+=MAXVELX*DASHRATIO
@@ -35,12 +36,12 @@ def handlePress(event, timer, player, control, state, enemy, entities):
     if event.key == control['attack']:
         if player.canAttack == True and player.stun <= 0:
             if accuracy == "perfect" and frame%1==0:
-                player.mult = 1.5
+                player.mult = 1
                 player.hitglow = HITGLOWDURATION
             elif accuracy == "hit"and frame%1==0:
-                player.mult = 0.8
+                player.mult = 0.35
             else:
-                player.mult = 0.5
+                player.mult = 0.1
             if player.touchingFloor:
                 if player.combo == 1 and (frame-player.lasthitframe == 1/2):
                     player.attackType = "light2"

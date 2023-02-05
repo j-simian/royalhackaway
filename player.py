@@ -11,6 +11,7 @@ class Player(EntityMovable):
         self.lastdashdir = 0
         self.id = id
         self.health = 100
+        self.energy = 0
         self.touchingFloor = True
         self.gravity = True #true if we are in air and fall
         self.moving = 0 #nonzero if needs to move
@@ -56,6 +57,7 @@ class Player(EntityMovable):
         super().tick(delta)
 
         self.tickAttack(delta, entities)
+        self.energy = max(0,self.energy-10/delta)
         self.hitglow -= delta
         self.stun -= delta
         # movement
