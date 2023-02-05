@@ -42,7 +42,8 @@ def handlePress(event, timer, player, control, state, enemy, entities):
                 player.mult = 0.6
             else:
                 player.mult = 0.3
-            if player.touchingFloor:
+            if player.touchingFloor and frame-player.lasthitframe > 0:
+                print((frame-player.lasthitframe),player.combo)
                 if player.energy > 0 and accuracy == "perfect":
                     player.attackType = "stunner"
                 elif player.combo == 1 and (frame-player.lasthitframe == 1/2):
@@ -57,6 +58,8 @@ def handlePress(event, timer, player, control, state, enemy, entities):
                 elif ((player.combo == 1 and ((frame-player.lasthitframe == 1.5) or (frame-player.lasthitframe == 2))) or
                     ((player.combo == 2 and ((frame-player.lasthitframe == 1) or (frame-player.lasthitframe == 1.5))))):
                     player.attackTypee = "badhit"
+                    #soundObj = pygame.mixer.Sound('assets/sfx/quack.wav')
+                    #soundObj.play()
                     player.combo=0
                 else:
                     player.attackType = "light1"
