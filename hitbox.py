@@ -31,10 +31,13 @@ class Hitbox(Entity):
 
             if self.parent.facing == "l":
                 self.kbx = 0-self.kbx
+            if not self.enemy.touchingFloor:
+                self.kby = self.kby/2
             self.enemy.health -= self.damage * self.mult
             self.enemy.stun = self.stun
             self.enemy.accel(self.kbx, self.kby)
             self.enemy.canAttack = True
+            self.enemy.jumping = 0
             self.parent.canAttack = True
             self.parent.attacking = HITCOOLDOWN
             self.state.hitboxes-=1
