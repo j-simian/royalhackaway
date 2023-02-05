@@ -58,7 +58,7 @@ class Menu():
         self.menu = pygame_menu.Menu('Nya Nya Revolution', self.state.WIDTH, self.state.HEIGHT,
                     theme=self.nyatheme, mouse_motion_selection=True)
 
-        self.menu.add.text_input('Enter P1: ', default='Caterine', onchange=(lambda y: self.set_name(0, y)))
+        self.menu.add.text_input('Enter P1: ', default='Caterina', onchange=(lambda y: self.set_name(0, y)))
         self.menu.add.label("VS")
         self.menu.add.text_input('Enter P2: ', default='Nyatalie', onchange=(lambda y: self.set_name(1, y)))
 

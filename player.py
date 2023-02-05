@@ -28,7 +28,7 @@ class Player(EntityMovable):
         self.healthbar = pygame.transform.scale(pygame.image.load("./assets/imgs/healthbar.png").convert_alpha(), (300, 100))
 
         self.sprite = [{}, {}]
-        for s in ["idle", "air", "charge", "attack", "hit", "heavy", "hvcharge"]:
+        for s in ["idle", "air", "charge", "attack", "hit", "heavy", "hvcharge", "die"]:
             for c in [0, 1]:
                 self.sprite[c].update({s + "r": pygame.image.load("./assets/imgs/cat" + str(c+1) + s + ".png").convert_alpha()})
 
@@ -40,7 +40,7 @@ class Player(EntityMovable):
             self.sprite[1].update({"run" + str(n) + "r": pygame.image.load("./assets/imgs/cat2run" + str(n) + ".png").convert_alpha()})
             self.sprite[1].update({"run" + str(5-n) + "l": pygame.transform.flip(self.sprite[1]["run" + str(n) + "r"], True, False)})
 
-        for s in ["idle", "air", "charge", "attack", "hit", "heavy", "hvcharge"]:
+        for s in ["idle", "air", "charge", "attack", "hit", "heavy", "hvcharge", "die"]:
             for c in [0, 1]:
                 self.sprite[c].update({s + "l": pygame.transform.flip(self.sprite[c][s+"r"], True, False)})
                 #mirrors frames
