@@ -8,7 +8,7 @@ def initEntities(state):
     entities = {}
     p1 = Player(0, state)
     p2 = Player(1, state)
-    p1.x, p2.x = 200, 600
+    p1.x, p2.x = 200, 1080
     p1.y, p2.y = GROUNDHEIGHT, GROUNDHEIGHT
     entities["p1"], entities["p2"] = p1, p2
     return entities
