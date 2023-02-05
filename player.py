@@ -10,7 +10,7 @@ class Player(EntityMovable):
         self.lastdash = -1
         self.lastdashdir = 0
         self.id = id
-        self.health = 10
+        self.health = 100
         self.energy = 0
         self.touchingFloor = True
         self.gravity = True #true if we are in air and fall

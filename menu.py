@@ -29,7 +29,7 @@ class Menu():
         self.nyatheme = pygame_menu.themes.THEME_SOLARIZED.copy()
 
         self.menubg = pygame_menu.baseimage.BaseImage(
-            image_path="assets/imgs/menubg.png",
+            image_path="assets/imgs/menu2bg.png",
             drawing_mode=pygame_menu.baseimage.IMAGE_MODE_REPEAT_XY
         )
         self.nyatheme.background_color = self.menubg
