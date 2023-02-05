@@ -2,6 +2,7 @@ import pygame
 from renderer import *
 from handle_input import *
 from menu import *
+from deathmenu import *
 from state import *
 from funs import *
 
@@ -28,6 +29,18 @@ def tickEntities():
             state.screen = 2
 
 while running:
+    if state.screen == 0:
+
+        state = State()
+        clock = pygame.time.Clock()
+        renderer = Renderer(state)
+        menu = Menu(state)
+        timer = Timer(110, 2.28)
+        renderer.renderMenu(menu)
+        entities = initEntities(state)
+        player1controls = controlsMap[state.controls[0]]
+        player2controls = controlsMap[state.controls[1]]
+
     if state.screen == 1:
         dt = clock.tick()
         tickEntities()
@@ -40,10 +53,13 @@ while running:
             if event.type == pygame.QUIT:
                 running = False
     elif state.screen == 2:
-        dt = clock.tick(1)
+        dt = clock.tick()
         renderer.renderFrame(timer, entities)
-        renderer.renderDeathMenu()
+        renderer.renderDeath()
         renderer.blitScreen()
+        dt = clock.tick(0.5)
+        deathmenu = DeathMenu(state)
+        renderer.renderMenu(deathmenu)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False

@@ -3,7 +3,6 @@ from options import *
 from utils import *
 from abstract import *
 from hitbox import *
-import pygame_menu
 
 class Player(EntityMovable):
     def __init__(self, id, state):
@@ -11,7 +10,7 @@ class Player(EntityMovable):
         self.lastdash = -1
         self.lastdashdir = 0
         self.id = id
-        self.health = 100
+        self.health = 10
         self.energy = 0
         self.touchingFloor = True
         self.gravity = True #true if we are in air and fall
@@ -81,7 +80,7 @@ class Player(EntityMovable):
             self.jumping = 0
         #if self.gravity:
         #    self.accel(0, GRAVITY*delta) #applies gravity
-        
+
         nextTouchingFloor = self.y >= GROUNDHEIGHT
         if nextTouchingFloor and not self.touchingFloor: #just landed
             self.attacking = min(self.attacking,HITCOOLDOWN)
@@ -132,9 +131,8 @@ class Player(EntityMovable):
             screen.blit(self.sprite[self.id][self.mystate + self.facing], (self.x - CATWIDTH/2, self.y - CATHEIGHT/2))
 
     def renderHealth(self, screen):
-        _font = pygame.font.Font(pygame_menu.font.FONT_NEVIS, 30)
-        _text = _font.render(self.state.names[self.id], True, (255, 0, 119))
+
         screen.blit(self.healthbar, (self.id*780 + 100, 35))
-        screen.blit(_text, (self.id*780 + 180, 11))
+
         pygame.draw.rect(screen, (255, 0, 119), pygame.Rect(self.id*780 + 170, 68, 2.20*self.health, 15))
         pygame.draw.rect(screen, (145, 255, 217), pygame.Rect(self.id*780 + 170, 89, 1.86*self.energy, 14))

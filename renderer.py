@@ -1,6 +1,7 @@
 import pygame
 from handle_input import *
 from funs import *
+import pygame_menu
 
 FLASH = True
 
@@ -13,7 +14,9 @@ class Renderer:
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.bg = pygame.image.load("./assets/imgs/bg.png").convert()
         self.bgbeat = pygame.transform.scale(self.bg, (self.width+32, self.height+18))
-        self.overlay = pygame.image.load("./assets/imgs/overlay.png").convert_alpha()
+        self.overlay = pygame.Surface((self.width,self.height))  # the size of your rect
+        self.overlay.set_alpha(128)                # alpha level
+        self.overlay.fill((255, 0, 119))           # this fills the entire surface
         pygame.display.set_caption("Nya Nya Revolution")
         pygame.display.flip()
         self.screen.fill((255, 255, 255))
@@ -36,6 +39,10 @@ class Renderer:
     def renderHUD(self, entities):
         entities["p1"].renderHealth(self.screen)
         entities["p2"].renderHealth(self.screen)
+        self.font = pygame.font.Font(pygame_menu.font.FONT_NEVIS, 30)
+        for c in range (0,2):
+            _text = self.font.render(self.state.names[c], True, (255, 0, 119))
+            self.screen.blit(_text, (c*780 + 180, 11))
 
     def renderEntities(self, entities):
         for entity in entities.values():
@@ -44,5 +51,9 @@ class Renderer:
     def renderMenu(self, menu):
         menu.render(self.screen)
 
-    def renderDeathMenu(self):
+    def renderDeath(self):
+        self.font = pygame.font.Font(pygame_menu.font.FONT_8BIT, 100)
+        _text = self.font.render("GAME OVER", True, (255,255,255))
         self.screen.blit(self.overlay, (0, 0))
+        self.screen.blit(_text, (self.width/2 - _text.get_width()/2, self.height/2 - _text.get_height()/2))
+        #deathmenu.render(self.screen)
