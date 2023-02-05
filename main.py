@@ -24,6 +24,7 @@ def tickEntities():
         if hasattr(entity, 'dead') and entity.dead:
             del entities[key]
         if hasattr(entity, 'health') and entity.health <= 0:
+            entity.mystate="die"
             state.screen = 2
 
 while running:
