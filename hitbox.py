@@ -27,6 +27,8 @@ class Hitbox(Entity):
 
         if pygame.Rect.colliderect(pygame.Rect(self.x, self.y, self.w, self.h), pygame.Rect(self.enemy.x - HURTWIDTH/2, self.enemy.y - CATHEIGHT /2, HURTWIDTH, CATHEIGHT)):
             soundObj = pygame.mixer.Sound('assets/sfx/audioman.wav')
+            if self.parent.mult <= MISSMULT:
+                soundObj.set_volume(0.3)
             soundObj.play()
 
             if self.parent.facing == "l":
