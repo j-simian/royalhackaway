@@ -64,7 +64,7 @@ class Player(EntityMovable):
         super().tick(delta)
 
         self.tickAttack(delta, entities)
-        self.energy = max(0,self.energy-20/delta)
+        self.energy = max(0,self.energy-delta/10)
         self.hitglow -= delta
         self.stun -= delta
         # movement
