@@ -35,7 +35,7 @@ while running:
         clock = pygame.time.Clock()
         renderer = Renderer(state)
         menu = Menu(state)
-        timer = Timer(110, 2.28)
+        timer = Timer(66.5, 0)
         renderer.renderMenu(menu)
         entities = initEntities(state)
         player1controls = controlsMap[state.controls[0]]

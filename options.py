@@ -17,7 +17,7 @@ CHARGETIME = 100
 HITCOOLDOWN = 100
 COOLDOWNTIME = 500
 PERFECTTHRESHOLD = 0.1
-HITTHRESHOLD = 0.3
+HITTHRESHOLD = 0.35
 HITGLOWDURATION = 150
 VIEWHITBOXES = False
 STUNSPEED = 0.1
@@ -54,7 +54,7 @@ attacks = {
         "dimensions": (150, 100),
         "offset": (0, 0),
         "damage": 10,
-        "knockback": (40, 0),
+        "knockback": (40, 2),
         "duration": 200,
         "stun": 400
     },

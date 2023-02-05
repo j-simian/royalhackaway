@@ -42,37 +42,42 @@ def handlePress(event, timer, player, control, state, enemy, entities):
                 player.mult = HITMULT
             else:
                 player.mult = MISSMULT
-            if player.touchingFloor:
-                if player.energy > 0 and accuracy == "perfect":
-                    player.attackType = "stunner"
-                    player.energy = 0
-                    player.combo = 1
-                elif player.energy > 0 and accuracy == "hit":
-                    player.attackType = "ministunner"
-                    player.energy = 0
-                    player.combo = 1
-                elif player.combo == 1 and (frame-player.lasthitframe == 1/2):
-                    player.attackType = "light2"
-                    player.combo+=1
-                elif player.combo == 1 and (frame-player.lasthitframe == 1):
-                    player.attackType = "heavy"
-                    player.combo=0
-                elif player.combo == 2 and (frame-player.lasthitframe == 1/2):
-                    player.attackType = "light3"
-                    player.combo=3
-                elif ((player.combo == 1 and frame-player.lasthitframe == 1.5) or
-                    (player.combo == 2 and frame-player.lasthitframe == 1.5)):
-                    player.attackTypee = "badhit"
-                    player.combo=0
+            fDiff = frame-player.lasthitframe
+            if fDiff > 0 and accuracy != "miss":
+                if player.touchingFloor:
+                    if player.energy > 0 and accuracy == "perfect":
+                        player.attackType = "stunner"
+                        player.energy = 0
+                        player.combo = 1
+                    elif player.energy > 0 and accuracy == "hit":
+                        player.attackType = "ministunner"
+                        player.energy = 0
+                        player.combo = 1
+                    elif player.combo == 1 and (fDiff == 1/2):
+                        player.attackType = "light2"
+                        player.combo+=1
+                    elif player.combo == 1 and (fDiff == 1):
+                        player.attackType = "heavy"
+                        player.combo=0
+                    elif player.combo == 2 and (fDiff == 1/2):
+                        player.attackType = "light3"
+                        player.combo=3
+                    elif ((player.combo == 1 and fDiff == 1.5) or
+                        (player.combo == 2 and fDiff == 1.5)):
+                        player.attackType = "badhit"
+                        player.combo=0
+                    else:
+                        player.attackType = "light1"
+                        player.combo=1
+                    player.lasthitframe = frame
                 else:
-                    player.attackType = "light1"
-                    player.combo=1
-                player.lasthitframe = frame
+                    player.attackType = "heavy"
+                player.mystate = "hvcharge" if player.attackType == "heavy" else "charge"
+                player.charging = CHARGETIME
+                player.canAttack = False
             else:
-                player.attackType = "heavy"
-            player.mystate = "hvcharge" if player.attackType == "heavy" else "charge"
-            player.charging = CHARGETIME
-            player.canAttack = False
+                soundObj = pygame.mixer.Sound('assets/sfx/quack.wav')
+                soundObj.play()
 
 
 def handleRelease(event, player, control):

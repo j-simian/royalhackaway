@@ -14,6 +14,7 @@ class Renderer:
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.bg = pygame.image.load("./assets/imgs/bg.png").convert()
         self.bgbeat = pygame.transform.scale(self.bg, (self.width+32, self.height+18))
+        self.bgbeat2 = pygame.transform.scale(self.bg, (self.width+8, self.height+4))
         self.overlay = pygame.Surface((self.width,self.height))  # the size of your rect
         self.overlay.set_alpha(128)                # alpha level
         self.overlay.fill((255, 0, 119))           # this fills the entire surface
@@ -33,6 +34,8 @@ class Renderer:
         (accuracy,whichNote)=timer.onRhythm()
         if (accuracy=="perfect" and whichNote==0 and FLASH):
             self.screen.blit(self.bgbeat, (-16, -9))
+        elif (accuracy=="perfect" and whichNote==1 and FLASH):
+            self.screen.blit(self.bgbeat2, (-4, -2))
         else:
             self.screen.blit(self.bg, (0, 0))
 
