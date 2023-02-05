@@ -18,6 +18,7 @@ class Player(EntityMovable):
         self.charging = 0 #time until attack comes out
         self.attacking = 0 #time left in attack animation
         self.stun = 0 #time in stun
+        self.hitglow = 0 #time left glowing
         self.lasthitframe = -1
         self.combo = 0
         self.mult = 1
@@ -55,6 +56,7 @@ class Player(EntityMovable):
         super().tick(delta)
 
         self.tickAttack(delta, entities)
+        self.hitglow -= delta
         self.stun -= delta
         # movement
         if self.moving !=0:
@@ -108,7 +110,7 @@ class Player(EntityMovable):
         if self.attacking<=0:
             self.facing = "l" if self.velx < 0 else "r"
 
-        if self.dashing(): #for dash effects - makes cat brighter
+        if self.dashing() or self.hitglow>0: #for dash effects - makes cat brighter
             _image = self.sprite[self.id][self.mystate + self.facing].copy()
             _image.fill([(217, 255, 244), (255,179,196)][self.id], special_flags=pygame.BLEND_RGB_MAX) #
             screen.blit(_image, (self.x - CATWIDTH/2, self.y - CATHEIGHT/2))

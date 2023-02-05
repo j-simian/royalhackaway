@@ -15,7 +15,7 @@ def initEntities(state):
 
 
 def dashAvailable(accuracy, player, frame):
-    return accuracy == 'perfect' and frame%1==0 and (player.lastdash+1/4<frame or player.lastdashdir!=player.moving)
+    return accuracy != 'miss' and frame%1==0 and (player.lastdash+1/4<frame or player.lastdashdir!=player.moving)
 
 
 def handlePress(event, timer, player, control, state, enemy, entities):
@@ -34,10 +34,13 @@ def handlePress(event, timer, player, control, state, enemy, entities):
         player.jumping = 0.6
     if event.key == control['attack']:
         if player.canAttack == True and player.stun <= 0:
-            if accuracy == "perfect":
+            if accuracy == "perfect" and frame%1==0:
                 player.mult = 1.5
+                player.hitglow = HITGLOWDURATION
+            elif accuracy == "hit"and frame%1==0:
+                player.mult = 0.8
             else:
-                player.mult = 0.75
+                player.mult = 0.5
             if player.touchingFloor:
                 if player.combo == 1 and (frame-player.lasthitframe == 1/2):
                     player.attackType = "light2"
