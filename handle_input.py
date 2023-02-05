@@ -46,9 +46,11 @@ def handlePress(event, timer, player, control, state, enemy, entities):
                 if player.energy > 0 and accuracy == "perfect":
                     player.attackType = "stunner"
                     player.energy = 0
+                    player.combo = 1
                 elif player.energy > 0 and accuracy == "hit":
                     player.attackType = "ministunner"
                     player.energy = 0
+                    player.combo = 1
                 elif player.combo == 1 and (frame-player.lasthitframe == 1/2):
                     player.attackType = "light2"
                     player.combo+=1
