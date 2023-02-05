@@ -36,16 +36,19 @@ def handlePress(event, timer, player, control, state, enemy, entities):
     if event.key == control['attack']:
         if player.canAttack == True and player.stun <= 0:
             if accuracy == "perfect" and frame%1==0:
-                player.mult = 1
+                player.mult = PERFECTMULT
                 player.hitglow = HITGLOWDURATION
-            elif accuracy == "hit"and frame%1==0:
-                player.mult = 0.6
+            elif accuracy != "miss":
+                player.mult = HITMULT
             else:
-                player.mult = 0.3
-            if player.touchingFloor and frame-player.lasthitframe > 0:
-                print((frame-player.lasthitframe),player.combo)
+                player.mult = MISSMULT
+            if player.touchingFloor:
                 if player.energy > 0 and accuracy == "perfect":
                     player.attackType = "stunner"
+                    player.energy = 0
+                elif player.energy > 0 and accuracy == "hit":
+                    player.attackType = "ministunner"
+                    player.energy = 0
                 elif player.combo == 1 and (frame-player.lasthitframe == 1/2):
                     player.attackType = "light2"
                     player.combo+=1
@@ -55,11 +58,9 @@ def handlePress(event, timer, player, control, state, enemy, entities):
                 elif player.combo == 2 and (frame-player.lasthitframe == 1/2):
                     player.attackType = "light3"
                     player.combo=0
-                elif ((player.combo == 1 and ((frame-player.lasthitframe == 1.5) or (frame-player.lasthitframe == 2))) or
-                    ((player.combo == 2 and ((frame-player.lasthitframe == 1) or (frame-player.lasthitframe == 1.5))))):
+                elif ((player.combo == 1 and frame-player.lasthitframe == 1.5) or
+                    (player.combo == 2 and frame-player.lasthitframe == 1.5)):
                     player.attackTypee = "badhit"
-                    #soundObj = pygame.mixer.Sound('assets/sfx/quack.wav')
-                    #soundObj.play()
                     player.combo=0
                 else:
                     player.attackType = "light1"
@@ -70,6 +71,7 @@ def handlePress(event, timer, player, control, state, enemy, entities):
             player.mystate = "hvcharge" if player.attackType == "heavy" else "charge"
             player.charging = CHARGETIME
             player.canAttack = False
+
 
 def handleRelease(event, player, control):
     if event.key == control['left'] and player.moving == -1:

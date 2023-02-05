@@ -16,11 +16,14 @@ HURTWIDTH = 320*CATSCALE #cat hurtbox width
 CHARGETIME = 100
 HITCOOLDOWN = 100
 COOLDOWNTIME = 500
-PERFECTTHRESHOLD = 0.15
-HITTHRESHOLD = 0.25
+PERFECTTHRESHOLD = 0.2
+HITTHRESHOLD = 0.33
 HITGLOWDURATION = 150
 VIEWHITBOXES = False
 STUNSPEED = 0.1
+PERFECTMULT = 1
+HITMULT = 0.6
+MISSMULT = 0.3
 
 attacks = {
     "light1": {
@@ -48,7 +51,7 @@ attacks = {
         "stun": 500
     },
     "heavy": {
-        "dimensions": (150, 150),
+        "dimensions": (150, 100),
         "offset": (0, 0),
         "damage": 10,
         "knockback": (40, 0),
@@ -62,6 +65,14 @@ attacks = {
         "knockback": (40, 0),
         "duration": 200,
         "stun": 2000
+    },
+    "ministunner": {
+        "dimensions": (150, 150),
+        "offset": (0, 0),
+        "damage": 10,
+        "knockback": (40, 0),
+        "duration": 150,
+        "stun": 1000
     },
     "badhit": {
         "dimensions": (50, 50),
