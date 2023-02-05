@@ -54,11 +54,17 @@ class Player(EntityMovable):
         self.facing = "l"
         #what this sprite is doing rn/how to display it
 
+    def accel(self, x, y):
+        if self.stun > 0:
+            super().accel(STUNSPEED*x, y)
+        else:
+            super().accel(x, y)
+
     def tick(self, delta, entities):
         super().tick(delta)
 
         self.tickAttack(delta, entities)
-        self.energy = max(0,self.energy-10/delta)
+        self.energy = max(0,self.energy-20/delta)
         self.hitglow -= delta
         self.stun -= delta
         # movement
@@ -73,8 +79,8 @@ class Player(EntityMovable):
             self.y = GROUNDHEIGHT - 1; self.vely = JUMPVEL*self.jumping; self.mystate = "air"
             #makes you go off the ground and accelerates up to jump; makes jumping state 0 so we don't continue jumping
             self.jumping = 0
-        if self.gravity:
-            self.accel(0, GRAVITY*delta) #applies gravity
+        #if self.gravity:
+        #    self.accel(0, GRAVITY*delta) #applies gravity
         
         nextTouchingFloor = self.y >= GROUNDHEIGHT
         if nextTouchingFloor and not self.touchingFloor: #just landed

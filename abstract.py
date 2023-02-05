@@ -22,8 +22,8 @@ class EntityMovable(Entity):
         self.gravity = True
     def tick(self, delta):
         super().tick(delta)
-        #if self.gravity:
-        #    self.vely += GRAVITY*delta
+        if self.gravity:
+            self.vely += GRAVITY*delta
         self.vely = clampAbs(self.vely, MAXVELY)
         self.velx = clampAbs(self.velx, MAXVELX+self.dash)
         self.x += self.velx*delta

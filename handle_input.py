@@ -39,11 +39,13 @@ def handlePress(event, timer, player, control, state, enemy, entities):
                 player.mult = 1
                 player.hitglow = HITGLOWDURATION
             elif accuracy == "hit"and frame%1==0:
-                player.mult = 0.35
+                player.mult = 0.6
             else:
-                player.mult = 0.1
+                player.mult = 0.3
             if player.touchingFloor:
-                if player.combo == 1 and (frame-player.lasthitframe == 1/2):
+                if player.energy > 0 and accuracy == "perfect":
+                    player.attackType = "stunner"
+                elif player.combo == 1 and (frame-player.lasthitframe == 1/2):
                     player.attackType = "light2"
                     player.combo+=1
                 elif player.combo == 1 and (frame-player.lasthitframe == 1):
@@ -51,6 +53,10 @@ def handlePress(event, timer, player, control, state, enemy, entities):
                     player.combo=0
                 elif player.combo == 2 and (frame-player.lasthitframe == 1/2):
                     player.attackType = "light3"
+                    player.combo=0
+                elif ((player.combo == 1 and ((frame-player.lasthitframe == 1.5) or (frame-player.lasthitframe == 2))) or
+                    ((player.combo == 2 and ((frame-player.lasthitframe == 1) or (frame-player.lasthitframe == 1.5))))):
+                    player.attackTypee = "badhit"
                     player.combo=0
                 else:
                     player.attackType = "light1"

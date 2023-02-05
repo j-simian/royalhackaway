@@ -20,6 +20,7 @@ PERFECTTHRESHOLD = 0.1
 HITTHRESHOLD = 0.25
 HITGLOWDURATION = 150
 VIEWHITBOXES = True
+STUNSPEED = 0.1
 
 attacks = {
     "light1": {
@@ -34,7 +35,7 @@ attacks = {
         "dimensions": (100, 100),
         "offset": (0, -100),
         "damage": 4,
-        "knockback": (-3, -1),
+        "knockback": (-6, -1),
         "duration": 100,
         "stun": 200
     },
@@ -42,16 +43,32 @@ attacks = {
         "dimensions": (100, 100),
         "offset": (0, -100),
         "damage": 4,
-        "knockback": (2, -2),
+        "knockback": (4, -2),
         "duration": 100,
         "stun": 500
     },
     "heavy": {
         "dimensions": (150, 150),
-        "offset": (50, 0),
+        "offset": (0, 0),
         "damage": 10,
-        "knockback": (20, 0),
+        "knockback": (40, 0),
         "duration": 200,
         "stun": 400
+    },
+    "stunner": {
+        "dimensions": (200, 200),
+        "offset": (0, 0),
+        "damage": 15,
+        "knockback": (40, 0),
+        "duration": 200,
+        "stun": 1000
+    },
+    "badhit": {
+        "dimensions": (50, 50),
+        "offset": (-50, 0),
+        "damage": 0,
+        "knockback": (6, 0),
+        "duration": 50,
+        "stun": 0
     }
 }
