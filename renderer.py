@@ -18,7 +18,7 @@ class Renderer:
         self.overlay = pygame.Surface((self.width,self.height))  # the size of your rect
         self.overlay.set_alpha(128)                # alpha level
         self.overlay.fill((255, 0, 119))           # this fills the entire surface
-        pygame.display.set_caption("Nya Nya Revolution")
+        pygame.display.set_caption("Nyance Nyance Revolution: Beat Beat-Up")
         pygame.display.flip()
         self.screen.fill((255, 255, 255))
 

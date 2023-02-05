@@ -25,7 +25,7 @@ class Player(EntityMovable):
         self.combo = 0
         self.mult = 1
         self.canAttack = True
-        self.healthbar = pygame.transform.scale(pygame.image.load("./assets/imgs/healthbar.png").convert_alpha(), (300, 100))
+        self.healthbar = pygame.transform.scale(pygame.image.load("./assets/imgs/healthbar" + str(self.id + 1) + ".png").convert_alpha(), (300, 100))
         self.text = ""
         self.textopacity = 0 #clear
         self.textx, self.texty = 500, 500
