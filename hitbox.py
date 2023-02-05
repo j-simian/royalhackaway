@@ -35,6 +35,8 @@ class Hitbox(Entity):
             self.enemy.stun = self.stun
             self.enemy.accel(self.kbx, self.kby)
             self.enemy.canAttack = True
+            self.parent.canAttack = True
+            self.parent.attacking = HITCOOLDOWN
             self.state.hitboxes-=1
             self.dead = True
         self.duration -= delta
