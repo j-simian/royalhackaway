@@ -123,10 +123,10 @@ class Player(EntityMovable):
             self.comboactive = False
 
         if self.dashing(): #we've done a perfect
-            self.textset("Perfect", (self.x, self.y - CATHEIGHT*CATSCALE/2))
+            self.textset("Perfect", (self.x, self.y - CATHEIGHT*CATSCALE/2 - 30))
         if self.hitglow>0:
             self.textactive = False #lets us repeatedly have hit text
-            self.textset("perfect hit", (self.x, self.y - CATHEIGHT*CATSCALE/2))
+            self.textset("perfect hit", (self.x, self.y - CATHEIGHT*CATSCALE/2 - 30))
 
 
 
@@ -191,6 +191,6 @@ class Player(EntityMovable):
     def renderCombo(self, screen):
         if self.comboactive:
             self.comboimg.set_alpha(min(self.comboopacity, 255))
-            screen.blit(self.comboimg, (640 - self.comboimg.get_width()/2, 600 - self.comboimg.get_height()/2))
+            screen.blit(self.comboimg, (640 - self.comboimg.get_width()/2, 690 - self.comboimg.get_height()/2))
         else:
             pass
