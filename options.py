@@ -51,7 +51,7 @@ attacks = {
         "stun": 500
     },
     "heavy": {
-        "dimensions": (150, 100),
+        "dimensions": (150, 70),
         "offset": (0, 0),
         "damage": 10,
         "knockback": (40, 2),
@@ -64,7 +64,7 @@ attacks = {
         "damage": 15,
         "knockback": (40, 0),
         "duration": 200,
-        "stun": 800
+        "stun": 1600
     },
     "ministunner": {
         "dimensions": (150, 150),
